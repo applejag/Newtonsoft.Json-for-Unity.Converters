@@ -42,8 +42,7 @@
       "name": "npm.cloudsmith.io",
       "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity",
       "scopes": [
-        "io.cloudsmith",
-        "jillejr.newtonsoft.json-for-unity"
+        "jillejr"
       ]
     }
   ]
