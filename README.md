@@ -6,6 +6,8 @@
 This package contains converters to and from common Unity types. Types such as
 Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
 
+The perfect complement to the [jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
+
 # ❌ NOT RELEASED YET ❌
 
 Click the "Watch" button at the top to get an email when we release.
