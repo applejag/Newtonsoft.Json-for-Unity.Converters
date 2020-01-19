@@ -1,0 +1,32 @@
+{
+  "name": "jillejr.newtonsoft.json-for-unity.converters",
+  "displayName": "Json.NET Converters of Unity types",
+  "version": "12.0.1",
+  "unity": "2018.1",
+  "description": "This package contains converters to and from common Unity types. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.\n\nRequires any Newtonsoft.Json of version 12.x.x to be installed. Goes hand in hand with the jillejr.newtonsoft.json-for-unity\n\nThis package is licensed under The MIT License (MIT)\n\nCopyright \u00a9 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters\n\nCopyright \u00a9 2007 ParentElement\nhttps://github.com/ianmacgillivray/Json-NET-for-Unity\n\nSee full copyrights in LICENSE.md inside package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters.git",
+    "directory": "Packages/Newtonsoft.Json-for-Unity.Converters"
+  },
+  "keywords": [
+    "json",
+    "json.net",
+    "newtonsoft",
+    "newtonsoft.json",
+    "unity",
+    "upm"
+  ],
+  "author": "jilleJr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues"
+  },
+  "homepage": "https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters#readme",
+  "category": "Utility",
+  "type": "library"
+}
