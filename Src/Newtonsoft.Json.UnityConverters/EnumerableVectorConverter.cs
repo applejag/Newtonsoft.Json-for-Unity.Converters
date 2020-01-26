@@ -9,10 +9,7 @@ using System.Reflection;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class EnumerableVectorConverter<T>: JsonConverter
+    public class EnumerableVectorConverter<T> : JsonConverter
     {
         private static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
 
@@ -22,12 +19,6 @@ namespace Newtonsoft.Json.UnityConverters
         private static readonly TypeInfo V4_TYPE_INFO = typeof(IEnumerable<Vector4>).GetTypeInfo();
 #endif
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="value"></param>
-        /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)

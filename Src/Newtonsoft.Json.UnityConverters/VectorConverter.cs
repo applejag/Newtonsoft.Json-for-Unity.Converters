@@ -35,19 +35,13 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="enableVector2">Use for Vector2 objects</param>
         /// <param name="enableVector3">Use for Vector3 objects</param>
         /// <param name="enableVector4">Use for Vector4 objects</param>
-        public VectorConverter(bool enableVector2, bool enableVector3, bool enableVector4): this()
+        public VectorConverter(bool enableVector2, bool enableVector3, bool enableVector4) : this()
         {
             EnableVector2 = enableVector2;
             EnableVector3 = enableVector3;
             EnableVector4 = enableVector4;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="value"></param>
-        /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
@@ -65,7 +59,7 @@ namespace Newtonsoft.Json.UnityConverters
             }
             else if (targetType == V3)
             {
-                var targetVal = (Vector3) value;
+                var targetVal = (Vector3)value;
                 WriteVector(writer, targetVal.x, targetVal.y, targetVal.z, null);
             }
             else if (targetType == V4)
@@ -105,14 +99,6 @@ namespace Newtonsoft.Json.UnityConverters
             writer.WriteEndObject();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <param name="objectType"></param>
-        /// <param name="existingValue"></param>
-        /// <param name="serializer"></param>
-        /// <returns></returns>
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (objectType == V2)
@@ -129,11 +115,6 @@ namespace Newtonsoft.Json.UnityConverters
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="objectType"></param>
-        /// <returns></returns>
         public override bool CanConvert(Type objectType)
         {
             return (EnableVector2 && objectType == V2) || (EnableVector3 && objectType == V3) || (EnableVector4 && objectType == V4);
