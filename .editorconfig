@@ -191,23 +191,31 @@ dotnet_naming_style.upper_style.capitalization = all_upper
 dotnet_naming_style.upper_style.word_separator = _
 
 # Most symbols : capitalize
-dotnet_naming_rule.static_symbols_must_be_capitalized.style = captialized_style
+dotnet_naming_rule.static_symbols_must_be_capitalized.style = capitalized_style
 dotnet_naming_rule.static_symbols_must_be_capitalized.symbols = capitalized_symbols
 dotnet_naming_rule.static_symbols_must_be_capitalized.severity = warning
 
-dotnet_naming_symbols.capitalized_symbols.applicable_kinds = namespace,class,struct,interface,enum,method,event,delegate,type_parameter,local_function
+dotnet_naming_symbols.capitalized_symbols.applicable_kinds = property,namespace,class,struct,interface,enum,method,event,delegate,type_parameter,local_function
 dotnet_naming_symbols.capitalized_symbols.applicable_accessibilities = *
 
-# Internal property, fields, local variables, parameters : camel case with prefix
-dotnet_naming_symbols.internal_instance_symbols.applicable_kinds = property,field
-dotnet_naming_symbols.internal_instance_symbols.applicable_accessibilities = protected_internal,internal,private_protected
+# Fields, local variables, parameters : camel case
+dotnet_naming_symbols.instance_symbols.applicable_kinds = field,local,parameter
+dotnet_naming_symbols.instance_symbols.applicable_accessibilities = public,private,protected,local
 
-dotnet_naming_style.internal_style.capitalization = camel_case
-dotnet_naming_style.internal_style.required_prefix = _
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.style = camel_style
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.symbols = instance_symbols
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.severity = warning
 
-dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.style = internal_style
-dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.symbols = internal_instance_symbols
-dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.severity = warning
+# Non-public fields : camel case with prefix
+dotnet_naming_symbols.non_public_fields.applicable_kinds = field
+dotnet_naming_symbols.non_public_fields.applicable_accessibilities = private,protected,protected_internal,internal,private_protected
+
+dotnet_naming_style.non_public_fields_style.capitalization = camel_case
+dotnet_naming_style.non_public_fields_style.required_prefix = _
+
+dotnet_naming_rule.non_public_fields_must_be_camel_with_prefix.style = non_public_fields_style
+dotnet_naming_rule.non_public_fields_must_be_camel_with_prefix.symbols = non_public_fields
+dotnet_naming_rule.non_public_fields_must_be_camel_with_prefix.severity = warning
 
 # Constants : UPPER_CASE
 dotnet_naming_symbols.constant_symbols.applicable_kinds = property,field
@@ -226,11 +234,3 @@ dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readon
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.style = upper_style
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.symbols = static_readonly_symbols
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.severity = warning
-
-# Property, fields, local variables, parameters : camel case
-dotnet_naming_symbols.instance_symbols.applicable_kinds = property,field,local,parameter
-dotnet_naming_symbols.instance_symbols.applicable_accessibilities = public,private,protected,local
-
-dotnet_naming_rule.instance_symbols_must_be_camel_cased.style = camel_style
-dotnet_naming_rule.instance_symbols_must_be_camel_cased.symbols = instance_symbols
-dotnet_naming_rule.instance_symbols_must_be_camel_cased.severity = warning
