@@ -9,16 +9,19 @@ using System.Reflection;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    public class EnumerableVectorConverter<T> : JsonConverter
+    internal class VectorTypes
     {
-        private static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
+        internal static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
 
 #if PORTABLE
-        private static readonly TypeInfo V2_TYPE_INFO = typeof(IEnumerable<Vector2>).GetTypeInfo();
-        private static readonly TypeInfo V3_TYPE_INFO = typeof(IEnumerable<Vector3>).GetTypeInfo();
-        private static readonly TypeInfo V4_TYPE_INFO = typeof(IEnumerable<Vector4>).GetTypeInfo();
+        internal static readonly TypeInfo V2_TYPE_INFO = typeof(IEnumerable<Vector2>).GetTypeInfo();
+        internal static readonly TypeInfo V3_TYPE_INFO = typeof(IEnumerable<Vector3>).GetTypeInfo();
+        internal static readonly TypeInfo V4_TYPE_INFO = typeof(IEnumerable<Vector4>).GetTypeInfo();
 #endif
+    }
 
+    public class EnumerableVectorConverter<T> : JsonConverter
+    {
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
@@ -38,7 +41,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             for (int i = 0; i < src.Length; i++)
             {
-                VECTOR_CONVERTERS.WriteJson(writer, src[i], serializer);
+                VectorTypes.VECTOR_CONVERTERS.WriteJson(writer, src[i], serializer);
             }
             writer.WriteEndArray();
         }
@@ -48,9 +51,9 @@ namespace Newtonsoft.Json.UnityConverters
 #if PORTABLE40 || PORTABLE
             TypeInfo objTypeInfo = objectType.GetTypeInfo();
 
-            return V2_TYPE_INFO.IsAssignableFrom(objTypeInfo)
-                   || V3_TYPE_INFO.IsAssignableFrom(objTypeInfo)
-                   || V4_TYPE_INFO.IsAssignableFrom(objTypeInfo);
+            return VectorTypes.V2_TYPE_INFO.IsAssignableFrom(objTypeInfo)
+                   || VectorTypes.V3_TYPE_INFO.IsAssignableFrom(objTypeInfo)
+                   || VectorTypes.V4_TYPE_INFO.IsAssignableFrom(objTypeInfo);
 #else
             return typeof(IEnumerable<Vector2>).IsAssignableFrom(objectType)
                 || typeof(IEnumerable<Vector3>).IsAssignableFrom(objectType)
