@@ -48,7 +48,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="serializer"></param>
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
             {
@@ -113,7 +113,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="existingValue"></param>
         /// <param name="serializer"></param>
         /// <returns></returns>
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (objectType == V2)
                 return PopulateVector2(reader);
@@ -143,8 +143,8 @@ namespace Newtonsoft.Json.UnityConverters
             if (reader.TokenType != JsonToken.Null)
             {
                 var jo = JObject.Load(reader);
-                result.x = jo["x"].Value<float>();
-                result.y = jo["y"].Value<float>();
+                result.x = jo.Value<float>("x");
+                result.y = jo.Value<float>("y");
             }
 
             return result;
@@ -157,9 +157,9 @@ namespace Newtonsoft.Json.UnityConverters
             if (reader.TokenType != JsonToken.Null)
             {
                 var jo = JObject.Load(reader);
-                result.x = jo["x"].Value<float>();
-                result.y = jo["y"].Value<float>();
-                result.z = jo["z"].Value<float>();
+                result.x = jo.Value<float>("x");
+                result.y = jo.Value<float>("y");
+                result.z = jo.Value<float>("z");
             }
 
             return result;
@@ -172,10 +172,10 @@ namespace Newtonsoft.Json.UnityConverters
             if (reader.TokenType != JsonToken.Null)
             {
                 var jo = JObject.Load(reader);
-                result.x = jo["x"].Value<float>();
-                result.y = jo["y"].Value<float>();
-                result.z = jo["z"].Value<float>();
-                result.w = jo["w"].Value<float>();
+                result.x = jo.Value<float>("x");
+                result.y = jo.Value<float>("y");
+                result.z = jo.Value<float>("z");
+                result.w = jo.Value<float>("w");
             }
 
             return result;

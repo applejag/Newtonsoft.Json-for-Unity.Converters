@@ -6,7 +6,7 @@ namespace Newtonsoft.Json.UnityConverters
 {
     public class Matrix4x4Converter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
             {
@@ -14,8 +14,8 @@ namespace Newtonsoft.Json.UnityConverters
                 return;
             }
 
-            var m = (Matrix4x4) value;
-            
+            var m = (Matrix4x4)value;
+
             writer.WriteStartObject();
 
             writer.WritePropertyName("m00");
@@ -69,27 +69,38 @@ namespace Newtonsoft.Json.UnityConverters
             writer.WriteEnd();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
                 return new Matrix4x4();
 
             var obj = JObject.Load(reader);
-            return new Matrix4x4
-            {
-                m00 = (float) obj["m00"],
-                m01 = (float) obj["m01"],
-                m02 = (float) obj["m02"],
-                m03 = (float) obj["m03"],
-                m20 = (float) obj["m20"],
-                m21 = (float) obj["m21"],
-                m22 = (float) obj["m22"],
-                m23 = (float) obj["m23"],
-                m30 = (float) obj["m30"],
-                m31 = (float) obj["m31"],
-                m32 = (float) obj["m32"],
-                m33 = (float) obj["m33"]
+            return new Matrix4x4 {
+                m00 = ReadFloat("m00"),
+                m01 = ReadFloat("m01"),
+                m02 = ReadFloat("m02"),
+                m03 = ReadFloat("m03"),
+                m20 = ReadFloat("m20"),
+                m21 = ReadFloat("m21"),
+                m22 = ReadFloat("m22"),
+                m23 = ReadFloat("m23"),
+                m30 = ReadFloat("m30"),
+                m31 = ReadFloat("m31"),
+                m32 = ReadFloat("m32"),
+                m33 = ReadFloat("m33")
             };
+
+            float ReadFloat(string name)
+            {
+                if (!obj.TryGetValue(name, out JToken? value))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return value.Value<float>();
+                }
+            }
         }
 
         public override bool CanRead

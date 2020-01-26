@@ -7,8 +7,14 @@ namespace Newtonsoft.Json.UnityConverters
 {
     public class QuaternionConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
+            if (value is null)
+            {
+                writer.WriteNull();
+                return;
+            }
+
             var qt = (Quaternion)value;
             writer.WriteStartObject();
             writer.WritePropertyName("w");
@@ -38,32 +44,33 @@ namespace Newtonsoft.Json.UnityConverters
             return objectType == typeof(Quaternion);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
             var props = obj.Properties().ToList();
 
+            JToken? token;
             var result = new Quaternion();
-            if (props.Any(p => p.Name == "w"))
-                result.w = (float)obj["w"];
 
-            if (props.Any(p => p.Name == "x"))
-                result.x = (float)obj["x"];
+            if (obj.TryGetValue("w", out token))
+                result.w = token.Value<float>();
 
-            if (props.Any(p => p.Name == "y"))
-                result.y = (float)obj["y"];
+            if (obj.TryGetValue("x", out token))
+                result.x = token.Value<float>();
 
-            if (props.Any(p => p.Name == "z"))
-                result.z = (float)obj["z"];
+            if (obj.TryGetValue("y", out token))
+                result.y = token.Value<float>();
 
-            if (props.Any(p => p.Name == "eulerAngles"))
+            if (obj.TryGetValue("z", out token))
+                result.z = token.Value<float>();
+
+            if (obj.TryGetValue("eulerAngles", out token))
             {
-                var eulerVecObj = obj["eulerAngles"];
-
-                var eulerVec = new Vector3();
-                eulerVec.x = (float)eulerVecObj["x"];
-                eulerVec.y = (float)eulerVecObj["y"];
-                eulerVec.z = (float)eulerVecObj["z"];
+                var eulerVec = new Vector3(
+                    token.Value<float>("x"),
+                    token.Value<float>("y"),
+                    token.Value<float>("z")
+                );
 
                 result.eulerAngles = eulerVec;
             }

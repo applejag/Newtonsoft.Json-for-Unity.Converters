@@ -14,9 +14,9 @@ namespace Newtonsoft.Json.UnityConverters
     /// </summary>
     public class EnumerableVectorConverter<T>: JsonConverter
     {
-        private static readonly VectorConverter VectorConverter = new VectorConverter();
+        private static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
 
-#if(PORTABLE)
+#if PORTABLE
         private static readonly TypeInfo V2TypeInfo = typeof(IEnumerable<Vector2>).GetTypeInfo();
         private static readonly TypeInfo V3TypeInfo = typeof(IEnumerable<Vector3>).GetTypeInfo();
         private static readonly TypeInfo V4TypeInfo = typeof(IEnumerable<Vector4>).GetTypeInfo();
@@ -28,12 +28,12 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="serializer"></param>
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
                 writer.WriteNull();
 
-            T[] src = (value as IEnumerable<T>)?.ToArray();
+            T[]? src = (value as IEnumerable<T>)?.ToArray();
 
             if (src == null)
             {
@@ -45,7 +45,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             for (var i = 0; i < src.Length; i++)
             {
-                VectorConverter.WriteJson(writer, src[i], serializer);
+                VECTOR_CONVERTERS.WriteJson(writer, src[i], serializer);
             }
             writer.WriteEndArray();
         }
@@ -65,7 +65,7 @@ namespace Newtonsoft.Json.UnityConverters
 #endif
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
                 return null;
@@ -74,8 +74,8 @@ namespace Newtonsoft.Json.UnityConverters
 
             var obj = JObject.Load(reader);
 
-            for (var i = 0; i < obj.Count; i++)
-                result.Add(JsonConvert.DeserializeObject<T>(obj[i].ToString()));
+            foreach (object v in obj)
+                result.Add(JsonConvert.DeserializeObject<T>(v.ToString()));
 
             return result;
         }
