@@ -43,7 +43,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             writer.WriteStartArray();
 
-            for (var i = 0; i < src.Length; i++)
+            for (int i = 0; i < src.Length; i++)
             {
                 VECTOR_CONVERTERS.WriteJson(writer, src[i], serializer);
             }

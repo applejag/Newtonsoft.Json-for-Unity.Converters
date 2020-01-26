@@ -47,10 +47,8 @@ namespace Newtonsoft.Json.UnityConverters
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
-            var props = obj.Properties().ToList();
-
-            JToken? token;
             var result = new Quaternion();
+            JToken? token;
 
             if (obj.TryGetValue("w", out token))
                 result.w = token.Value<float>();

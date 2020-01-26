@@ -56,7 +56,7 @@ namespace Newtonsoft.Json.UnityConverters
                 return;
             }
 
-            var targetType = value.GetType();
+            Type targetType = value.GetType();
 
             if (targetType == V2)
             {
