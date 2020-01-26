@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-#if (PORTABLE)
+#if PORTABLE
 using System.Reflection;
 #endif
 
@@ -17,9 +17,9 @@ namespace Newtonsoft.Json.UnityConverters
         private static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
 
 #if PORTABLE
-        private static readonly TypeInfo V2TypeInfo = typeof(IEnumerable<Vector2>).GetTypeInfo();
-        private static readonly TypeInfo V3TypeInfo = typeof(IEnumerable<Vector3>).GetTypeInfo();
-        private static readonly TypeInfo V4TypeInfo = typeof(IEnumerable<Vector4>).GetTypeInfo();
+        private static readonly TypeInfo V2_TYPE_INFO = typeof(IEnumerable<Vector2>).GetTypeInfo();
+        private static readonly TypeInfo V3_TYPE_INFO = typeof(IEnumerable<Vector3>).GetTypeInfo();
+        private static readonly TypeInfo V4_TYPE_INFO = typeof(IEnumerable<Vector4>).GetTypeInfo();
 #endif
 
         /// <summary>
@@ -54,12 +54,12 @@ namespace Newtonsoft.Json.UnityConverters
 
         public override bool CanConvert(Type objectType)
         {
-#if (PORTABLE40 || PORTABLE)
-            var objTypeInfo = objectType.GetTypeInfo();
+#if PORTABLE40 || PORTABLE
+            TypeInfo objTypeInfo = objectType.GetTypeInfo();
 
-            return V2TypeInfo.IsAssignableFrom(objTypeInfo)
-                   || V3TypeInfo.IsAssignableFrom(objTypeInfo)
-                   || V4TypeInfo.IsAssignableFrom(objTypeInfo);
+            return V2_TYPE_INFO.IsAssignableFrom(objTypeInfo)
+                   || V3_TYPE_INFO.IsAssignableFrom(objTypeInfo)
+                   || V4_TYPE_INFO.IsAssignableFrom(objTypeInfo);
 #else
             return typeof(IEnumerable<Vector2>).IsAssignableFrom(objectType)
                 || typeof(IEnumerable<Vector3>).IsAssignableFrom(objectType)
