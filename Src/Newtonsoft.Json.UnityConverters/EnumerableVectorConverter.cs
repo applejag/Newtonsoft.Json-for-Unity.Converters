@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    internal class VectorTypes
+    internal static class VectorTypes
     {
         internal static readonly VectorConverter VECTOR_CONVERTERS = new VectorConverter();
 
