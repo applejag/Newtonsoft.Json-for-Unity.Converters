@@ -31,7 +31,9 @@ namespace Newtonsoft.Json.UnityConverters
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             if (value == null)
+            {
                 writer.WriteNull();
+            }
 
             T[]? src = (value as IEnumerable<T>)?.ToArray();
 
@@ -68,14 +70,18 @@ namespace Newtonsoft.Json.UnityConverters
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
+            {
                 return null;
+            }
 
             var result = new List<T>();
 
             var obj = JObject.Load(reader);
 
             foreach (object v in obj)
+            {
                 result.Add(JsonConvert.DeserializeObject<T>(v.ToString()));
+            }
 
             return result;
         }

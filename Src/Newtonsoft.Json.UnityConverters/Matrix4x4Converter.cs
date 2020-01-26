@@ -72,7 +72,9 @@ namespace Newtonsoft.Json.UnityConverters
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
+            {
                 return new Matrix4x4();
+            }
 
             var obj = JObject.Load(reader);
             return new Matrix4x4 {

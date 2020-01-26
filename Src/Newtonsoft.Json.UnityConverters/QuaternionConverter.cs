@@ -51,16 +51,24 @@ namespace Newtonsoft.Json.UnityConverters
             JToken? token;
 
             if (obj.TryGetValue("w", out token))
+            {
                 result.w = token.Value<float>();
+            }
 
             if (obj.TryGetValue("x", out token))
+            {
                 result.x = token.Value<float>();
+            }
 
             if (obj.TryGetValue("y", out token))
+            {
                 result.y = token.Value<float>();
+            }
 
             if (obj.TryGetValue("z", out token))
+            {
                 result.z = token.Value<float>();
+            }
 
             if (obj.TryGetValue("eulerAngles", out token))
             {

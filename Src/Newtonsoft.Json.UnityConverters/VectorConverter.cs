@@ -116,11 +116,14 @@ namespace Newtonsoft.Json.UnityConverters
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (objectType == V2)
+            {
                 return PopulateVector2(reader);
-
+            }
 
             if (objectType == V3)
+            {
                 return PopulateVector3(reader);
+            }
 
             return PopulateVector4(reader);
 

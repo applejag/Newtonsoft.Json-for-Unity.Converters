@@ -35,17 +35,21 @@ namespace Newtonsoft.Json.UnityConverters
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
+            {
                 return new Color();
+            }
 
             var obj = JObject.Load(reader);
 
             if (objectType == typeof(Color32))
+            {
                 return new Color32(
                     obj.Value<byte>("r"),
                     obj.Value<byte>("g"),
                     obj.Value<byte>("b"),
                     obj.Value<byte>("a")
                 );
+            }
 
             return new Color(
                 obj.Value<float>("r"),
