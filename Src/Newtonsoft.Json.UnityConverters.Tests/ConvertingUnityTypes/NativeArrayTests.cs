@@ -8,7 +8,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
     {
         public static (NativeArray<int> deserialized, string serialized)[] Representations { get; } = new[] {
             (new NativeArray<int>(new int[]{ 1,2,3,4 }, Allocator.Persistent), @"[1,2,3,4]"),
-            (new NativeArray<int>(Array.Empty<int>(), Allocator.None), @"[]"),
+            (new NativeArray<int>(Array.Empty<int>(), Allocator.Persistent), @"[]"),
         };
 
         protected override void ConfigureSettings(JsonSerializerSettings settings)
