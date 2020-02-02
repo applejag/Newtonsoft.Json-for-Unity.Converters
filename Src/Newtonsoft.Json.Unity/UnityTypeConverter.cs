@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-namespace Newtonsoft.Json.Converters.Unity {
+namespace Newtonsoft.Json.Unity.Converters {
     public class UnityTypeConverter : JsonConverter
     {
-        private static readonly HashSet<Type> UnityEngineTypes = new HashSet<Type>(typeof(UnityEngine.Object).Assembly.GetTypes());
+        private static readonly HashSet<Type> UNITY_ENGINE_TYPES = new HashSet<Type>(typeof(UnityEngine.Object).Assembly.GetTypes());
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             writer.WriteRawValue(JsonUtility.ToJson(value));
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             return JsonUtility.FromJson(JObject.Load(reader).ToString(), objectType);
         }
@@ -25,7 +25,7 @@ namespace Newtonsoft.Json.Converters.Unity {
 
         private static bool IsUnityEngineType(Type objectType)
         {
-            return UnityEngineTypes.Contains(objectType);
+            return UNITY_ENGINE_TYPES.Contains(objectType);
         }
     }
 }
