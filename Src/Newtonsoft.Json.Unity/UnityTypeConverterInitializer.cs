@@ -18,7 +18,7 @@ namespace Newtonsoft.Json.Unity
             JsonConvert.DefaultSettings += GetUnityJsonSerializerSettings;
         }
 
-        private static JsonSerializerSettings GetUnityJsonSerializerSettings()
+        internal static JsonSerializerSettings GetUnityJsonSerializerSettings()
         {
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new UnityTypeConverter());
