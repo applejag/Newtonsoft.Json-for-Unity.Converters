@@ -47,5 +47,38 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // Assert
             Assert.AreEqual(representation.expected, result);
         }
+
+        [Test]
+        [TestCaseSource("representations")]
+        public void SerializesArrayAsExpected((T input, string expected) representation)
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string expected = $"[{representation.expected}]";
+            var input = new T[] { representation.input };
+
+            // Act
+            string result = JsonConvert.SerializeObject(input, settings);
+
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        [TestCaseSource("representations")]
+        public void DeserializesArrayAsExpected((T expected, string input) representation)
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string input = $"[{representation.input}]";
+
+            // Act
+            T[] result = JsonConvert.DeserializeObject<T[]>(input, settings);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(representation.expected, result[0]);
+        }
     }
 }
