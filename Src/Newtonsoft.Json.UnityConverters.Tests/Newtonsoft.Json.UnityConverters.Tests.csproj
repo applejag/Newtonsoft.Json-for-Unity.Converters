@@ -14,8 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Newtonsoft.Json.Unity\Newtonsoft.Json.Unity.csproj" />
     <PackageReference Include="Unity3D" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Newtonsoft.Json.UnityConverters\Newtonsoft.Json.UnityConverters.csproj" />
   </ItemGroup>
 
 </Project>
