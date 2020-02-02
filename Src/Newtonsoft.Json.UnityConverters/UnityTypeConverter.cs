@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-namespace Newtonsoft.Json.Unity.Converters {
+namespace Newtonsoft.Json.UnityConverters.Converters {
     public class UnityTypeConverter : JsonConverter
     {
         private static readonly HashSet<Type> UNITY_ENGINE_TYPES = new HashSet<Type>(typeof(UnityEngine.Object).Assembly.GetTypes());

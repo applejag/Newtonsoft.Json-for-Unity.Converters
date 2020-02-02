@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Newtonsoft.Json.Unity.Converters;
+﻿using Newtonsoft.Json.UnityConverters.Converters;
+using UnityEngine;
 
-namespace Newtonsoft.Json.Unity
+namespace Newtonsoft.Json.UnityConverters
 {
     internal static class UnityTypeConverterInitializer
     {
