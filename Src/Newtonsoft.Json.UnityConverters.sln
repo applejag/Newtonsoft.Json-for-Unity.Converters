@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newtonsoft.Json.UnityConverters", "Newtonsoft.Json.UnityConverters\Newtonsoft.Json.UnityConverters.csproj", "{C5954EDE-E95A-472D-A27C-1CFCBA8F7D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newtonsoft.Json.Unity", "Newtonsoft.Json.Unity\Newtonsoft.Json.Unity.csproj", "{C5954EDE-E95A-472D-A27C-1CFCBA8F7D58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.UnityConverters.Tests", "Newtonsoft.Json.UnityConverters.Tests\Newtonsoft.Json.UnityConverters.Tests.csproj", "{6EB92CC2-6D09-459F-9F07-4470A71F8EDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newtonsoft.Json.Unity.Tests", "Newtonsoft.Json.Unity.Tests\Newtonsoft.Json.Unity.Tests.csproj", "{6EB92CC2-6D09-459F-9F07-4470A71F8EDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
