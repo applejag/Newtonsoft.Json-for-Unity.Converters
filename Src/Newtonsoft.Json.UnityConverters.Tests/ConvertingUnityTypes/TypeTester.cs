@@ -21,7 +21,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
     public abstract class TypeTester<T> : TypeTesterBase
     {
         [Test]
-        [TestCaseSource("Representations")]
+        [TestCaseSource("representations")]
         public void SerializesAsExpected((T input, string expected) representation)
         {
             // Arrange
@@ -35,7 +35,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         }
 
         [Test]
-        [TestCaseSource("Representations")]
+        [TestCaseSource("representations")]
         public void DeserializesAsExpected((T expected, string input) representation)
         {
             // Arrange

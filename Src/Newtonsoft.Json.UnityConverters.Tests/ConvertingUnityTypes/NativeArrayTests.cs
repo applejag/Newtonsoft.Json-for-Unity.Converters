@@ -6,7 +6,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public class NativeArrayTests : TypeTesterBase
     {
-        public static (NativeArray<int> deserialized, string serialized)[] Representations { get; } = new[] {
+        public static (NativeArray<int> deserialized, string serialized)[] representations = new[] {
             (new NativeArray<int>(new int[]{ 1,2,3,4 }, Allocator.Persistent), @"[1,2,3,4]"),
             (new NativeArray<int>(Array.Empty<int>(), Allocator.Persistent), @"[]"),
         };
@@ -16,7 +16,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         }
 
         [Test]
-        [TestCaseSource("Representations")]
+        [TestCaseSource("representations")]
         public void SerializesAsExpected((NativeArray<int> input, string expected) representation)
         {
             // Arrange
@@ -30,7 +30,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         }
 
         [Test]
-        [TestCaseSource("Representations")]
+        [TestCaseSource("representations")]
         public void DeserializesAsExpected((NativeArray<int> expected, string input) representation)
         {
             // Arrange

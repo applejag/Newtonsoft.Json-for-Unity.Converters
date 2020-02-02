@@ -4,7 +4,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public class RectTests : TypeTester<Rect>
     {
-        public static (Rect deserialized, string serialized)[] Representations { get; } = new[] {
+        public static (Rect deserialized, string serialized)[] representations = new[] {
             (new Rect(1, 2, 3, 4), @"{""x"":1.0,""y"":2.0,""width"":3.0,""height"":4.0}")
         };
 
@@ -15,7 +15,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
     public class RectIntTests : TypeTester<RectInt>
     {
-        public static (RectInt deserialized, string serialized)[] Representations { get; } = new[] {
+        public static (RectInt deserialized, string serialized)[] representations = new[] {
             (new RectInt(1, 2, 3, 4), @"{""x"":1,""y"":2,""width"":3,""height"":4}")
         };
 
