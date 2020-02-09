@@ -6,9 +6,9 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public class NativeArrayTests : TypeTesterBase
     {
-        public static (NativeArray<int> deserialized, string serialized)[] representations = new[] {
-            (new NativeArray<int>(new int[]{ 1,2,3,4 }, Allocator.Persistent), @"[1,2,3,4]"),
-            (new NativeArray<int>(Array.Empty<int>(), Allocator.Persistent), @"[]"),
+        public static (int[] array, string serialized)[] representations = new[] {
+            (new int[]{ 1,2,3,4 }, @"[1,2,3,4]"),
+            (Array.Empty<int>(), @"[]"),
         };
 
         protected override void ConfigureSettings(JsonSerializerSettings settings)
@@ -17,31 +17,34 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         [Test]
         [TestCaseSource("representations")]
-        public void SerializesAsExpected((NativeArray<int> input, string expected) representation)
+        public void SerializesAsExpected((int[] inputArray, string expected) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
+            using (var nativeArray = new NativeArray<int>(representation.inputArray, Allocator.Temp)){
+                JsonSerializerSettings settings = GetSettings();
 
-            // Act
-            string result = JsonConvert.SerializeObject(representation.input, settings);
+                // Act
+                string result = JsonConvert.SerializeObject(nativeArray, settings);
 
-            // Assert
-            Assert.AreEqual(representation.expected, result);
+                // Assert
+                Assert.AreEqual(representation.expected, result);
+            }
         }
 
         [Test]
         [TestCaseSource("representations")]
-        public void DeserializesAsExpected((NativeArray<int> expected, string input) representation)
+        public void ThrowsOnDeserialize((int[] expectedArray, string input) representation)
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
 
             // Act
-            NativeArray<int> result = JsonConvert.DeserializeObject<NativeArray<int>>(representation.input, settings);
+            var ex = Assert.Throws<JsonSerializationException>(
+                () => JsonConvert.DeserializeObject<NativeArray<int>>(representation.input, settings)
+            );
 
             // Assert
-            Assert.IsTrue(result.IsCreated);
-            CollectionAssert.AreEqual(representation.expected, result);
+            StringAssert.StartsWith("Deserializing NativeArray<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
         }
     }
 }
