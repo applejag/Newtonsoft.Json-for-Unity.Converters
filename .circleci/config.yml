@@ -62,7 +62,7 @@ jobs:
             env VERSION_ASSEMBLY "$($SCRIPTS/get_json_version.sh ./Build/version.json ASSEMBLY)"
             echo
 
-            read -r -d '' DESCRIPTION << EOL
+            read -r -d '' DESCRIPTION \<< EOL
             This package contains converters to and from common Unity types. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
             
             This is Newtonsoft.Json.UnityConverters version $VERSION_CONVERTERS
