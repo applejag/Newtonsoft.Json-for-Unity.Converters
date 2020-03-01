@@ -27,7 +27,7 @@ jobs:
       SCRIPTS: /root/repo/Build/Scripts
       BUILD_SOLUTION: /root/repo/Src/Newtonsoft.Json.UnityConverters/Newtonsoft.Json.UnityConverters.csproj
       TEST_SOLUTION: /root/repo/Src/Newtonsoft.Json.UnityConverters.Tests/Newtonsoft.Json.UnityConverters.Tests.csproj
-      BUILD_DESTINATION_BASE: /root/repo/Src/UnityConvertersPackage/Plugins
+      BUILD_DESTINATION: /root/repo/Src/UnityConvertersPackage/Plugins
       BUILD_ADDITIONAL_CONSTANTS: SIGNING
 
     docker:
@@ -54,7 +54,8 @@ jobs:
               export "$1=$2"
             }
             echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./Build/version.json FULL)"
+            env VERSION_FILE "$($SCRIPTS/get_json_version.sh ./Build/version.json FILE)"
+            env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
             env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
             env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./Build/version.json JSON_NET)"
             env VERSION_CONVERTERS "$($SCRIPTS/get_json_version.sh ./Build/version.json CONVERTERS)"
@@ -82,7 +83,7 @@ jobs:
             echo ">>> UPDATING VERSION IN $(pwd)/Src/UnityConvertersPackage/package.json"
             echo "BEFORE:"
             echo ".version=$(jq ".version" Src/UnityConvertersPackage/package.json)"
-            echo "$(jq ".version=\"$VERSION\" | .description=\"$DESCRIPTION\"" Src/UnityConvertersPackage/package.json)" > Src/UnityConvertersPackage/package.json
+            echo "$(jq ".version=\"$VERSION_UPM\" | .description=\"$DESCRIPTION\"" Src/UnityConvertersPackage/package.json)" > Src/UnityConvertersPackage/package.json
             echo "AFTER:"
             echo ".version=$(jq ".version" Src/UnityConvertersPackage/package.json)"
 
@@ -97,78 +98,51 @@ jobs:
           paths:
             - /root/.nuget/packages
 
-      # - run:
-      #     name: Build Editor
-      #     command: $SCRIPTS/build.sh Editor
+      - run:
+          name: Build Release DLLs
+          command: $SCRIPTS/build.sh
 
-      # - run:
-      #     name: Build AOT
-      #     command: $SCRIPTS/build.sh AOT
+      - run:
+          name: Build Debug DLLs
+          command: |
+            BUILD_CONFIGURATION=Debug \
+            BUILD_DESTINATION=/workspace/debug \
+            BUILD_ADDITIONAL_CONSTANTS= \
+            $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
 
-      # - run:
-      #     name: Build Portable
-      #     command: $SCRIPTS/build.sh Portable
+      - run:
+          name: Build Newtonsoft.Json.UnityConverters.Tests
+          command: |
+            BUILD_SOLUTION="$TEST_SOLUTION" \
+            BUILD_CONFIGURATION=Debug \
+            BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.UnityConverters.Tests/bin \
+            BUILD_ADDITIONAL_CONSTANTS=UNITY_EDITOR_LINUX \
+            $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
 
-      # - run:
-      #     name: Build Testing library
-      #     command: |
-      #       export BUILD_CONFIGURATION=Debug
-      #       export BUILD_DESTINATION=/workspace/testlib
-      #       export BUILD_ADDITIONAL_CONSTANTS=
-      #       $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
+      - run:
+          name: Move resulting package into workspace
+          command: |
+            mkdir -pv /workspace/package
+            cp -rv /root/repo/Src/UnityConvertersPackage/. /workspace/package/
+            cp -vf CHANGELOG.md /workspace/package/
 
-      # - run:
-      #     name: Setup variables for Newtonsoft.Json.Tests
-      #     command: |
-      #       env() {
-      #           echo "export '$1=$2'" >> $BASH_ENV
-      #           echo "$1='$2'"
-      #           export "$1=$2"
-      #       }
-      #       xml() {
-      #           xmlstarlet sel -t -v "/Project/PropertyGroup/$1" -n Src/Newtonsoft.Json/Newtonsoft.Json.csproj | head -n 1
-      #       }
-      #       echo ">>> OBTAINING VERSION FROM $(pwd)/Src/Newtonsoft.Json/Newtonsoft.Json.csproj"
-      #       env VERSION "$(xml VersionPrefix)"
-      #       env VERSION_SUFFIX "$(xml VersionSuffix)"
-      #       env VERSION_JSON_NET "$(xml VersionPrefix)"
-      #       env VERSION_ASSEMBLY "$(xml AssemblyVersion)"
+            mkdir -pv /workspace/tests
+            export BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.Tests/bin
+            cp -rvt /workspace/tests/ \
+              $BUILD_DESTINATION/Newtonsoft.Json.UnityConverters.Tests.dll \
+              $BUILD_DESTINATION/Newtonsoft.Json.UnityConverters.Tests.pdb
 
-      # - run:
-      #     name: Build Newtonsoft.Json.Tests for Unity
-      #     command: |
-      #       export BUILD_SOLUTION="$TEST_SOLUTION"
-      #       export BUILD_CONFIGURATION=Debug
-      #       export BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.Tests/bin
-      #       export BUILD_ADDITIONAL_CONSTANTS=UNITY_EDITOR_LINUX
-      #       $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
+      - run:
+          name: Fix meta files
+          command: |
+            $SCRIPTS/generate_metafiles.sh /workspace/package
 
-      # - run:
-      #     name: Move resulting package into workspace
-      #     command: |
-      #       mkdir -pv /workspace/package
-      #       cp -rv Src/Newtonsoft.Json-for-Unity/. /workspace/package/
-      #       cp -vf CHANGELOG.md /workspace/package/
-
-      #       mkdir -pv /workspace/tests
-      #       export BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.Tests/bin
-      #       cp -rvt /workspace/tests/ \
-      #         $BUILD_DESTINATION/Newtonsoft.Json.Tests.dll \
-      #         $BUILD_DESTINATION/Newtonsoft.Json.Tests.pdb \
-      #         $BUILD_DESTINATION/System.Web.Polyfill.dll \
-      #         $BUILD_DESTINATION/System.Web.Polyfill.pdb
-
-      # - run:
-      #     name: Fix meta files
-      #     command: |
-      #       $SCRIPTS/generate_metafiles.sh /workspace/package
-
-      # - persist_to_workspace:
-      #     root: /workspace
-      #     paths:
-      #       - testlib
-      #       - package
-      #       - tests
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - debug
+            - package
+            - tests
 
   # test-windows:
   #   executor: win/default

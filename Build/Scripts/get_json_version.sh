@@ -36,7 +36,24 @@ jq2() {
 }
 
 case "$output" in
-FULL)
+FILE)
+    VERSION="$(jq2 -er '(.JsonNET // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile")"
+
+    MIN=$(date +%M)
+    HOUR=$(date +%H)
+    
+    DAY=$(date +%d)
+    MONTH=$(date +%m)
+    YEAR=$(($(date +%Y) - 2020))
+
+    MAJOR_REV=$((((YEAR*12+MONTH)*31+DAY)*65536))
+    MINOR_REV=$((HOUR*60+MIN))
+
+    REVISION=$((MAJOR_REV + MINOR_REV))
+
+    echo "$VERSION.$REVISION"
+    ;;
+UPM)
     VERSION="$(jq2 -er '(.JsonNET // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile")"
     SUFFIX="$(jq2 -er '.Suffix // empty' "$jsonFile")"
 
@@ -69,7 +86,7 @@ SUFFIX)
     ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, CONVERTERS, ASSEMBLY, SUFFIX"
+    Possible values: FILE, UPM, JSON_NET, CONVERTERS, ASSEMBLY, SUFFIX"
     exit 3
     ;;
 esac
