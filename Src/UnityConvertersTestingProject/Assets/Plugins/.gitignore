@@ -1,0 +1,6 @@
+
+# Ignore the built files
+*.dll
+*.dll.mdb
+*.pdb
+*.xml
