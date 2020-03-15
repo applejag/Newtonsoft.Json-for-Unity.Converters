@@ -89,7 +89,7 @@ jobs:
             cp -vf CHANGELOG.md /workspace/package/
 
             mkdir -pv /workspace/tests
-            export BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.Tests/bin
+            export BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.UnityConverters.Tests/bin
             cp -rvt /workspace/tests/ \
               $BUILD_DESTINATION/Newtonsoft.Json.UnityConverters.Tests.dll \
               $BUILD_DESTINATION/Newtonsoft.Json.UnityConverters.Tests.pdb
