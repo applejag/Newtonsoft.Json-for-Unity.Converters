@@ -1,8 +1,16 @@
+
+# Possible alterations of UNITY_VERSION argument, using example v1:
+# v1-2019.2.11f1
+# v1-2018.4.14f1
 ARG UNITY_VERSION=2019.2.11f1
 FROM applejag/newtonsoft.json-for-unity.package-unity-tester:v1-${UNITY_VERSION}
 
+# IMAGE_VERSION should correspond to the image tag
+ARG IMAGE_VERSION
 ARG UNITY_VERSION=2019.2.11f1
-ENV UNITY_VERTION=${UNITY_VERSION}
+
+ENV UNITY_VERTION=${UNITY_VERSION} \
+    IMAGE_VERSION=${IMAGE_VERSION}
 
 RUN \
     # Symlink Unity to mimic Mac folder layout
@@ -15,7 +23,7 @@ RUN \
     ## Install Mono
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        mono-complete=6.8.0.96-0xamarin4+ubuntu1804b1 \
+        mono-complete=6.8.0.105-0xamarin3+ubuntu1804b1 \
     # Cleanup cache
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
