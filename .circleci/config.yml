@@ -70,7 +70,7 @@ jobs:
             BUILD_CONFIGURATION=Debug \
             BUILD_DESTINATION=/workspace/debug \
             BUILD_ADDITIONAL_CONSTANTS= \
-            $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
+            $SCRIPTS/build.sh "$BUILD_SOLUTION"
 
       - run:
           name: Build Newtonsoft.Json.UnityConverters.Tests
@@ -79,7 +79,7 @@ jobs:
             BUILD_CONFIGURATION=Debug \
             BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.UnityConverters.Tests/bin \
             BUILD_ADDITIONAL_CONSTANTS=UNITY_EDITOR_LINUX \
-            $SCRIPTS/build.sh Tests "$BUILD_SOLUTION"
+            $SCRIPTS/build.sh "$BUILD_SOLUTION"
 
       - run:
           name: Move resulting package into workspace
