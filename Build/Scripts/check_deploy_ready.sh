@@ -37,7 +37,7 @@ echo
 if [ "$VERSION_SUFFIX" != "" ]
 then
     echo "> Ignoring to check changelog since suffix is '$VERSION_SUFFIX', all ok!"
-elif cat CHANGELOG.md | egrep -q "^## $VERSION$"
+elif egrep -f CHANGELOG.md -q "^## $VERSION$"
 then
     echo "> Changelog has been updated, all ok!"
 else
