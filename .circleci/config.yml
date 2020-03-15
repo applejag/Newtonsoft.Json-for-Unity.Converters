@@ -146,7 +146,7 @@ jobs:
       - run:
           name: Copy dll's into Unity testing project
           command: |
-            cp -vur /workspace/tests/. $ASSETS_FOLDER/Plugins/
+            cp -vfr /workspace/tests/. $ASSETS_FOLDER/Plugins/
             cp -vfr /workspace/debug/. $ASSETS_FOLDER/Plugins/
 
       - run:
@@ -222,7 +222,7 @@ jobs:
       - run:
           name: Copy dll's into Unity testing project
           command: |
-            cp -vur /workspace/tests/. $ASSETS_FOLDER/Plugins/
+            cp -vfr /workspace/tests/. $ASSETS_FOLDER/Plugins/
             cp -vfr /workspace/debug/. $ASSETS_FOLDER/Plugins/
 
       - run:
