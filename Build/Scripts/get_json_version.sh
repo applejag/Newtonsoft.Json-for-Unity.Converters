@@ -38,18 +38,16 @@ jq2() {
 case "$output" in
 FILE)
     VERSION="$(jq2 -er '(.JsonNET // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile")"
-
-    MIN=$(date +%M)
-    HOUR=$(date +%H)
     
-    DAY=$(date +%d)
-    MONTH=$(date +%m)
-    YEAR=$(($(date +%Y) - 2020))
+    MINUTES_1970_TO_2019=$((25771680))
 
-    MAJOR_REV=$((((YEAR*12+MONTH)*31+DAY)*65536))
-    MINOR_REV=$((HOUR*60+MIN))
+    TIMESTAMP_SECONDS=$(date +%s)
+    TIMESTAMP_MINUTES_SINCE_2019=$((TIMESTAMP_SECONDS/60 - MINUTES_1970_TO_2019))
 
-    REVISION=$((MAJOR_REV + MINOR_REV))
+    # To convert back to timestamp do:
+    # TIMESTAMP_SECONDS = (REVISION + 25771680) * 60
+
+    REVISION=TIMESTAMP_MINUTES_SINCE_2019
 
     echo "$VERSION.$REVISION"
     ;;
