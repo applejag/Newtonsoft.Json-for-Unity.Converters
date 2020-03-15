@@ -349,79 +349,97 @@ jobs:
   #             echo "Successfully pushed tag"
   #           fi
 
-  # check-deploy-ready:
-  #   working_directory: /root/repo
+  check-deploy-ready:
+    working_directory: /root/repo
     
-  #   docker:
-  #     - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
 
-  #   environment:
-  #     SCRIPTS: /root/repo/Build/Scripts
-  #     NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
+    environment:
+      SCRIPTS: /root/repo/Build/Scripts
+      NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
-  #   steps:
-  #     - checkout
+    steps:
+      - checkout
 
-  #     - attach_workspace:
-  #         at: /workspace
+      - attach_workspace:
+          at: /workspace
 
-  #     - run:
-  #         name: Enable permissions on scripts
-  #         command: chmod +x $SCRIPTS/**.sh -v
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
 
-  #     - run:
-  #         name: Setup Variables
-  #         command: |
-  #           env() {
-  #             echo "export '$1=$2'" >> $BASH_ENV
-  #             echo "$1='$2'"
-  #             export "$1=$2"
-  #           }
-  #           echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
-  #           env VERSION "$($SCRIPTS/get_json_version.sh ./Build/version.json FULL)"
-  #           echo
+      - run:
+          name: Setup Variables
+          command: |
+            env() {
+              echo "export '$1=$2'" >> $BASH_ENV
+              echo "$1='$2'"
+              export "$1=$2"
+            }
+            echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
+            env VERSION "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
+            env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
+            echo
             
-  #           echo ">>> SETTING UP NPM"
-  #           echo "registry='$NPM_REGISTRY' >> ~/.npmrc"
-  #           echo "registry=$NPM_REGISTRY" >> ~/.npmrc
+            echo ">>> SETTING UP NPM"
+            echo "registry='$NPM_REGISTRY' >> ~/.npmrc"
+            echo "registry=$NPM_REGISTRY" >> ~/.npmrc
 
-  #     - run:
-  #         name: Check if release is ready for deploy
-  #         command: |
-  #           if [ "$(npm search jillejr.newtonsoft.json-for-unity)" == 'No matches found for "jillejr.newtonsoft.json-for-unity"' ]
-  #           then
-  #             echo "> Package jillejr.newtonsoft.json-for-unity does not exist on the registry and is available for publishing, all ok!"
-  #           elif [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
-  #           then
-  #             echo "> Package jillejr.newtonsoft.json-for-unity version $VERSION does not exist on the registry and is available for publishing, all ok!"
-  #           else
-  #             echo
-  #             echo "[!] Package version $VERSION already existed on $NPM_REGISTRY"
-  #             echo "[!] Make sure to update the /Build/version.json"
-  #             exit 1
-  #           fi
+      - run:
+          name: Check if release is ready for deploy
+          command: |
+            OK=1
 
-  #           if git tag --list | egrep -q "^$VERSION$"
-  #           then
-  #             echo
-  #             echo "[!] Tag $VERSION already existed."
-  #             echo "[!] Make sure to update the /Build/version.json"
-  #             exit 2
-  #           else
-  #             echo "> Tag $VERSION is available for publishing, all ok!"
-  #           fi
+            if [ "$(npm search jillejr.newtonsoft.json-for-unity.converters)" == 'No matches found for "jillejr.newtonsoft.json-for-unity.converters"' ]
+            then
+              echo "> Package jillejr.newtonsoft.json-for-unity.converters does not exist on the registry and is available for publishing, all ok!"
+            elif [ -z "$(npm view jillejr.newtonsoft.json-for-unity.converters@$VERSION versions)" ]
+            then
+              echo "> Package jillejr.newtonsoft.json-for-unity.converters version $VERSION does not exist on the registry and is available for publishing, all ok!"
+            else
+              echo
+              echo "[!] Package version $VERSION already existed on $NPM_REGISTRY"
+              echo "[!] Make sure to update the /Build/version.json"
+              OK=0
+            fi
+
+            echo
+
+            if git tag --list | egrep -q "^$VERSION$"
+            then
+              echo
+              echo "[!] Tag $VERSION already existed."
+              echo "[!] Make sure to update the /Build/version.json"
+              OK=0
+            else
+              echo "> Tag $VERSION is available for publishing, all ok!"
+            fi
+
+            echo
             
-  #           if cat CHANGELOG.md | egrep -q "^## $VERSION$"
-  #           then
-  #             echo "> Changelog has been updated, all ok!"
-  #           else
-  #             echo
-  #             echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION'."
-  #             echo "[!] Make sure to update the CHANGELOG.md"
-  #             exit 3
-  #           fi
+            if [ "$VERSION_SUFFIX" != "" ]
+            then
+              echo "> Ignoring to check changelog since suffix is '$VERSION_SUFFIX', all ok!"
+            elif cat CHANGELOG.md | egrep -q "^## $VERSION$"
+            then
+              echo "> Changelog has been updated, all ok!"
+            else
+              echo
+              echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION'."
+              echo "[!] Make sure to update the CHANGELOG.md"
+              OK=0
+            fi
 
-  #           echo "Nice work! Happy deploying!"
+            echo
+
+            if [ $OK != 1 ]
+            then
+              echo "At least one check failed. Aborting!"
+              exit 1
+            fi
+
+            echo "Nice work! Happy deploying!"
 
 workflows:
   version: 2
@@ -437,12 +455,12 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
-  # check-deploy-ready:
-  #   jobs:
-  #     - check-deploy-ready:
-  #         filters:
-  #           branches:
-  #             <<: *WORKFLOW_CHECK_DEPLOY_READY_FILTER
+  check-deploy-ready:
+    jobs:
+      - check-deploy-ready:
+          filters:
+            branches:
+              <<: *WORKFLOW_CHECK_DEPLOY_READY_FILTER
   build-test-deploy:
     jobs:
       - build-package:
