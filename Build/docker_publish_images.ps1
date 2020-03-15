@@ -6,7 +6,7 @@ function Publish-DockerImage  {
         [string[]]$Passthrough
     )
 
-    Write-Host ">> Publishing $Passthrough" -BackgroundColor DarkCyan -ForegroundColor White
+    Write-Host "`n>> Publishing $Passthrough`n" -ForegroundColor DarkCyan
     docker push @Passthrough
 
     if ($LASTEXITCODE -ne 0) {
@@ -14,6 +14,11 @@ function Publish-DockerImage  {
     }
 }
 
-Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-builder:v1-2019.2.11f1
-Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-builder:v1-2018.4.14f1
+Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-builder:v2-2019.2.11f1
 Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-builder:latest
+
+Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2019.2.11f1
+Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2018.4.14f1
+Publish-DockerImage applejag/newtonsoft.json-for-unity.converters.package-unity-tester:latest
+
+Write-Host "`n>> Done! `n" -ForegroundColor DarkGreen

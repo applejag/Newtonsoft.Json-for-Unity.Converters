@@ -46,7 +46,11 @@ function Start-DockerBuild  {
         $ImageVersion = $Build.ImageVersion
         $ExtraArgs = $Build.ExtraArgs
         if ($PSCmdlet.ShouldProcess("${ImageName}:${ImageVersion}")) {
-            Write-Host ">> Building ${ImageName}:${ImageVersion} " -BackgroundColor DarkGreen -ForegroundColor White
+            Write-Host "`n>> Building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGreen
+            if ($ExtraArgs.Count -gt 0) {
+                Write-Host "Extra args:`n$ExtraArgs" -ForegroundColor Yellow
+            }
+            Write-Host ""
             docker build `
                 -f $DockerFile `
                 --build-arg IMAGE_VERSION=${ImageVersion} `
@@ -59,16 +63,22 @@ function Start-DockerBuild  {
                 throw "Failed to build with args $ExtraArgs";
             }
         } else {
-            Write-Host ">> Skipping building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGray
+            Write-Host "`n>> Skipping building ${ImageName}:${ImageVersion} `n" -ForegroundColor DarkGray
         }
     }
 }
 
 $Builds = [DockerBuild[]] @(
-    , [DockerBuild]::new('package-builder', 'v1-2019.2.11f1').
+    , [DockerBuild]::new('package-builder', 'v2-2019.2.11f1').
+        WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
+
+    , [DockerBuild]::new('package-unity-tester', 'v1-2018.4.14f1').
+        WithExtraArg('--build-arg', 'UNITY_VERSION=2018.4.14f1')
+
+    , [DockerBuild]::new('package-unity-tester', 'v1-2019.2.11f1').
         WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
 )
 
 $Builds | Start-DockerBuild
 
-Write-Host ">> Done! " -BackgroundColor DarkGreen -ForegroundColor Gray
+Write-Host "`n>> Done! `n" -ForegroundColor DarkGreen

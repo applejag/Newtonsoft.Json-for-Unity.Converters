@@ -31,7 +31,7 @@ jobs:
       BUILD_ADDITIONAL_CONSTANTS: SIGNING
 
     docker:
-      - image: applejag/newtonsoft.json-for-unity.converters.package-builder:v1
+      - image: applejag/newtonsoft.json-for-unity.converters.package-builder:v2-2019.2.11f1
 
     steps:
       # Checkout repo -> ~/repo
@@ -154,7 +154,7 @@ jobs:
       PLATFORMS: playmode
 
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2018.4.14f1
+      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2018.4.14f1
 
     steps:
       # Checkout repo -> ~/repo
@@ -230,7 +230,7 @@ jobs:
       PLATFORMS: playmode
 
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2019.2.11f1
+      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2019.2.11f1
 
     steps:
       # Checkout repo -> ~/repo
