@@ -19,8 +19,15 @@ env VERSION_CONVERTERS "$($SCRIPTS/get_json_version.sh ./Build/version.json CONV
 env VERSION_ASSEMBLY "$($SCRIPTS/get_json_version.sh ./Build/version.json ASSEMBLY)"
 echo
 
-read -r -d '' DESCRIPTION <<EOL
-This package contains converters to and from common Unity types. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
+# Example output of variables:
+# VERSION_FILE='12.0.1.633183'
+# VERSION_UPM='12.0.1-preview.1'
+# VERSION_SUFFIX='preview.1'
+# VERSION_JSON_NET='12.x.x'
+# VERSION_CONVERTERS='x.0.1-preview.1'
+# VERSION_ASSEMBLY='12.0.0.0'
+
+DESCRIPTION="This package contains converters to and from common Unity types. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
 
 This is Newtonsoft.Json.UnityConverters version $VERSION_CONVERTERS
 Compatible with Newtonsoft.Json $VERSION_JSON_NET
@@ -34,8 +41,7 @@ https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters
 Copyright © 2007 ParentElement
 https://github.com/ianmacgillivray/Json-NET-for-Unity
 
-See full copyrights in LICENSE.md inside package
-EOL
+See full copyrights in LICENSE.md inside package"
 
 echo ">>> UPDATING VERSION IN $(pwd)/Src/UnityConvertersPackage/package.json"
 echo "BEFORE:"
