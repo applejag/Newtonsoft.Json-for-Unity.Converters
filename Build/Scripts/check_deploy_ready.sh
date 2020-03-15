@@ -5,6 +5,10 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
+: ${VERSION:?"Need the version to be checked"}
+: ${VERSION_SUFFIX:?"Need the version suffix to be checked"}
+: ${NPM_REGISTRY:?"Need the NPM registry to be checked against"}
+
 OK=1
 
 if [ "$(npm search jillejr.newtonsoft.json-for-unity.converters)" == 'No matches found for "jillejr.newtonsoft.json-for-unity.converters"' ]
