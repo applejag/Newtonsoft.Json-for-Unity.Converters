@@ -38,7 +38,7 @@ fi
 
 echo
 
-if egrep -f CHANGELOG.md -q "^## ${VERSION_CONVERTERS_NO_SUFFIX//\./\\.}$"
+if egrep -q "^## ${VERSION_CONVERTERS_NO_SUFFIX//\./\\.}$" CHANGELOG.md
 then
     echo "> Changelog has been updated, all ok!"
 else
