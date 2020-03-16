@@ -11,6 +11,7 @@
     <Nullable>enable</Nullable>
     
     <UnityVersion>2019.2.11f1</UnityVersion>
+    <DefineConstants>$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
