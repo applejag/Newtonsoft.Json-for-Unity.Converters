@@ -1,5 +1,5 @@
-This repository ([jilleJr/Newtonsoft.Json-for-Unity.Converters][repo-url]) contains code
-from many glorious other open source projects.
+This repository ([jilleJr/Newtonsoft.Json-for-Unity.Converters][repo-url])
+contains code from many glorious other open source projects.
 
 Without those this repository would never been created. ❤ Much love.
 
