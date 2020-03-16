@@ -6,7 +6,7 @@ set -o errexit
 set -o pipefail
 
 : ${VERSION_UPM:?"Need the version to be checked"}
-: ${VERSION_CONVERTERS:?"Need the version of Newtonsoft.Json.UnityConverters to be checked"}
+: ${VERSION_CONVERTERS_NO_SUFFIX:?"Need the version of Newtonsoft.Json.UnityConverters (without suffix) to be checked"}
 : ${NPM_REGISTRY:?"Need the NPM registry to be checked against"}
 
 OK=1
@@ -38,12 +38,12 @@ fi
 
 echo
 
-if egrep -f CHANGELOG.md -q "^## ${VERSION_CONVERTERS//\./\\.}$"
+if egrep -f CHANGELOG.md -q "^## ${VERSION_CONVERTERS_NO_SUFFIX//\./\\.}$"
 then
     echo "> Changelog has been updated, all ok!"
 else
     echo
-    echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION_CONVERTERS'."
+    echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION_CONVERTERS_NO_SUFFIX'."
     echo "[!] Make sure to update the CHANGELOG.md"
     OK=0
 fi

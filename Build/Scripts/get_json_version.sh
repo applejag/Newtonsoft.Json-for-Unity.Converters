@@ -62,6 +62,9 @@ UPM)
         echo "$VERSION-$SUFFIX"
     fi
     ;;
+UPM_NO_SUFFIX)
+    jq2 -er '(.JsonNET // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
+    ;;
 JSON_NET)
     jq2 -er '(.JsonNET // 0|tostring) + ".x.x"' "$jsonFile"
     ;;
@@ -75,6 +78,9 @@ CONVERTERS)
     else
         echo "$VERSION-$SUFFIX"
     fi
+    ;;
+CONVERTERS_NO_SUFFIX)
+    jq2 -er '"x." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
     ;;
 ASSEMBLY)
     jq2 -er '(.JsonNET // 0|tostring) + ".0.0.0"' "$jsonFile"
