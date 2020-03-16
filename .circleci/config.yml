@@ -379,8 +379,8 @@ jobs:
               export "$1=$2"
             }
             echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
-            env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
+            env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
+            env VERSION_CONVERTERS "$($SCRIPTS/get_json_version.sh ./Build/version.json CONVERTERS)"
             echo
             
             echo ">>> SETTING UP NPM"
