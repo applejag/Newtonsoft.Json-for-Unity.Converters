@@ -26,7 +26,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
     public class Vector3IntTests : TypeTester<Vector3Int>
     {
-        public static IReadOnlyCollection<(Vector3Int deserialized, string serialized)> representations = new[] {
+        public static readonly IReadOnlyCollection<(Vector3Int deserialized, string serialized)> representations = new[] {
             (new Vector3Int(1, 2, 3), @"{""x"":1,""y"":2,""z"":3}")
         };
     }
