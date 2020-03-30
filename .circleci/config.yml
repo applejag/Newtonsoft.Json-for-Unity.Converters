@@ -154,6 +154,7 @@ jobs:
           command: |
             echo "Moving $TEST_PROJECT/Packages/manifest.json file"
             mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
+            mv -v "$TEST_PROJECT/Packages/manifest_2018.4.14f1.json" "$TEST_PROJECT/Packages/manifest.json"
             echo
             find "$ASSETS_FOLDER" -name '.*.asmdef.old' -exec rm -v {} +
             echo
