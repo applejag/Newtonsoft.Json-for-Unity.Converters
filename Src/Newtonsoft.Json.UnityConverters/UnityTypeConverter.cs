@@ -22,9 +22,9 @@ namespace Newtonsoft.Json.UnityConverters.Converters {
                 {
                     var enumerable = (IEnumerable)value;
                     writer.WriteStartArray();
-                    foreach (var item in enumerable)
+                    foreach (object item in enumerable)
                     {
-                        JObject.FromObject(item, serializer).WriteTo(writer);
+                        JToken.FromObject(item, serializer).WriteTo(writer);
                     }
                     writer.WriteEndArray();
                     return;
@@ -38,7 +38,7 @@ namespace Newtonsoft.Json.UnityConverters.Converters {
         {
             if (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(NativeArray<>))
             {
-                IJsonLineInfo? lineInfo = reader as IJsonLineInfo;
+                var lineInfo = reader as IJsonLineInfo;
                 int lineNumber = default;
                 int linePosition = default;
 

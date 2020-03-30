@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Unity.Collections;
 
@@ -6,14 +7,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public class NativeArrayTests : TypeTesterBase
     {
-        public static (int[] array, string serialized)[] representations = new[] {
-            (new int[]{ 1,2,3,4 }, @"[1,2,3,4]"),
+        public static readonly IReadOnlyCollection<(int[] array, string serialized)> representations = new[] {
+            (new []{ 1,2,3,4 }, @"[1,2,3,4]"),
             (Array.Empty<int>(), @"[]"),
         };
-
-        protected override void ConfigureSettings(JsonSerializerSettings settings)
-        {
-        }
 
         [Test]
         [TestCaseSource("representations")]

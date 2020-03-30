@@ -30,6 +30,7 @@
     <Copy
         SourceFiles="@(FileToCopyIntoUnity->'$(OutputPath)%(Filename)%(Extension)')"
         DestinationFolder="..\UnityConvertersTestingProject\Assets\Plugins\" />
+    <Message Text="Copied @(FileToCopyIntoUnity->'%(Filename)%(Extension)') in to Unity"/>
   </Target>
 
 </Project>
