@@ -78,21 +78,21 @@ namespace Newtonsoft.Json.UnityConverters
 
             var obj = JObject.Load(reader);
             return new Matrix4x4 {
-                m00 = ReadFloat("m00"),
-                m01 = ReadFloat("m01"),
-                m02 = ReadFloat("m02"),
-                m03 = ReadFloat("m03"),
-                m20 = ReadFloat("m20"),
-                m21 = ReadFloat("m21"),
-                m22 = ReadFloat("m22"),
-                m23 = ReadFloat("m23"),
-                m30 = ReadFloat("m30"),
-                m31 = ReadFloat("m31"),
-                m32 = ReadFloat("m32"),
-                m33 = ReadFloat("m33")
+                m00 = ReadFloat(obj, "m00"),
+                m01 = ReadFloat(obj, "m01"),
+                m02 = ReadFloat(obj, "m02"),
+                m03 = ReadFloat(obj, "m03"),
+                m20 = ReadFloat(obj, "m20"),
+                m21 = ReadFloat(obj, "m21"),
+                m22 = ReadFloat(obj, "m22"),
+                m23 = ReadFloat(obj, "m23"),
+                m30 = ReadFloat(obj, "m30"),
+                m31 = ReadFloat(obj, "m31"),
+                m32 = ReadFloat(obj, "m32"),
+                m33 = ReadFloat(obj, "m33")
             };
 
-            float ReadFloat(string name)
+            static float ReadFloat(JObject obj, string name)
             {
                 if (!obj.TryGetValue(name, out JToken? value))
                 {
