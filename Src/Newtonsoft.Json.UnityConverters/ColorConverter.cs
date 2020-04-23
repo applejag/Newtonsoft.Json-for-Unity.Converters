@@ -1,79 +1,30 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿
+/*WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW*\     (   (     ) )
+|/                                                      \|       )  )   _((_
+||  (c) Wanzyee Studio  < wanzyeestudio.blogspot.com >  ||      ( (    |_ _ |=n
+|\                                                      /|   _____))   | !  ] U
+\.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
+
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace WanzyeeStudio.Json
 {
-    public class ColorConverter : JsonConverter
+
+    /// <summary>
+    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Color</c>.
+    /// </summary>
+    public class ColorConverter : PartialConverter<Color>
     {
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+
+        /// <summary>
+        /// Get the property names include <c>r</c>, <c>g</c>, <c>b</c>, <c>a</c>.
+        /// </summary>
+        /// <returns>The property names.</returns>
+        protected override string[] GetPropertyNames()
         {
-            if (value is Color col)
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName("r");
-                writer.WriteValue(col.r);
-                writer.WritePropertyName("g");
-                writer.WriteValue(col.g);
-                writer.WritePropertyName("b");
-                writer.WriteValue(col.b);
-                writer.WritePropertyName("a");
-                writer.WriteValue(col.a);
-                writer.WriteEndObject();
-            }
-            else if (value is Color32 col32)
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName("r");
-                writer.WriteValue(col32.r);
-                writer.WritePropertyName("g");
-                writer.WriteValue(col32.g);
-                writer.WritePropertyName("b");
-                writer.WriteValue(col32.b);
-                writer.WritePropertyName("a");
-                writer.WriteValue(col32.a);
-                writer.WriteEndObject();
-            }
-            else
-            {
-                writer.WriteNull();
-            }
+            return new[] { "r", "g", "b", "a" };
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(Color) || objectType == typeof(Color32);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null)
-            {
-                return new Color();
-            }
-
-            var obj = JObject.Load(reader);
-
-            if (objectType == typeof(Color32))
-            {
-                return new Color32(
-                    obj.Value<byte>("r"),
-                    obj.Value<byte>("g"),
-                    obj.Value<byte>("b"),
-                    obj.Value<byte>("a")
-                );
-            }
-            else
-            {
-                return new Color(
-                obj.Value<float>("r"),
-                obj.Value<float>("g"),
-                obj.Value<float>("b"),
-                obj.Value<float>("a")
-            );
-            }
-        }
-
-        public override bool CanRead => true;
     }
+
 }

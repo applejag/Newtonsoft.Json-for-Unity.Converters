@@ -11,9 +11,9 @@ namespace WanzyeeStudio.Json
 {
 
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Quaternion</c>.
+    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Vector4</c>.
     /// </summary>
-    public class QuaternionConverter : PartialConverter<Quaternion>
+    public class Vector4Converter : PartialConverter<Vector4>
     {
 
         /// <summary>
