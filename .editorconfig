@@ -228,3 +228,6 @@ dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readon
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.style = upper_style
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.symbols = static_readonly_symbols
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.severity = warning
+
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = silent
