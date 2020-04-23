@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net4.7.2</TargetFramework>
-
     <IsPackable>false</IsPackable>
 
     <UnityVersion>2019.2.11f1</UnityVersion>

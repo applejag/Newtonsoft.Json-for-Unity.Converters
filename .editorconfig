@@ -14,17 +14,11 @@ indent_size = 4
 end_of_line = lf
 insert_final_newline = true
 
-# === YML & JSON config files ===
-[*.{yml,yaml,json}]
+# === YML, JSON, & XML config files ===
+[*.{yml,yaml,json,xml}]
 
 indent_style = space
 indent_size = 2
-
-# === XML config files ===
-[*.{xml}]
-
-indent_style = tab
-indent_size = 4
 
 # === C# files ===
 [*.cs]
@@ -234,3 +228,6 @@ dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readon
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.style = upper_style
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.symbols = static_readonly_symbols
 dotnet_naming_rule.private_static_readonly_must_be_uppercase.severity = warning
+
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = silent
