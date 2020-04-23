@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace WanzyeeStudio.Json
+namespace Newtonsoft.Json.UnityConverters
 {
 
     /// <summary>

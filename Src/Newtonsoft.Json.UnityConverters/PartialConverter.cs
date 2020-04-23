@@ -13,7 +13,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WanzyeeStudio.Json
+namespace Newtonsoft.Json.UnityConverters
 {
 
     /// <summary>
