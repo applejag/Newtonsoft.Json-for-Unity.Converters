@@ -6,31 +6,26 @@
 \.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
 
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Bounds</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
     /// </summary>
     public class BoundsConverter : PartialConverter<Bounds>
     {
-
         /// <summary>
         /// Prevent the properties from being stripped.
         /// </summary>
-        /*
-		 * https://docs.unity3d.com/Manual/IL2CPP-BytecodeStripping.html
-		 * Instead of an extra file, work around by making and accessing a dummy instance.
-		 */
-        private void PreserveProperties()
+        [Preserve]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
+        private static void PreserveProperties()
         {
-
             var dummy = new Bounds();
 
-            dummy.center = dummy.center;
-            dummy.extents = dummy.extents;
-
+            _ = dummy.center;
+            _ = dummy.extents;
         }
 
         /// <summary>
@@ -43,5 +38,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

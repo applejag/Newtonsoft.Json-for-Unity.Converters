@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Color</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
     /// </summary>
     public class ColorConverter : PartialConverter<Color>
     {
-
         /// <summary>
         /// Get the property names include <c>r</c>, <c>g</c>, <c>b</c>, <c>a</c>.
         /// </summary>
@@ -26,5 +24,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

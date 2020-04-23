@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Rect</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Rect type <see cref="Rect"/>.
     /// </summary>
     public class RectConverter : PartialConverter<Rect>
     {
-
         /// <summary>
         /// Get the property names include <c>x</c>, <c>y</c>, <c>width</c>, <c>height</c>.
         /// </summary>
@@ -26,5 +24,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

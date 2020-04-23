@@ -32,10 +32,10 @@ namespace Newtonsoft.Json.UnityConverters
         /// 
         /// <remarks>
         /// All its properties stay default, but the <c>Converters</c> includes below:
-        /// 	1. Any custom <c>Newtonsoft.Json.JsonConverter</c> has constructor without parameters.
-        /// 	2. Any <c>Newtonsoft.Json.JsonConverter</c> from <c>WanzyeeStudio.Json</c>.
-        /// 	3. <c>Newtonsoft.Json.Converters.StringEnumConverter</c>.
-        /// 	4. <c>Newtonsoft.Json.Converters.VersionConverter</c>.
+        /// 	1. Any custom <see cref="JsonConverter"/> has constructor without parameters.
+        /// 	2. Any <c>Newtonsoft.Json.JsonConverter</c> from <c>Newtonsoft.Json.UnityConverters</c>.
+        /// 	3. <see cref="StringEnumConverter"/>.
+        /// 	4. <see cref="VersionConverter"/>.
         /// </remarks>
         public static JsonSerializerSettings DefaultUnitySettings { get; set; } = new JsonSerializerSettings {
             Converters = CreateConverters()
@@ -89,16 +89,13 @@ namespace Newtonsoft.Json.UnityConverters
         {
             try
             {
-                Debug.Log($"Creating type '{jsonConverterType.FullName}'");
                 var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
-                Debug.Log($"Created '{jsonConverterType.FullName}'");
                 return jsonConverter;
             }
             catch (Exception exception)
             {
                 Debug.LogErrorFormat("Cannot create JsonConverter '{0}':\n{1}", jsonConverterType.FullName, exception);
             }
-            Debug.Log($"Failed creating '{jsonConverterType.FullName}'");
 
             return null;
         }

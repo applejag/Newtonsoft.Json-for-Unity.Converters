@@ -9,13 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
     /// Custom base <c>Newtonsoft.Json.JsonConverter</c> to filter serialized properties.
     /// </summary>
@@ -40,7 +37,6 @@ namespace Newtonsoft.Json.UnityConverters
     /// 
     public abstract class PartialConverter<T> : JsonConverter
     {
-
         #region Static Methods
 
         /// <summary>
@@ -271,5 +267,4 @@ namespace Newtonsoft.Json.UnityConverters
         #endregion
 
     }
-
 }

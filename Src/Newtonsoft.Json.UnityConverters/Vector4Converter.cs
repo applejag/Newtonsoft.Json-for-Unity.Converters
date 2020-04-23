@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Vector4</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector4 type <see cref="Vector4"/>.
     /// </summary>
     public class Vector4Converter : PartialConverter<Vector4>
     {
-
         /// <summary>
         /// Get the property names include <c>x</c>, <c>y</c>, <c>z</c>, <c>w</c>.
         /// </summary>
@@ -26,5 +24,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

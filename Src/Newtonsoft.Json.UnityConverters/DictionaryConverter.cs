@@ -9,19 +9,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
     /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>System.Collections.Generic.Dictionary</c>.
     /// </summary>
     public class DictionaryConverter : JsonConverter
     {
-
         /// <summary>
         /// Determine if the type is <c>System.Collections.Generic.Dictionary</c>.
         /// </summary>
@@ -29,7 +26,6 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns><c>true</c> if this can convert the specified type; otherwise, <c>false</c>.</returns>
         public override bool CanConvert(Type objectType)
         {
-
             if (!objectType.IsGenericType)
             {
                 return false;
@@ -64,7 +60,6 @@ namespace Newtonsoft.Json.UnityConverters
 
             foreach (JToken pair in JArray.Load(reader))
             {
-
                 object? key = pair["Key"].ToObject(args[0], serializer);
                 object? value = pair["Value"].ToObject(args[1], serializer);
 
@@ -94,5 +89,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

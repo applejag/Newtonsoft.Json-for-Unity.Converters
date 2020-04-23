@@ -10,13 +10,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Matrix4x4</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Matrix4x4 type <see cref="Matrix4x4"/>.
     /// </summary>
     public class Matrix4x4Converter : PartialConverter<Matrix4x4>
     {
-
         /// <summary>
         /// Get the property names include from <c>m00</c> to <c>m33</c>.
         /// </summary>
@@ -28,5 +26,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

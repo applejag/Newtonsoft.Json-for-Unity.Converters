@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.Quaternion</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Quaternion type <see cref="Quaternion"/>.
     /// </summary>
     public class QuaternionConverter : PartialConverter<Quaternion>
     {
-
         /// <summary>
         /// Get the property names include <c>x</c>, <c>y</c>, <c>z</c>, <c>w</c>.
         /// </summary>
@@ -26,5 +24,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }

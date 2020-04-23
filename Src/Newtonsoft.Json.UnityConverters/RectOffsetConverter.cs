@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-
     /// <summary>
-    /// Custom <c>Newtonsoft.Json.JsonConverter</c> for <c>UnityEngine.RectOffset</c>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectOffset type <see cref="RectOffset"/>.
     /// </summary>
     public class RectOffsetConverter : PartialConverter<RectOffset>
     {
-
         /// <summary>
         /// Get the property names include <c>left</c>, <c>right</c>, <c>top</c>, <c>bottom</c>.
         /// </summary>
@@ -26,5 +24,4 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
     }
-
 }
