@@ -6,6 +6,19 @@ Without those this repository would never been created. ❤ Much love.
 ---
 
 <details>
+<summary>Json.NET Converters &copy; 2018 Wanzyee Studio</summary>
+
+```
+/*WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW*\     (   (     ) )
+|/                                                      \|       )  )   _((_
+||  (c) Wanzyee Studio  < wanzyeestudio.blogspot.com >  ||      ( (    |_ _ |=n
+|\                                                      /|   _____))   | !  ] U
+\.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
+```
+
+</details>
+
+<details>
 <summary>Json-NET-for-Unity &copy; 2017 parentelement</summary>
 
 <https://github.com/ianmacgillivray/Json-NET-for-Unity>
