@@ -16,25 +16,14 @@ namespace Newtonsoft.Json.UnityConverters
 
             var qt = (Quaternion)value;
             writer.WriteStartObject();
-            writer.WritePropertyName("w");
-            writer.WriteValue(qt.w);
             writer.WritePropertyName("x");
             writer.WriteValue(qt.x);
             writer.WritePropertyName("y");
             writer.WriteValue(qt.y);
             writer.WritePropertyName("z");
             writer.WriteValue(qt.z);
-
-            writer.WritePropertyName("eulerAngles");
-            writer.WriteStartObject();
-            writer.WritePropertyName("x");
-            writer.WriteValue(qt.eulerAngles.x);
-            writer.WritePropertyName("y");
-            writer.WriteValue(qt.eulerAngles.y);
-            writer.WritePropertyName("z");
-            writer.WriteValue(qt.eulerAngles.z);
-            writer.WriteEndObject();
-
+            writer.WritePropertyName("w");
+            writer.WriteValue(qt.w);
             writer.WriteEndObject();
         }
 

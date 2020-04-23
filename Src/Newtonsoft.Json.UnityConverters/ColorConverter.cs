@@ -8,23 +8,36 @@ namespace Newtonsoft.Json.UnityConverters
     {
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            if (value == null)
+            if (value is Color col)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("r");
+                writer.WriteValue(col.r);
+                writer.WritePropertyName("g");
+                writer.WriteValue(col.g);
+                writer.WritePropertyName("b");
+                writer.WriteValue(col.b);
+                writer.WritePropertyName("a");
+                writer.WriteValue(col.a);
+                writer.WriteEndObject();
+            }
+            else if (value is Color32 col32)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("r");
+                writer.WriteValue(col32.r);
+                writer.WritePropertyName("g");
+                writer.WriteValue(col32.g);
+                writer.WritePropertyName("b");
+                writer.WriteValue(col32.b);
+                writer.WritePropertyName("a");
+                writer.WriteValue(col32.a);
+                writer.WriteEndObject();
+            }
+            else
             {
                 writer.WriteNull();
-                return;
             }
-
-            var col = (Color)value;
-            writer.WriteStartObject();
-            writer.WritePropertyName("a");
-            writer.WriteValue(col.a);
-            writer.WritePropertyName("r");
-            writer.WriteValue(col.r);
-            writer.WritePropertyName("g");
-            writer.WriteValue(col.g);
-            writer.WritePropertyName("b");
-            writer.WriteValue(col.b);
-            writer.WriteEndObject();
         }
 
         public override bool CanConvert(Type objectType)
@@ -50,13 +63,15 @@ namespace Newtonsoft.Json.UnityConverters
                     obj.Value<byte>("a")
                 );
             }
-
-            return new Color(
+            else
+            {
+                return new Color(
                 obj.Value<float>("r"),
                 obj.Value<float>("g"),
                 obj.Value<float>("b"),
                 obj.Value<float>("a")
             );
+            }
         }
 
         public override bool CanRead => true;
