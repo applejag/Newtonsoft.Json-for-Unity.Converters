@@ -9,6 +9,11 @@ namespace Newtonsoft.Json.UnityConverters
 {
     internal static class UnityConverterInitializer
     {
+        private static readonly JsonConverter[] BUILTIN_CONVERTERS = {
+            new StringEnumConverter(),
+            new VersionConverter()
+        };
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         [Preserve]
 #pragma warning disable IDE0051 // Remove unused private members
@@ -41,23 +46,17 @@ namespace Newtonsoft.Json.UnityConverters
             return DefaultUnitySettings;
         }
 
-        private static JsonConverter[] _builtinConverters = {
-            new StringEnumConverter(),
-            new VersionConverter()
-        };
-
         /// <summary>
         /// Create the converter instances.
         /// </summary>
         /// <returns>The converters.</returns>
         private static List<JsonConverter> CreateConverters()
         {
-
             var customs = FindConverterTypes()
                 .Select(type => CreateConverter(type))
                 .WhereNotNull();
 
-            return customs.Concat(_builtinConverters).ToList();
+            return customs.Concat(BUILTIN_CONVERTERS).ToList();
 
         }
 
@@ -90,12 +89,16 @@ namespace Newtonsoft.Json.UnityConverters
         {
             try
             {
-                return (JsonConverter)Activator.CreateInstance(jsonConverterType);
+                Debug.Log($"Creating type '{jsonConverterType.FullName}'");
+                var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
+                Debug.Log($"Created '{jsonConverterType.FullName}'");
+                return jsonConverter;
             }
             catch (Exception exception)
             {
                 Debug.LogErrorFormat("Cannot create JsonConverter '{0}':\n{1}", jsonConverterType.FullName, exception);
             }
+            Debug.Log($"Failed creating '{jsonConverterType.FullName}'");
 
             return null;
         }
