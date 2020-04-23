@@ -9,7 +9,7 @@ namespace Newtonsoft.Json.UnityConverters
 {
     internal static class UnityConverterInitializer
     {
-        private static readonly JsonConverter[] BUILTIN_CONVERTERS = {
+        private static readonly JsonConverter[] _builtinConverters = {
             new StringEnumConverter(),
             new VersionConverter()
         };
@@ -56,7 +56,7 @@ namespace Newtonsoft.Json.UnityConverters
                 .Select(type => CreateConverter(type))
                 .WhereNotNull();
 
-            return customs.Concat(BUILTIN_CONVERTERS).ToList();
+            return customs.Concat(_builtinConverters).ToList();
 
         }
 

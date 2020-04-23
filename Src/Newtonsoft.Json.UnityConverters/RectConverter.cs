@@ -18,7 +18,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// Get the property names include <c>x</c>, <c>y</c>, <c>width</c>, <c>height</c>.
         /// </summary>
         /// <returns>The property names.</returns>
-        protected override string[] GetPropertyNames()
+        protected override string[] GetMemberNames()
         {
             return new[] { "x", "y", "width", "height" };
         }

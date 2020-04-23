@@ -13,8 +13,15 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
     /// </summary>
-    public class BoundsConverter : PartialConverter<Bounds>
+    public class BoundsConverter : Vector3ObjectConverter<Bounds>
     {
+        private static string[] _memberNames = { "center", "size" };
+
+        public BoundsConverter()
+            : base(_memberNames)
+        {
+        }
+
         /// <summary>
         /// Prevent the properties from being stripped.
         /// </summary>
@@ -28,14 +35,14 @@ namespace Newtonsoft.Json.UnityConverters
             _ = dummy.extents;
         }
 
-        /// <summary>
-        /// Get the property names include <c>center</c>, <c>extents</c>.
-        /// </summary>
-        /// <returns>The property names.</returns>
-        protected override string[] GetPropertyNames()
+        protected override Bounds CreateInstanceFromValues(Vector3[] values)
         {
-            return new[] { "center", "extents" };
+            return new Bounds(values[0], values[1]);
         }
 
+        protected override Vector3[] ReadInstanceValues(Bounds instance)
+        {
+            return new[] { instance.center, instance.size };
+        }
     }
 }

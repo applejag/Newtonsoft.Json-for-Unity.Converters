@@ -10,24 +10,22 @@ using UnityEngine;
 namespace Newtonsoft.Json.UnityConverters
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector2 type <see cref="Vector2"/>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector2Int type <see cref="Vector2Int"/>.
     /// </summary>
-    public class Vector2Converter : FloatObjectConverter<Vector2>
+    public class Vector2IntConverter : IntObjectConverter<Vector2Int>
     {
-        internal static readonly string[] _memberNames = { "x", "y" };
-
-        public Vector2Converter() : base(_memberNames)
+        public Vector2IntConverter() : base(Vector2Converter._memberNames)
         {
         }
 
-        protected override Vector2 CreateInstanceFromValues(float[] values)
+        protected override Vector2Int CreateInstanceFromValues(int[] values)
         {
-            return new Vector2(values[0], values[1]);
+            return new Vector2Int(values[0], values[1]);
         }
 
-        protected override float[] ReadInstanceValues(Vector2 instance)
+        protected override int[] ReadInstanceValues(Vector2Int instance)
         {
-            return new float[] { instance.x, instance.y };
+            return new int[] { instance.x, instance.y };
         }
     }
 }

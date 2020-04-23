@@ -12,16 +12,22 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector4 type <see cref="Vector4"/>.
     /// </summary>
-    public class Vector4Converter : PartialConverter<Vector4>
+    public class Vector4Converter : FloatObjectConverter<Vector4>
     {
-        /// <summary>
-        /// Get the property names include <c>x</c>, <c>y</c>, <c>z</c>, <c>w</c>.
-        /// </summary>
-        /// <returns>The property names.</returns>
-        protected override string[] GetPropertyNames()
+        private static readonly string[] _memberNames = { "x", "y", "z", "w" };
+
+        public Vector4Converter() : base(_memberNames)
         {
-            return new[] { "x", "y", "z", "w" };
         }
 
+        protected override Vector4 CreateInstanceFromValues(float[] values)
+        {
+            return new Vector4(values[0], values[1], values[2], values[3]);
+        }
+
+        protected override float[] ReadInstanceValues(Vector4 instance)
+        {
+            return new float[] { instance.x, instance.y, instance.z, instance.w };
+        }
     }
 }
