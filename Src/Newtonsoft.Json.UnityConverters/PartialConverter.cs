@@ -94,7 +94,10 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns><c>true</c> if this can convert the specified type; otherwise, <c>false</c>.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(T) == objectType;
+            return objectType == typeof(T)
+                || (objectType.IsGenericType
+                    && objectType.GetGenericTypeDefinition() == typeof(Nullable<>)
+                    && objectType.GenericTypeArguments[0] == typeof(T));
         }
 
         /// <summary>
@@ -111,16 +114,18 @@ namespace Newtonsoft.Json.UnityConverters
             object? existingValue,
             JsonSerializer serializer)
         {
-            return ReadJson(reader, serializer);
+            bool isNullableStruct = objectType.IsGenericType
+                && objectType.GetGenericTypeDefinition() == typeof(Nullable<>);
+
+            return InternalReadJson(reader, serializer, isNullableStruct);
         }
 
-        public T ReadJson(JsonReader reader, JsonSerializer serializer)
+        private object? InternalReadJson(JsonReader reader, JsonSerializer serializer, bool isNullableStruct)
         {
-            var values = new TInner[_namesArray.Length];
 
             if (reader.TokenType == JsonToken.Null)
             {
-                return CreateInstanceFromValues(values);
+                return CreateValueForNull(isNullableStruct);
             }
 
             if (reader.TokenType != JsonToken.StartObject)
@@ -130,6 +135,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             reader.Read();
 
+            var values = new TInner[_namesArray.Length];
             int previousIndex = -1;
 
             while (reader.TokenType == JsonToken.PropertyName)
@@ -156,7 +162,18 @@ namespace Newtonsoft.Json.UnityConverters
             return CreateInstanceFromValues(values);
         }
 
-
+        private object? CreateValueForNull(bool isNullableStruct)
+        {
+            if (isNullableStruct)
+            {
+                return null;
+            }
+            else
+            {
+                var values = new TInner[_namesArray.Length];
+                return CreateInstanceFromValues(values);
+            }
+        }
 
         /// <summary>
         /// Write the specified properties of the object.
@@ -197,6 +214,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             writer.WriteEndObject();
         }
+
 
     }
 }
