@@ -60,7 +60,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string input = JObject.FromObject(representation.anonymous).ToString(Formatting.None);
+            string input = JsonConvert.SerializeObject(representation.anonymous, Formatting.None);
 
             // Act
             T result = JsonConvert.DeserializeObject<T>(input, settings);
@@ -75,7 +75,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string expected = JArray.FromObject(new [] { representation.anonymous }).ToString(Formatting.None);
+            string expected = JsonConvert.SerializeObject(new [] { representation.anonymous }, Formatting.None);
             T[] input = new[] { representation.input };
 
             // Act
