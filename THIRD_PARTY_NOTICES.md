@@ -6,13 +6,13 @@ Without those this repository would never been created. ❤ Much love.
 ---
 
 <details>
-<summary>Json.NET Converters &copy; 2018 Wanzyee Studio</summary>
+<summary>Json.NET Converters &copy; 2020 Wanzyee Studio</summary>
 
 <http://wanzyeestudio.blogspot.com/2017/03/jsonnet-converters.html>
 
 The MIT License (MIT)
 
-Copyright (c) 2018 Wanzyee Studio
+Copyright (c) 2020 Wanzyee Studio
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

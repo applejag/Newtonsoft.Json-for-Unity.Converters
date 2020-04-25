@@ -1,7 +1,7 @@
 ﻿#region License
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Wanzyee Studio
+// Copyright (c) 2020 Wanzyee Studio
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
