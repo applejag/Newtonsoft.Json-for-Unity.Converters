@@ -20,6 +20,7 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override Vector3 ReadValue(JsonReader reader, JsonSerializer serializer)
         {
+            reader.Read();
             return serializer.Deserialize<Vector3>(reader);
         }
 

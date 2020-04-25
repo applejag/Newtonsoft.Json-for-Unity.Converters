@@ -32,7 +32,7 @@ namespace Newtonsoft.Json.UnityConverters
             var dummy = new Bounds();
 
             _ = dummy.center;
-            _ = dummy.extents;
+            _ = dummy.size;
         }
 
         protected override Bounds CreateInstanceFromValues(Vector3[] values)

@@ -22,5 +22,13 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public static readonly IReadOnlyCollection<(RectOffset deserialized, object anonymous)> representations = new (RectOffset, object)[] {
             (new RectOffset(1, 2, 3, 4), new { left = 1, right = 2, top = 3, bottom = 4 })
         };
+
+        protected override bool AreEqual(RectOffset a, RectOffset b)
+        {
+            return a.left == b.left
+                && a.right == b.right
+                && a.top == b.top
+                && a.bottom == b.bottom;
+        }
     }
 }

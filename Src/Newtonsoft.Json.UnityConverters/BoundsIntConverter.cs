@@ -15,7 +15,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// </summary>
     public class BoundsIntConverter : Vector3IntObjectConverter<BoundsInt>
     {
-        private static string[] _memberNames = { "position", "size" };
+        private static readonly string[] _memberNames = { "position", "size" };
 
         public BoundsIntConverter()
             : base(_memberNames)
@@ -29,10 +29,10 @@ namespace Newtonsoft.Json.UnityConverters
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
         private static void PreserveProperties()
         {
-            var dummy = new Bounds();
+            var dummy = new BoundsInt();
 
-            _ = dummy.center;
-            _ = dummy.extents;
+            _ = dummy.position;
+            _ = dummy.size;
         }
 
         protected override BoundsInt CreateInstanceFromValues(Vector3Int[] values)

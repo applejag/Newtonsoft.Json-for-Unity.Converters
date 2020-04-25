@@ -25,7 +25,7 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override int[] ReadInstanceValues(Vector3Int instance)
         {
-            return new int[] { instance.x, instance.y };
+            return new int[] { instance.x, instance.y, instance.z };
         }
     }
 }

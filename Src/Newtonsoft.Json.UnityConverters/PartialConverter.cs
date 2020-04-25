@@ -123,41 +123,34 @@ namespace Newtonsoft.Json.UnityConverters
                 return CreateInstanceFromValues(values);
             }
 
-            bool readingObj = false;
-            int currentIndex = -1;
-
-            while (reader.Read())
+            if (reader.TokenType != JsonToken.StartObject)
             {
-                if (readingObj)
+                throw new JsonException($"Failed to read type '{typeof(T).Name}'. Expected object start, got '{reader.TokenType}' <{reader.Value}>");
+            }
+
+            reader.Read();
+
+            int previousIndex = -1;
+
+            while (reader.TokenType == JsonToken.PropertyName)
+            {
+                if (reader.Value is string name
+                    && _namesIndices.TryGetValue(name, out int index))
                 {
-                    if (reader.TokenType == JsonToken.EndObject)
+                    if (index == previousIndex)
                     {
-                        break;
+                        throw new JsonException($"Failed to read type '{typeof(T).Name}'. Possible loop when reading property '{name}'");
                     }
-                    else if (reader.TokenType == JsonToken.PropertyName)
-                    {
-                        string? name = reader.ReadAsString();
-                        if (name != null && _namesIndices.TryGetValue(name, out int index))
-                        {
-                            currentIndex = index;
-                        }
-                    }
-                    else
-                    {
-                        values[currentIndex] = ReadValue(reader, serializer);
-                    }
+
+                    previousIndex = index;
+                    values[index] = ReadValue(reader, serializer);
                 }
                 else
                 {
-                    if (reader.TokenType == JsonToken.StartObject)
-                    {
-                        readingObj = true;
-                    }
-                    else
-                    {
-                        throw new JsonException($"Unable to read type '{typeof(T).Name}'. Expected object, got '{reader.TokenType}'.");
-                    }
+                    reader.Skip();
                 }
+
+                reader.Read();
             }
 
             return CreateInstanceFromValues(values);
@@ -187,7 +180,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             if (values?.Length != _namesArray.Length)
             {
-                throw new InvalidOperationException(string.Format("Expected {0}() to return {1} values, matching [{2}]. Got {3}.",
+                throw new InvalidOperationException(string.Format("Expected {0}() to return {1} values, matching [{2}]. Got {3}",
                     nameof(ReadInstanceValues),
                     _namesArray.Length,
                     string.Join(", ", _namesArray),
