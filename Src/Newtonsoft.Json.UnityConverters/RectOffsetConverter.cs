@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectOffset type <see cref="RectOffset"/>.
     /// </summary>
-    public class RectOffsetConverter : IntObjectConverter<RectOffset>
+    public class RectOffsetConverter : PartialIntConverter<RectOffset>
     {
         private static readonly string[] _memberNames = { "left", "right", "top", "bottom" };
 

@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
     /// </summary>
-    public class ColorConverter : FloatObjectConverter<Color>
+    public class ColorConverter : PartialFloatConverter<Color>
     {
         internal static readonly string[] _memberNames = { "r", "g", "b", "a" };
 

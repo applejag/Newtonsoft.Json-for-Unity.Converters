@@ -13,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Matrix4x4 type <see cref="Matrix4x4"/>.
     /// </summary>
-    public class Matrix4x4Converter : FloatObjectConverter<Matrix4x4>
+    public class Matrix4x4Converter : PartialFloatConverter<Matrix4x4>
     {
         private static readonly string[] _memberNames = GetMemberNames();
 

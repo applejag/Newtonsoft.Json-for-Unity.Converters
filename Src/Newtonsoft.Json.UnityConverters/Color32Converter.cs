@@ -5,7 +5,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity byte based Color type <see cref="Color32"/>.
     /// </summary>
-    public class Color32Converter : ByteObjectConverter<Color32>
+    public class Color32Converter : PartialByteConverter<Color32>
     {
         public Color32Converter()
             : base(ColorConverter._memberNames)

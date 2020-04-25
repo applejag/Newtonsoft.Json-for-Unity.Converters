@@ -13,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
     /// </summary>
-    public class BoundsIntConverter : Vector3IntObjectConverter<BoundsInt>
+    public class BoundsIntConverter : PartialVector3IntConverter<BoundsInt>
     {
         private static readonly string[] _memberNames = { "position", "size" };
 

@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector3 type <see cref="Vector3"/>.
     /// </summary>
-    public class Vector3Converter : FloatObjectConverter<Vector3>
+    public class Vector3Converter : PartialFloatConverter<Vector3>
     {
         internal static readonly string[] _memberNames = { "x", "y", "z" };
 

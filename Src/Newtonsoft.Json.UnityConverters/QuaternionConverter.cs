@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Quaternion type <see cref="Quaternion"/>.
     /// </summary>
-    public class QuaternionConverter : FloatObjectConverter<Quaternion>
+    public class QuaternionConverter : PartialFloatConverter<Quaternion>
     {
         private static readonly string[] _memberNames = { "x", "y", "z", "w" };
 

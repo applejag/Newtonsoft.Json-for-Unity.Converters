@@ -5,9 +5,9 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for a type containing only Unitys integer version of the Vector3 type <see cref="Vector3Int"/>,
     /// </summary>
-    public abstract class Vector3IntObjectConverter<T> : PartialConverter<T, Vector3Int>
+    public abstract class PartialVector3IntConverter<T> : PartialConverter<T, Vector3Int>
     {
-        protected Vector3IntObjectConverter(string[] propertyNames) : base(propertyNames)
+        protected PartialVector3IntConverter(string[] propertyNames) : base(propertyNames)
         {
         }
 

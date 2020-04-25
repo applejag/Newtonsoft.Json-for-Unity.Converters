@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Rect type <see cref="Rect"/>.
     /// </summary>
-    public class RectConverter : FloatObjectConverter<Rect>
+    public class RectConverter : PartialFloatConverter<Rect>
     {
         internal static readonly string[] _memberNames = { "x", "y", "width", "height" };
 

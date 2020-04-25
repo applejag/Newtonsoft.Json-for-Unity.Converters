@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector3Int type <see cref="Vector3Int"/>.
     /// </summary>
-    public class Vector3IntConverter : IntObjectConverter<Vector3Int>
+    public class Vector3IntConverter : PartialIntConverter<Vector3Int>
     {
         public Vector3IntConverter() : base(Vector3Converter._memberNames)
         {
