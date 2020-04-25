@@ -43,8 +43,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             if (!AreEqual(expected, actual))
             {
-                Assert.Fail($"Expected: <{ToString(expected)}>\n" +
-                    $"  But was:  <{ToString(actual)}>");
+                Assert.Fail($"Expected: <{ToString(expected)}> (serialized: {SerializeAnonymousRepresentation(expected)})\n" +
+                    $"  But was:  <{ToString(actual)}> (serialized: {SerializeAnonymousRepresentation(actual)})");
             }
         }
 
