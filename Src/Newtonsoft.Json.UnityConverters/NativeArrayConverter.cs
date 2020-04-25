@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Globalization;
-using System.Text;
 using Unity.Collections;
 
 namespace Newtonsoft.Json.UnityConverters.Converters
@@ -32,23 +30,9 @@ namespace Newtonsoft.Json.UnityConverters.Converters
                 return null;
             }
 
-            var lineInfo = reader as IJsonLineInfo;
-            int lineNumber = default;
-            int linePosition = default;
-
-            var message = new StringBuilder("Deserializing NativeArray<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.");
-            message.AppendFormat(CultureInfo.InvariantCulture, "Path '{0}'", reader.Path);
-
-            if (lineInfo?.HasLineInfo() == true)
-            {
-                lineNumber = lineInfo.LineNumber;
-                linePosition = lineInfo.LinePosition;
-                message.AppendFormat(CultureInfo.InvariantCulture, ", line {0}, position {1}", lineNumber, linePosition);
-            }
-            message.Append('.');
-
-            throw new JsonSerializationException(
-                message: message.ToString(), reader.Path, lineNumber, linePosition, null);
+            throw reader.CreateSerializationException(
+                "Deserializing NativeArray<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead."
+            );
         }
 
         public override bool CanConvert(Type objectType)

@@ -125,7 +125,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             if (reader.TokenType != JsonToken.StartObject)
             {
-                throw new JsonException($"Failed to read type '{typeof(T).Name}'. Expected object start, got '{reader.TokenType}' <{reader.Value}>");
+                throw reader.CreateSerializationException($"Failed to read type '{typeof(T).Name}'. Expected object start, got '{reader.TokenType}' <{reader.Value}>");
             }
 
             reader.Read();
@@ -139,7 +139,7 @@ namespace Newtonsoft.Json.UnityConverters
                 {
                     if (index == previousIndex)
                     {
-                        throw new JsonException($"Failed to read type '{typeof(T).Name}'. Possible loop when reading property '{name}'");
+                        throw reader.CreateSerializationException($"Failed to read type '{typeof(T).Name}'. Possible loop when reading property '{name}'");
                     }
 
                     previousIndex = index;
@@ -180,7 +180,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             if (values?.Length != _namesArray.Length)
             {
-                throw new InvalidOperationException(string.Format("Expected {0}() to return {1} values, matching [{2}]. Got {3}",
+                throw writer.CreateWriterException(string.Format("Expected {0}() to return {1} values, matching [{2}]. Got {3}",
                     nameof(ReadInstanceValues),
                     _namesArray.Length,
                     string.Join(", ", _namesArray),
