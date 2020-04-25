@@ -34,15 +34,13 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            switch (value)
+            if (value is float num)
             {
-            case float num:
                 writer.WriteValue(num);
-                break;
-
-            default:
+            }
+            else
+            {
                 serializer.Serialize(writer, value);
-                break;
             }
         }
     }
