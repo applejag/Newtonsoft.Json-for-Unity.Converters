@@ -36,6 +36,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return value?.ToString() ?? "<null>";
         }
 
+        protected virtual string SerializeAnonymousRepresentation(object anonymous)
+        {
+            return JsonConvert.SerializeObject(anonymous, Formatting.None);
+        }
+
         protected void AssertAreEqual(T expected, T actual)
         {
             if (!AreEqual(expected, actual))
@@ -51,7 +56,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string expected = JObject.FromObject(representation.anonymous).ToString(Formatting.None);
+            string expected = SerializeAnonymousRepresentation(representation.anonymous);
 
             // Act
             string result = JsonConvert.SerializeObject(representation.input, settings);
@@ -66,7 +71,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string input = JsonConvert.SerializeObject(representation.anonymous, Formatting.None);
+            string input = SerializeAnonymousRepresentation(representation.anonymous);
 
             // Act
             T result = JsonConvert.DeserializeObject<T>(input, settings);
@@ -81,7 +86,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string expected = JsonConvert.SerializeObject(new [] { representation.anonymous }, Formatting.None);
+            string expected = SerializeAnonymousRepresentation(new[] { representation.anonymous });
             T[] input = new[] { representation.input };
 
             // Act
@@ -97,7 +102,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string input = JArray.FromObject(new [] { representation.anonymous }).ToString(Formatting.None);
+            string input = SerializeAnonymousRepresentation(new[] { representation.anonymous });
 
             // Act
             T[] result = JsonConvert.DeserializeObject<T[]>(input, settings);
@@ -118,7 +123,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string expected = JObject.FromObject(representation.anonymous).ToString(Formatting.None);
+            string expected = SerializeAnonymousRepresentation(representation.anonymous);
 
             // Act
             string result = JsonConvert.SerializeObject(new T?(representation.input), settings);
@@ -133,7 +138,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
-            string input = JsonConvert.SerializeObject(representation.anonymous, Formatting.None);
+            string input = SerializeAnonymousRepresentation(representation.anonymous);
 
             // Act
             T? result = JsonConvert.DeserializeObject<T?>(input, settings);
