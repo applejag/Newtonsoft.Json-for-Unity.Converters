@@ -8,6 +8,8 @@ Without those this repository would never been created. ❤ Much love.
 <details>
 <summary>Json.NET Converters &copy; 2018 Wanzyee Studio</summary>
 
+<http://wanzyeestudio.blogspot.com/2017/03/jsonnet-converters.html>
+
 The MIT License (MIT)
 
 Copyright (c) 2018 Wanzyee Studio
