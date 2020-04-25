@@ -47,14 +47,14 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         }
     }
 
-    public class GradientAlphaKeyTests : TypeTester<GradientAlphaKey>
+    public class GradientAlphaKeyTests : ValueTypeTester<GradientAlphaKey>
     {
         public static readonly IReadOnlyCollection<(GradientAlphaKey deserialized, object anonymous)> representations = new (GradientAlphaKey, object)[] {
             (new GradientAlphaKey(1, 2), new { alpha = 1f, time = 2f })
         };
     }
 
-    public class GradientColorKeyTests : TypeTester<GradientColorKey>
+    public class GradientColorKeyTests : ValueTypeTester<GradientColorKey>
     {
         public static readonly IReadOnlyCollection<(GradientColorKey deserialized, object anonymous)> representations = new (GradientColorKey, object)[] {
             (new GradientColorKey(new Color(1,2,3,.5f), 5), new { color = new Color(1,2,3,.5f), time = 5f })

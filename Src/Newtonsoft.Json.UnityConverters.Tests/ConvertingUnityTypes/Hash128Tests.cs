@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
-    public class Hash128Tests : TypeTester<Hash128>
+    public class Hash128Tests : ValueTypeTester<Hash128>
     {
         public static readonly IReadOnlyCollection<(Hash128 deserialized, object anonymous)> representations = new (Hash128, object)[] {
             (new Hash128(1, 2, 3, 4), "01000000"+"02000000"+"03000000"+"04000000"),

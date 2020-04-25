@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
-    public class RandomStateTests : TypeTester<Random.State>
+    public class RandomStateTests : ValueTypeTester<Random.State>
     {
         private static FieldInfo[] _randomStateFields = typeof(Random.State).GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
             .OrderBy(o => o.Name)

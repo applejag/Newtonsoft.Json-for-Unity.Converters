@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
-    public class Matrix4x4Tests : TypeTester<Matrix4x4>
+    public class Matrix4x4Tests : ValueTypeTester<Matrix4x4>
     {
         public static readonly IReadOnlyCollection<(Matrix4x4 deserialized, object anonymous)> representations = new (Matrix4x4, object)[] {
             (new Matrix4x4 (

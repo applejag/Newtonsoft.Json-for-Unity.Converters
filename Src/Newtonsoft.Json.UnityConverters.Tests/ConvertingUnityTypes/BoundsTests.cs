@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
-    public class BoundsTests : TypeTester<Bounds>
+    public class BoundsTests : ValueTypeTester<Bounds>
     {
         public static readonly IReadOnlyCollection<(Bounds deserialized, object anonymous)> representations = new (Bounds, object)[] {
             (new Bounds(
@@ -16,7 +16,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         };
     }
 
-    public class BoundsIntTests : TypeTester<BoundsInt>
+    public class BoundsIntTests : ValueTypeTester<BoundsInt>
     {
         public static readonly IReadOnlyCollection<(BoundsInt deserialized, object anonymous)> representations = new (BoundsInt, object)[] {
             (new BoundsInt(

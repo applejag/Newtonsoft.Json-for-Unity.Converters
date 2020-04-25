@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
@@ -35,7 +36,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return value?.ToString() ?? "<null>";
         }
 
-        private void AssertAreEqual(T expected, T actual)
+        protected void AssertAreEqual(T expected, T actual)
         {
             if (!AreEqual(expected, actual))
             {
@@ -105,6 +106,53 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Length, "result.Length");
             AssertAreEqual(representation.expected, result[0]);
+        }
+    }
+
+    public abstract class ValueTypeTester<T> : TypeTester<T>
+        where T : struct
+    {
+        [Test]
+        [TestCaseSource("representations")]
+        public void SerializesNullableAsExpected((T input, object anonymous) representation)
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string expected = JObject.FromObject(representation.anonymous).ToString(Formatting.None);
+
+            // Act
+            string result = JsonConvert.SerializeObject(new T?(representation.input), settings);
+
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        [TestCaseSource("representations")]
+        public void DeserializesNullableValueAsExpected((T expected, object anonymous) representation)
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string input = JsonConvert.SerializeObject(representation.anonymous, Formatting.None);
+
+            // Act
+            T? result = JsonConvert.DeserializeObject<T?>(input, settings);
+
+            // Assert
+            AssertAreEqual(representation.expected, result.Value);
+        }
+
+        [Test]
+        public void DeserializesNullableNullAsExpected()
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+
+            // Act
+            T? result = JsonConvert.DeserializeObject<T?>("null", settings);
+
+            // Assert
+            Assert.IsNull(result);
         }
     }
 }
