@@ -1,11 +1,4 @@
-﻿
-/*WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW*\     (   (     ) )
-|/                                                      \|       )  )   _((_
-||  (c) Wanzyee Studio  < wanzyeestudio.blogspot.com >  ||      ( (    |_ _ |=n
-|\                                                      /|   _____))   | !  ] U
-\.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
