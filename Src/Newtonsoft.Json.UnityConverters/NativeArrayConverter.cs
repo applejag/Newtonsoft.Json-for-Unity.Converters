@@ -31,7 +31,7 @@ namespace Newtonsoft.Json.UnityConverters.Converters
             }
 
             throw reader.CreateSerializationException(
-                "Deserializing NativeArray<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead."
+                "Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead."
             );
         }
 
@@ -39,7 +39,9 @@ namespace Newtonsoft.Json.UnityConverters.Converters
         {
             if (objectType.IsGenericType)
             {
-                return objectType.GetGenericTypeDefinition() == typeof(NativeArray<>);
+                Type genericTypeDefinition = objectType.GetGenericTypeDefinition();
+                return genericTypeDefinition == typeof(NativeArray<>)
+                    || genericTypeDefinition == typeof(NativeSlice<>);
             }
             else
             {
