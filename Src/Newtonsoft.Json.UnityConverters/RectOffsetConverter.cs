@@ -12,16 +12,23 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectOffset type <see cref="RectOffset"/>.
     /// </summary>
-    public class RectOffsetConverter : PartialConverter<RectOffset>
+    public class RectOffsetConverter : PartialIntConverter<RectOffset>
     {
-        /// <summary>
-        /// Get the property names include <c>left</c>, <c>right</c>, <c>top</c>, <c>bottom</c>.
-        /// </summary>
-        /// <returns>The property names.</returns>
-        protected override string[] GetPropertyNames()
+        private static readonly string[] _memberNames = { "left", "right", "top", "bottom" };
+
+        public RectOffsetConverter()
+            : base(_memberNames)
         {
-            return new[] { "left", "right", "top", "bottom" };
         }
 
+        protected override RectOffset CreateInstanceFromValues(int[] values)
+        {
+            return new RectOffset(values[0], values[1], values[2], values[3]);
+        }
+
+        protected override int[] ReadInstanceValues(RectOffset instance)
+        {
+            return new[] { instance.left, instance.right, instance.top, instance.bottom };
+        }
     }
 }

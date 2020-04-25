@@ -13,11 +13,11 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
     /// </summary>
-    public class BoundsConverter : PartialVector3Converter<Bounds>
+    public class BoundsIntConverter : PartialVector3IntConverter<BoundsInt>
     {
-        private static string[] _memberNames = { "center", "size" };
+        private static readonly string[] _memberNames = { "position", "size" };
 
-        public BoundsConverter()
+        public BoundsIntConverter()
             : base(_memberNames)
         {
         }
@@ -29,20 +29,20 @@ namespace Newtonsoft.Json.UnityConverters
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
         private static void PreserveProperties()
         {
-            var dummy = new Bounds();
+            var dummy = new BoundsInt();
 
-            _ = dummy.center;
+            _ = dummy.position;
             _ = dummy.size;
         }
 
-        protected override Bounds CreateInstanceFromValues(Vector3[] values)
+        protected override BoundsInt CreateInstanceFromValues(Vector3Int[] values)
         {
-            return new Bounds(values[0], values[1]);
+            return new BoundsInt(values[0], values[1]);
         }
 
-        protected override Vector3[] ReadInstanceValues(Bounds instance)
+        protected override Vector3Int[] ReadInstanceValues(BoundsInt instance)
         {
-            return new[] { instance.center, instance.size };
+            return new[] { instance.position, instance.size };
         }
     }
 }

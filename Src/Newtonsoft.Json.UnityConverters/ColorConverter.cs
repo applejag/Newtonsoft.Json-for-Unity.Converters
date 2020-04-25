@@ -12,16 +12,23 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
     /// </summary>
-    public class ColorConverter : PartialConverter<Color>
+    public class ColorConverter : PartialFloatConverter<Color>
     {
-        /// <summary>
-        /// Get the property names include <c>r</c>, <c>g</c>, <c>b</c>, <c>a</c>.
-        /// </summary>
-        /// <returns>The property names.</returns>
-        protected override string[] GetPropertyNames()
+        internal static readonly string[] _memberNames = { "r", "g", "b", "a" };
+
+        public ColorConverter()
+            : base(_memberNames)
         {
-            return new[] { "r", "g", "b", "a" };
         }
 
+        protected override Color CreateInstanceFromValues(float[] values)
+        {
+            return new Color(values[0], values[1], values[2], values[3]);
+        }
+
+        protected override float[] ReadInstanceValues(Color instance)
+        {
+            return new [] { instance.r, instance.g, instance.b, instance.a };
+        }
     }
 }

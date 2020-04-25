@@ -9,7 +9,7 @@ namespace Newtonsoft.Json.UnityConverters
 {
     internal static class UnityConverterInitializer
     {
-        private static readonly JsonConverter[] BUILTIN_CONVERTERS = {
+        private static readonly JsonConverter[] _builtinConverters = {
             new StringEnumConverter(),
             new VersionConverter()
         };
@@ -52,19 +52,20 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns>The converters.</returns>
         private static List<JsonConverter> CreateConverters()
         {
-            var customs = FindConverterTypes()
+            var customs = FindCustomConverters()
+                .Concat(FindUnityConverters())
                 .Select(type => CreateConverter(type))
                 .WhereNotNull();
 
-            return customs.Concat(BUILTIN_CONVERTERS).ToList();
+            return customs.Concat(_builtinConverters).ToList();
 
         }
 
         /// <summary>
-        /// Find all the valid converter types.
+        /// Find all the valid converter types outside of Newtonsoft.Json namespaces.
         /// </summary>
         /// <returns>The types.</returns>
-        private static Type[] FindConverterTypes()
+        private static IEnumerable<Type> FindCustomConverters()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Select(dll => dll.GetTypes()
@@ -75,9 +76,25 @@ namespace Newtonsoft.Json.UnityConverters
                         && type.GetConstructor(Array.Empty<Type>()) != null
                         && type.Namespace?.StartsWith("Newtonsoft.Json") != true
                     )
+                    .OrderBy(type => type.Name)
                 )
-                .SelectMany(types => types)
-                .ToArray();
+                .SelectMany(types => types);
+        }
+
+        /// <summary>
+        /// Find all the valid converter types inside this assembly, <c>Newtonsoft.Json.UnityConverters</c>
+        /// </summary>
+        /// <returns>The types.</returns>
+        private static IEnumerable<Type> FindUnityConverters()
+        {
+            return typeof(UnityConverterInitializer).Assembly.GetTypes()
+                .Where(type
+                    => typeof(JsonConverter).IsAssignableFrom(type)
+
+                    && !type.IsAbstract && !type.IsGenericTypeDefinition
+                    && type.GetConstructor(Array.Empty<Type>()) != null
+                )
+                .OrderBy(type => type.Name);
         }
 
         /// <summary>

@@ -25,6 +25,20 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
     public abstract class TypeTester<T> : TypeTesterBase
     {
+        protected virtual bool AreEqual(T a, T b)
+        {
+            return a.Equals(b);
+        }
+
+        private void AssertAreEqual(T expected, T actual)
+        {
+            if (!AreEqual(expected, actual))
+            {
+                Assert.Fail($"Expected: <{expected}>\n" +
+                    $"  But was:  <{actual}>");
+            }
+        }
+
         [Test]
         [TestCaseSource("representations")]
         public void SerializesAsExpected((T input, object anonymous) representation)
@@ -52,7 +66,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             T result = JsonConvert.DeserializeObject<T>(input, settings);
 
             // Assert
-            Assert.AreEqual(representation.expected, result);
+            AssertAreEqual(representation.expected, result);
         }
 
         [Test]
@@ -84,8 +98,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(representation.expected, result[0]);
+            Assert.AreEqual(1, result.Length, "result.Length");
+            AssertAreEqual(representation.expected, result[0]);
         }
     }
 }

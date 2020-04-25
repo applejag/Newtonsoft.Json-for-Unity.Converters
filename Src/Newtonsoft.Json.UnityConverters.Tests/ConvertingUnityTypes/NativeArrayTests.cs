@@ -17,7 +17,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         [Test]
         [TestCaseSource("representations")]
-        public void SerializesAsExpected((int[] inputArray, object anonymous) representation)
+        public void SerializesArrayAsExpected((int[] inputArray, object anonymous) representation)
         {
             // Arrange
             using (var nativeArray = new NativeArray<int>(representation.inputArray, Allocator.Temp))
@@ -35,7 +35,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         [Test]
         [TestCaseSource("representations")]
-        public void ThrowsOnDeserialize((int[] expectedArray, object anonymous) representation)
+        public void ThrowsOnArrayDeserialize((int[] expectedArray, object anonymous) representation)
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
@@ -47,7 +47,45 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             );
 
             // Assert
-            StringAssert.StartsWith("Deserializing NativeArray<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
+            StringAssert.StartsWith("Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
+        }
+
+
+        [Test]
+        [TestCaseSource("representations")]
+        public void SerializesSliceAsExpected((int[] inputArray, object anonymous) representation)
+        {
+            // Arrange
+            using (var nativeArray = new NativeArray<int>(representation.inputArray, Allocator.Temp))
+            {
+                var nativeSlice = new NativeSlice<int>(nativeArray);
+
+                JsonSerializerSettings settings = GetSettings();
+                string expected = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
+
+                // Act
+                string result = JsonConvert.SerializeObject(nativeSlice, settings);
+
+                // Assert
+                Assert.AreEqual(expected, result);
+            }
+        }
+
+        [Test]
+        [TestCaseSource("representations")]
+        public void ThrowsOnSliceDeserialize((int[] expectedArray, object anonymous) representation)
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string input = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
+
+            // Act
+            var ex = Assert.Throws<JsonSerializationException>(
+                () => JsonConvert.DeserializeObject<NativeSlice<int>>(input, settings)
+            );
+
+            // Assert
+            StringAssert.StartsWith("Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
         }
     }
 }

@@ -10,23 +10,23 @@ using UnityEngine;
 namespace Newtonsoft.Json.UnityConverters
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Rect type <see cref="Rect"/>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectInt type <see cref="RectInt"/>.
     /// </summary>
-    public class RectConverter : PartialFloatConverter<Rect>
+    public class RectIntConverter : PartialIntConverter<RectInt>
     {
         internal static readonly string[] _memberNames = { "x", "y", "width", "height" };
 
-        public RectConverter()
+        public RectIntConverter()
             : base(_memberNames)
         {
         }
 
-        protected override Rect CreateInstanceFromValues(float[] values)
+        protected override RectInt CreateInstanceFromValues(int[] values)
         {
-            return new Rect(values[0], values[1], values[2], values[3]);
+            return new RectInt(values[0], values[1], values[2], values[3]);
         }
 
-        protected override float[] ReadInstanceValues(Rect instance)
+        protected override int[] ReadInstanceValues(RectInt instance)
         {
             return new[] { instance.x, instance.y, instance.width, instance.height };
         }
