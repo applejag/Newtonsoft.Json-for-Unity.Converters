@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
