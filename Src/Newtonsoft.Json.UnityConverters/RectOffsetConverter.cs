@@ -10,17 +10,17 @@ using UnityEngine;
 namespace Newtonsoft.Json.UnityConverters
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectOffset type <see cref="RectOffset"/>.
     /// </summary>
-    public class ColorConverter : PartialConverter<Color>
+    public class RectOffsetConverter : PartialConverter<RectOffset>
     {
         /// <summary>
-        /// Get the property names include <c>r</c>, <c>g</c>, <c>b</c>, <c>a</c>.
+        /// Get the property names include <c>left</c>, <c>right</c>, <c>top</c>, <c>bottom</c>.
         /// </summary>
         /// <returns>The property names.</returns>
         protected override string[] GetPropertyNames()
         {
-            return new[] { "r", "g", "b", "a" };
+            return new[] { "left", "right", "top", "bottom" };
         }
 
     }

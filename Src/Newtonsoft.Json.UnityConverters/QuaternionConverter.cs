@@ -1,77 +1,27 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿
+/*WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW*\     (   (     ) )
+|/                                                      \|       )  )   _((_
+||  (c) Wanzyee Studio  < wanzyeestudio.blogspot.com >  ||      ( (    |_ _ |=n
+|\                                                      /|   _____))   | !  ] U
+\.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
+
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    public class QuaternionConverter : JsonConverter
+    /// <summary>
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Quaternion type <see cref="Quaternion"/>.
+    /// </summary>
+    public class QuaternionConverter : PartialConverter<Quaternion>
     {
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        /// <summary>
+        /// Get the property names include <c>x</c>, <c>y</c>, <c>z</c>, <c>w</c>.
+        /// </summary>
+        /// <returns>The property names.</returns>
+        protected override string[] GetPropertyNames()
         {
-            if (value is null)
-            {
-                writer.WriteNull();
-                return;
-            }
-
-            var qt = (Quaternion)value;
-            writer.WriteStartObject();
-            writer.WritePropertyName("x");
-            writer.WriteValue(qt.x);
-            writer.WritePropertyName("y");
-            writer.WriteValue(qt.y);
-            writer.WritePropertyName("z");
-            writer.WriteValue(qt.z);
-            writer.WritePropertyName("w");
-            writer.WriteValue(qt.w);
-            writer.WriteEndObject();
+            return new[] { "x", "y", "z", "w" };
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(Quaternion);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
-        {
-            var obj = JObject.Load(reader);
-            var result = new Quaternion();
-            JToken? token;
-
-            if (obj.TryGetValue("w", out token))
-            {
-                result.w = token.Value<float>();
-            }
-
-            if (obj.TryGetValue("x", out token))
-            {
-                result.x = token.Value<float>();
-            }
-
-            if (obj.TryGetValue("y", out token))
-            {
-                result.y = token.Value<float>();
-            }
-
-            if (obj.TryGetValue("z", out token))
-            {
-                result.z = token.Value<float>();
-            }
-
-            if (obj.TryGetValue("eulerAngles", out token))
-            {
-                var eulerVec = new Vector3(
-                    token.Value<float>("x"),
-                    token.Value<float>("y"),
-                    token.Value<float>("z")
-                );
-
-                result.eulerAngles = eulerVec;
-            }
-
-            return result;
-        }
-
-        public override bool CanRead => true;
     }
 }

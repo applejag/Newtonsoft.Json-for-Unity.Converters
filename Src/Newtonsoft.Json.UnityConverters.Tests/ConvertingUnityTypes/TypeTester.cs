@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         protected JsonSerializerSettings GetSettings()
         {
-            JsonSerializerSettings settings = UnityTypeConverterInitializer.GetUnityJsonSerializerSettings();
+            JsonSerializerSettings settings = UnityConverterInitializer.GetDefaultUnitySettings();
             settings.Formatting = Formatting.None;
             ConfigureSettings(settings);
             return settings;
