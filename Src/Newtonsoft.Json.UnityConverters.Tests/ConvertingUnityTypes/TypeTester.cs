@@ -30,12 +30,17 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return a.Equals(b);
         }
 
+        protected virtual string ToString(T value)
+        {
+            return value?.ToString() ?? "<null>";
+        }
+
         private void AssertAreEqual(T expected, T actual)
         {
             if (!AreEqual(expected, actual))
             {
-                Assert.Fail($"Expected: <{expected}>\n" +
-                    $"  But was:  <{actual}>");
+                Assert.Fail($"Expected: <{ToString(expected)}>\n" +
+                    $"  But was:  <{ToString(actual)}>");
             }
         }
 
