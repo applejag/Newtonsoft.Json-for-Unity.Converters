@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override int ReadValue(JsonReader reader, JsonSerializer serializer)
+        protected override int ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
             return reader.ReadAsInt32() ?? 0;
         }

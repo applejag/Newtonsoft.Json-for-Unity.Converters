@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    internal static class ExceptionHelper
+    internal static class JsonHelperExtensions
     {
-        public static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, Exception? innerException = null)
+        internal static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, Exception? innerException = null)
         {
             var lineInfo = reader as IJsonLineInfo;
             int lineNumber = default;
@@ -37,7 +37,7 @@ namespace Newtonsoft.Json.UnityConverters
                 message: builder.ToString(), reader.Path, lineNumber, linePosition, innerException);
         }
 
-        public static JsonWriterException CreateWriterException(this JsonWriter writer, string message, Exception? innerException = null)
+        internal static JsonWriterException CreateWriterException(this JsonWriter writer, string message, Exception? innerException = null)
         {
             var builder = new StringBuilder(message);
 
@@ -54,6 +54,12 @@ namespace Newtonsoft.Json.UnityConverters
 
             return new JsonWriterException(
                 message: builder.ToString(), writer.Path, innerException);
+        }
+
+        internal static T ReadViaSerializer<T>(this JsonReader reader, JsonSerializer serializer)
+        {
+            reader.Read();
+            return serializer.Deserialize<T>(reader)!;
         }
     }
 }

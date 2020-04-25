@@ -85,7 +85,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// for the generic type.
         /// </summary>
         /// <param name="reader">The JSON reader</param>
-        protected abstract TInner ReadValue(JsonReader reader, JsonSerializer serializer);
+        protected abstract TInner ReadValue(JsonReader reader, int index, JsonSerializer serializer);
 
         /// <summary>
         /// Determine if the object type is <typeparamref name="T"/>
@@ -149,7 +149,7 @@ namespace Newtonsoft.Json.UnityConverters
                     }
 
                     previousIndex = index;
-                    values[index] = ReadValue(reader, serializer);
+                    values[index] = ReadValue(reader, index, serializer);
                 }
                 else
                 {
@@ -214,7 +214,5 @@ namespace Newtonsoft.Json.UnityConverters
 
             writer.WriteEndObject();
         }
-
-
     }
 }
