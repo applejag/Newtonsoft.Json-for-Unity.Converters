@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
@@ -32,12 +34,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
                 minNormalAngle = 4,
                 maxNormalAngle = 5,
             }, new {
-                useTriggers = false,
-                useLayerMask = false,
-                useDepth = false,
-                useOutsideDepth = false,
-                useNormalAngle = false,
-                useOutsideNormalAngle = false,
+                useTriggers = true,
+                useLayerMask = true,
+                useDepth = true,
+                useOutsideDepth = true,
+                useNormalAngle = true,
+                useOutsideNormalAngle = true,
                 layerMask = 1,
                 minDepth = 2f,
                 maxDepth = 3f,
@@ -45,5 +47,45 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
                 maxNormalAngle = 5f,
             }),
         };
+
+        [Test]
+        public void WithConverterItDoesntSerializesIsFiltering()
+        {
+            // Arrange
+            var input = new ContactFilter2D();
+            var settings = new JsonSerializerSettings {
+                Formatting = Formatting.None,
+                Converters = new List<JsonConverter> {
+                    new ContactFilter2DConverter()
+                }
+            };
+
+            // Act
+            string result = JsonConvert.SerializeObject(input, settings);
+
+            // Assert
+            var jobj = JObject.Parse(result);
+
+            Assert.IsNull(jobj["isFiltering"], "Serialized: " + result);
+        }
+
+        [Test]
+        public void WithoutConverterItAlsoSerializesIsFiltering()
+        {
+            // Arrange
+            var input = new ContactFilter2D();
+            var settings = new JsonSerializerSettings {
+                Formatting = Formatting.None,
+                Converters = new List<JsonConverter>(),
+            };
+
+            // Act
+            string result = JsonConvert.SerializeObject(input, settings);
+
+            // Assert
+            var jobj = JObject.Parse(result);
+
+            Assert.IsNotNull(jobj["isFiltering"], "Serialized: " + result);
+        }
     }
 }
