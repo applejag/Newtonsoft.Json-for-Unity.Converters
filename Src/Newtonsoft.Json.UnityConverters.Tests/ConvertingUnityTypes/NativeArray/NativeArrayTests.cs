@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Unity.Collections;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.NativeArray
 {
     public class NativeArrayTests : TypeTesterBase
     {

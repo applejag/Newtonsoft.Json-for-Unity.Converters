@@ -2,7 +2,7 @@
 using System.Collections;
 using Unity.Collections;
 
-namespace Newtonsoft.Json.UnityConverters.Converters
+namespace Newtonsoft.Json.UnityConverters.NativeArray
 {
     public class NativeArrayConverter : JsonConverter
     {
@@ -13,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters.Converters
                 writer.WriteNull();
                 return;
             }
-            
+
             var enumerable = (IEnumerable)value;
             writer.WriteStartArray();
             foreach (object item in enumerable)
