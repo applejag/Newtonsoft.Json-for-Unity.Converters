@@ -111,6 +111,20 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             Assert.AreEqual(1, result!.Length, "result.Length");
             AssertAreEqual(representation.expected, result[0]);
         }
+
+        [Test]
+        public void OkWithEmptyObject()
+        {
+            // Arrange
+            JsonSerializerSettings settings = GetSettings();
+            string input = "{}";
+
+            // Act
+            Assert.DoesNotThrow(() =>
+            {
+                _ = JsonConvert.DeserializeObject<T>(input, settings);
+            });
+        }
     }
 
     public abstract class ValueTypeTester<T> : TypeTester<T>
