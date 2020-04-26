@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
 {
     public class GradientTests : TypeTester<Gradient>
     {
