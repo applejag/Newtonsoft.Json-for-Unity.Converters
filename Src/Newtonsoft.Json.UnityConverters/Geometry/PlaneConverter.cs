@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Geometry
 {
     public class PlaneConverter : PartialConverter<Plane, object>
     {

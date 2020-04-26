@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Geometry
 {
     public class PlaneTests : ValueTypeTester<Plane>
     {
