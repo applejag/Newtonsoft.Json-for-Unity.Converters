@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Newtonsoft.Json.UnityConverters.AI
+namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 {
     public class NavMeshTriangulationConverter : PartialConverter<NavMeshTriangulation, object?>
     {

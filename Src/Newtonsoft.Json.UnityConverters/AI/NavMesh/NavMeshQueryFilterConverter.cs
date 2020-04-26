@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.AI;
 
-namespace Newtonsoft.Json.UnityConverters.AI
+namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 {
     public class NavMeshQueryFilterConverter : PartialConverter<NavMeshQueryFilter, object>
     {
@@ -61,7 +61,7 @@ namespace Newtonsoft.Json.UnityConverters.AI
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..2")
             };
         }
-        
+
         protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (value is float[] costs)

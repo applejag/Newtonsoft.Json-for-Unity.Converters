@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine.AI;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI.NavMesh
 {
     public class NavMeshQueryFilterTests : ValueTypeTester<NavMeshQueryFilter>
     {

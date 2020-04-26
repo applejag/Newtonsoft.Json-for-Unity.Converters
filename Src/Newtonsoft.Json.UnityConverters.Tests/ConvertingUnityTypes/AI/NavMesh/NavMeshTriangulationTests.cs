@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI.NavMesh
 {
     public class NavMeshTriangulationTests : ValueTypeTester<NavMeshTriangulation>
     {
