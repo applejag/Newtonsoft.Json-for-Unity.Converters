@@ -2,7 +2,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.AI
+namespace Newtonsoft.Json.UnityConverters
 {
     public class ColliderDistance2DConverter : PartialConverter<ColliderDistance2D, object>
     {
@@ -23,8 +23,15 @@ namespace Newtonsoft.Json.UnityConverters.AI
                 isValid = values.GetAsTypeOrDefault<bool>(4),
             };
 
+            if (_normalField == null)
+            {
+                throw new JsonException("Failed to set value for 'm_Normal' field on UnityEngine.ColliderDistance2D type.");
+            }
+
             TypedReference reference = __makeref(instance);
-            _normalField.SetValueDirect(reference, values[2]);
+            Vector2 normal = values.GetAsTypeOrDefault<Vector2>(2);
+
+            _normalField.SetValueDirect(reference, normal);
 
             return instance;
         }

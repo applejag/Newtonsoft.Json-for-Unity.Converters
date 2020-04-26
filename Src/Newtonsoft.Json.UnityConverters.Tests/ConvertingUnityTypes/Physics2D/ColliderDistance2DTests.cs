@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NUnit.Framework;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
 {
     public class ColliderDistance2DTests : ValueTypeTester<ColliderDistance2D>
     {
@@ -11,11 +12,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
 
         public static readonly IReadOnlyCollection<(ColliderDistance2D deserialized, object anonymous)> representations = new (ColliderDistance2D, object)[] {
             (new ColliderDistance2D(), new {
-                position = new { x = 0f, y = 0f },
+                pointA = new { x = 0f, y = 0f },
+                pointB = new { x = 0f, y = 0f },
                 normal = new { x = 0f, y = 0f },
                 distance = 0f,
-                mask = 0,
-                hit = false
+                isValid = false,
             }),
             (CreateInstance(
                 pointA: new Vector2(1, 2),
@@ -49,6 +50,42 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
             _normalField.SetValue(boxed, normal);
 
             return (ColliderDistance2D)boxed;
+        }
+
+        [Test]
+        public void CanSetNormalViaBoxing()
+        {
+            // Arrange
+            object boxed = new ColliderDistance2D();
+            Assert.IsNotNull(_normalField);
+            Assert.AreEqual(new Vector2(), ((ColliderDistance2D)boxed).normal);
+            var normal = new Vector2(1, 0);
+
+            // Act
+            _normalField.SetValue(boxed, normal);
+
+            // Assert
+            Assert.AreEqual(normal, ((ColliderDistance2D)boxed).normal);
+            Assert.AreNotEqual(normal, new Vector2());
+        }
+
+        [Test]
+        public void CanSetNormalViaReference()
+        {
+            // Arrange
+            var value = new ColliderDistance2D();
+            Assert.IsNotNull(_normalField);
+            Assert.AreEqual(new Vector2(), value.normal);
+            var normal = new Vector2(1, 0);
+
+            TypedReference reference = __makeref(value);
+
+            // Act
+            _normalField.SetValueDirect(reference, normal);
+
+            // Assert
+            Assert.AreEqual(normal, value.normal);
+            Assert.AreNotEqual(normal, new Vector2());
         }
     }
 }
