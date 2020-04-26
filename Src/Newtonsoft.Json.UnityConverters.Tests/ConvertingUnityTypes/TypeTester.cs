@@ -40,12 +40,13 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return JsonConvert.SerializeObject(anonymous, Formatting.None);
         }
 
-        protected void AssertAreEqual(T expected, [MaybeNull] T actual)
+        protected void AssertAreEqual(T expected, [MaybeNull] T actual, string? message = null)
         {
             if (!AreEqual(expected, actual))
             {
                 Assert.Fail($"Expected: <{ToString(expected)}> (serialized: {SerializeAnonymousRepresentation(expected)})\n" +
-                    $"  But was:  <{ToString(actual)}> (serialized: {SerializeAnonymousRepresentation(actual)})");
+                    $"  But was:  <{ToString(actual)}> (serialized: {SerializeAnonymousRepresentation(actual)})" +
+                    (string.IsNullOrEmpty(message) ? string.Empty : $"\n  {message}"));
             }
         }
 
@@ -76,7 +77,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             T result = JsonConvert.DeserializeObject<T>(input, settings);
 
             // Assert
-            AssertAreEqual(representation.expected, result);
+            AssertAreEqual(representation.expected, result, $"Input given: '{input}'");
         }
 
         [Test]
@@ -109,7 +110,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result!.Length, "result.Length");
-            AssertAreEqual(representation.expected, result[0]);
+            AssertAreEqual(representation.expected, result[0], $"Input given: '{input}'");
         }
 
         [Test]
