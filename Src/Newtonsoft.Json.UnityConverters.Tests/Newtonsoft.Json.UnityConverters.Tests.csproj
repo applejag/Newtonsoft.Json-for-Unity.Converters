@@ -5,6 +5,9 @@
     <IsPackable>false</IsPackable>
 
     <UnityVersion>2019.2.11f1</UnityVersion>
+    
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
