@@ -13,7 +13,10 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override Plane CreateInstanceFromValues(ValuesArray<object> values)
         {
-            return new Plane((Vector3)values[0], (float)values[1]);
+            return new Plane(
+                values.GetAsTypeOrDefault<Vector3>(0),
+                values.GetAsTypeOrDefault<float>(1)
+            );
         }
 
         protected override object[] ReadInstanceValues(Plane instance)

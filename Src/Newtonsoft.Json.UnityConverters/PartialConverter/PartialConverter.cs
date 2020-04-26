@@ -58,7 +58,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <summary>
         /// Create the instance with the given values.
         /// </summary>
-        /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor.</param>
+        /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor of this PartialConverter.</param>
         /// <returns>The instance.</returns>
         protected abstract T CreateInstanceFromValues(ValuesArray<TInner> values);
 

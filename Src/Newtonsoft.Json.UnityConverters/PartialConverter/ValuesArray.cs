@@ -4,56 +4,69 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    public readonly struct ValuesArray<T> : IReadOnlyList<T>
+    public readonly struct ValuesArray<TInner> : IReadOnlyList<TInner>
     {
-        private readonly T[] _array;
+        private readonly TInner[] _array;
 
         public int Count => _array.Length;
 
         [MaybeNull]
-        public T this[int index]
+        public TInner this[int index]
         {
             get => _array[index];
             set => _array[index] = value;
         }
 
-        public ValuesArray(T[] array)
+        public ValuesArray(TInner[] array)
         {
             _array = array;
         }
 
         public ValuesArray(int capacity)
         {
-            _array = new T[capacity];
+            _array = new TInner[capacity];
         }
 
-        public IEnumerator<T> GetEnumerator()
+        [return: MaybeNull]
+        public TInner Get(int index)
         {
-            return ((IReadOnlyList<T>)_array).GetEnumerator();
+            return _array[index];
+        }
+
+        [return: NotNullIfNotNull("fallback")]
+        public T GetAsTypeOrDefault<T>(int index, [AllowNull] T fallback = default)
+            where T : struct
+        {
+            return _array[index] as T? ?? fallback;
+        }
+
+        public IEnumerator<TInner> GetEnumerator()
+        {
+            return ((IReadOnlyList<TInner>)_array).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IReadOnlyList<T>)_array).GetEnumerator();
+            return ((IReadOnlyList<TInner>)_array).GetEnumerator();
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is ValuesArray<T> array &&
-                   EqualityComparer<T[]>.Default.Equals(_array, array._array);
+            return obj is ValuesArray<TInner> array &&
+                   EqualityComparer<TInner[]>.Default.Equals(_array, array._array);
         }
 
         public override int GetHashCode()
         {
-            return -1325016561 + EqualityComparer<T[]>.Default.GetHashCode(_array);
+            return -1325016561 + EqualityComparer<TInner[]>.Default.GetHashCode(_array);
         }
 
-        public static bool operator ==(ValuesArray<T> left, ValuesArray<T> right)
+        public static bool operator ==(ValuesArray<TInner> left, ValuesArray<TInner> right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(ValuesArray<T> left, ValuesArray<T> right)
+        public static bool operator !=(ValuesArray<TInner> left, ValuesArray<TInner> right)
         {
             return !(left == right);
         }

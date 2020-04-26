@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine.AI;
 
 namespace Newtonsoft.Json.UnityConverters.AI
 {
-    public class NavMeshQueryFilterConverter : PartialConverter<NavMeshQueryFilter, object?>
+    public class NavMeshQueryFilterConverter : PartialConverter<NavMeshQueryFilter, object>
     {
         // Taken from /Modules/AI/NavMesh/NavMesh.bindings.cs
         // inside Unitys open source repo
@@ -21,20 +20,22 @@ namespace Newtonsoft.Json.UnityConverters.AI
         protected override NavMeshQueryFilter CreateInstanceFromValues(ValuesArray<object> values)
         {
             var instance = new NavMeshQueryFilter {
-                areaMask = values[1] as int? ?? 0,
-                agentTypeID = values[2] as int? ?? 0,
+                areaMask = values.GetAsTypeOrDefault<int>(1),
+                agentTypeID = values.GetAsTypeOrDefault<int>(2),
             };
 
-            float[]? costs = values[0] as float[];
-            for (int i = 0; i < costs.Length; i++)
+            if (values[0] is float[] costs)
             {
-                instance.SetAreaCost(i, costs[i]);
+                for (int i = 0; i < costs.Length; i++)
+                {
+                    instance.SetAreaCost(i, costs[i]);
+                }
             }
 
             return instance;
         }
 
-        protected override object?[] ReadInstanceValues(NavMeshQueryFilter instance)
+        protected override object[] ReadInstanceValues(NavMeshQueryFilter instance)
         {
             float[] costs = new float[AREA_COST_ELEMENT_COUNT];
             for (int i = 0; i < AREA_COST_ELEMENT_COUNT; i++)
@@ -42,14 +43,14 @@ namespace Newtonsoft.Json.UnityConverters.AI
                 costs[i] = instance.GetAreaCost(i);
             }
 
-            return new object?[] {
+            return new object[] {
                 costs,
                 instance.areaMask,
                 instance.agentTypeID,
             };
         }
 
-        protected override object? ReadValue(JsonReader reader, int index, JsonSerializer serializer)
+        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
             return index switch
             {
@@ -61,7 +62,7 @@ namespace Newtonsoft.Json.UnityConverters.AI
             };
         }
         
-        protected override void WriteValue(JsonWriter writer, object? value, JsonSerializer serializer)
+        protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (value is float[] costs)
             {
