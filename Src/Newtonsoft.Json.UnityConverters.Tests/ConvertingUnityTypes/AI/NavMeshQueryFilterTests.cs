@@ -7,7 +7,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
 {
     public class NavMeshQueryFilterTests : ValueTypeTester<NavMeshQueryFilter>
     {
-        private static readonly PropertyInfo _costsProperty = typeof(NavMeshQueryFilter).GetProperty("costs", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly PropertyInfo? _costsProperty = typeof(NavMeshQueryFilter).GetProperty("costs", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static readonly IReadOnlyCollection<(NavMeshQueryFilter deserialized, object anonymous)> representations = new (NavMeshQueryFilter, object)[] {
             (new NavMeshQueryFilter(), new {

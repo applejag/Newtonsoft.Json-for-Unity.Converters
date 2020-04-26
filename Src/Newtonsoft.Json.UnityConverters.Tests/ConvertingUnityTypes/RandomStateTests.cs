@@ -10,8 +10,9 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public class RandomStateTests : ValueTypeTester<Random.State>
     {
-        private static FieldInfo[] _randomStateFields = typeof(Random.State).GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+        private static readonly FieldInfo[] _randomStateFields = typeof(Random.State).GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
             .OrderBy(o => o.Name)
+            .WhereNotNullRef()
             .ToArray();
 
         public static readonly IReadOnlyCollection<(Random.State deserialized, object anonymous)> representations = new (Random.State, object)[] {
@@ -28,7 +29,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
             foreach(FieldInfo field in _randomStateFields)
             {
-                if (!field.GetValue(a).Equals(field.GetValue(b)))
+                if (!Equals(field.GetValue(a), field.GetValue(b)))
                 {
                     return false;
                 }

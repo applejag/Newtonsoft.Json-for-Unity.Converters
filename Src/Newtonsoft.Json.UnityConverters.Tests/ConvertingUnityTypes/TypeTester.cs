@@ -31,12 +31,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // No settings changes by default
         }
 
-        protected string Serialize(object anonymous)
+        protected string Serialize(object? anonymous)
         {
             return Serialize(anonymous, _serializer);
         }
 
-        protected static string Serialize(object anonymous, JsonSerializer serializer)
+        protected static string Serialize(object? anonymous, JsonSerializer serializer)
         {
             var builder = new StringBuilder();
             serializer.Serialize(new JsonTextWriter(new StringWriter(builder)), anonymous);
@@ -68,22 +68,22 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
     public abstract class TypeTester<T> : TypeTesterBase
     {
-        protected virtual bool AreEqual(T a, T b)
+        protected virtual bool AreEqual([AllowNull] T a, [AllowNull] T b)
         {
-            return a.Equals(b);
+            return Equals(a, b);
         }
 
-        protected virtual string ToString(T value)
+        protected virtual string ToString([AllowNull] T value)
         {
             return value?.ToString() ?? "<null>";
         }
 
-        protected void AssertAreEqual(T expected, [MaybeNull] T actual)
+        protected void AssertAreEqual(T expected, [AllowNull] T actual)
         {
             AssertAreEqual(expected, actual, null);
         }
 
-        protected void AssertAreEqual(T expected, [MaybeNull] T actual, string? message)
+        protected void AssertAreEqual(T expected, [AllowNull] T actual, string? message)
         {
             if (!AreEqual(expected, actual))
             {

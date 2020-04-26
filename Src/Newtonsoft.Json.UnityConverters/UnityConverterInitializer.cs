@@ -86,7 +86,7 @@ namespace Newtonsoft.Json.UnityConverters
             var customs = FindCustomConverters()
                 .Concat(FindUnityConverters())
                 .Select(type => CreateConverter(type))
-                .WhereNotNull();
+                .WhereNotNullRef();
 
             JsonConverter[] array = customs.Concat(_builtinConverters).ToArray();
             return new List<JsonConverter>(array);
@@ -146,18 +146,6 @@ namespace Newtonsoft.Json.UnityConverters
             }
 
             return null;
-        }
-
-        private static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> values)
-            where T : class
-        {
-            foreach (T? item in values)
-            {
-                if (item != null)
-                {
-                    yield return item;
-                }
-            }
         }
     }
 }

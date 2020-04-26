@@ -8,7 +8,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
 {
     public class ColliderDistance2DTests : ValueTypeTester<ColliderDistance2D>
     {
-        private static readonly FieldInfo _normalField = typeof(ColliderDistance2D).GetField("m_Normal", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo? _normalField = typeof(ColliderDistance2D).GetField("m_Normal", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static readonly IReadOnlyCollection<(ColliderDistance2D deserialized, object anonymous)> representations = new (ColliderDistance2D, object)[] {
             (new ColliderDistance2D(), new {
@@ -57,12 +57,15 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
         {
             // Arrange
             object boxed = new ColliderDistance2D();
-            Assert.IsNotNull(_normalField);
             Assert.AreEqual(new Vector2(), ((ColliderDistance2D)boxed).normal);
+
+            Assert.IsNotNull(_normalField);
+            FieldInfo field = _normalField!;
+
             var normal = new Vector2(1, 0);
 
             // Act
-            _normalField.SetValue(boxed, normal);
+            field.SetValue(boxed, normal);
 
             // Assert
             Assert.AreEqual(normal, ((ColliderDistance2D)boxed).normal);
@@ -74,14 +77,17 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
         {
             // Arrange
             var value = new ColliderDistance2D();
-            Assert.IsNotNull(_normalField);
             Assert.AreEqual(new Vector2(), value.normal);
+
+            Assert.IsNotNull(_normalField);
+            FieldInfo field = _normalField!;
+
             var normal = new Vector2(1, 0);
 
             TypedReference reference = __makeref(value);
 
             // Act
-            _normalField.SetValueDirect(reference, normal);
+            field.SetValueDirect(reference, normal);
 
             // Assert
             Assert.AreEqual(normal, value.normal);

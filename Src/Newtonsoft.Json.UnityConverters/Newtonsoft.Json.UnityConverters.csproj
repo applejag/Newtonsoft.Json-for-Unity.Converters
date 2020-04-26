@@ -22,8 +22,8 @@
     <PackageReference Include="Unity3D" Version="1.3.0" />
   </ItemGroup>
 
-  <!-- disable the nullable warnings when not compiling for .NET Standard 2.1 -->
-  <PropertyGroup Condition="'$(TargetFramework)' != 'netstandard2.1'">
+  <!-- disable the nullable warnings when compiling for .NET Standard 2.0 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
   </PropertyGroup>
 

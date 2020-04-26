@@ -35,8 +35,8 @@
     <Message Text="Copied @(FileToCopyIntoUnity->'%(Filename)%(Extension)') in to Unity" />
   </Target>
 
-  <!-- disable the nullable warnings when not compiling for .NET Standard 2.1 -->
-  <PropertyGroup Condition="'$(TargetFramework)' != 'netstandard2.1'">
+  <!-- disable the nullable warnings when compiling for .NET 4.7.2 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net4.7.2'">
     <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
   </PropertyGroup>
 </Project>
