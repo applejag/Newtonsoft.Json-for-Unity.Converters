@@ -11,7 +11,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
 
         public static readonly IReadOnlyCollection<(NavMeshQueryFilter deserialized, object anonymous)> representations = new (NavMeshQueryFilter, object)[] {
             (new NavMeshQueryFilter(), new {
-                costs = new float[] {
+                costs = new [] {
                     // Defaults to 1
                     1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f,
                     1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f,
@@ -22,20 +22,20 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.AI
                 agentTypeId = 0,
             }),
             (CreateInstance(
-                costs: new float [] {
-                    1, 2, 3, 4, 5, 6, 7, 8,
-                    9, 10, 11, 12, 13, 14, 15, 16,
-                    17, 18, 19, 20, 21, 22, 23, 24,
-                    25, 26, 27, 28, 29, 30, 31, 32,
+                costs: new [] {
+                    1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f,
+                    9f, 10f, 11f, 12f, 13f, 14f, 15f, 16f,
+                    17f, 18f, 19f, 20f, 21f, 22f, 23f, 24f,
+                    25f, 26f, 27f, 28f, 29f, 30f, 31f, 32f,
                 },
                 areaMask: 33,
                 agentTypeId: 34
             ), new {
-                costs = new float[] {
-                    1, 2, 3, 4, 5, 6, 7, 8,
-                    9, 10, 11, 12, 13, 14, 15, 16,
-                    17, 18, 19, 20, 21, 22, 23, 24,
-                    25, 26, 27, 28, 29, 30, 31, 32,
+                costs = new [] {
+                    1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f,
+                    9f, 10f, 11f, 12f, 13f, 14f, 15f, 16f,
+                    17f, 18f, 19f, 20f, 21f, 22f, 23f, 24f,
+                    25f, 26f, 27f, 28f, 29f, 30f, 31f, 32f,
                 },
                 areaMask = 33,
                 agentTypeId = 34,
