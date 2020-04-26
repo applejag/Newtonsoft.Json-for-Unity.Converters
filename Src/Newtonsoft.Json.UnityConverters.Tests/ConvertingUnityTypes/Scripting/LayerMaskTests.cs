@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Scripting
 {
     public class LayerMaskTests : TypeTester<LayerMask>
     {

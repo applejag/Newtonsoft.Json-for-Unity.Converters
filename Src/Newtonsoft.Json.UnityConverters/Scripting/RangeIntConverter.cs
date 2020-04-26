@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Scripting
 {
     public class RangeIntConverter : PartialIntConverter<RangeInt>
     {

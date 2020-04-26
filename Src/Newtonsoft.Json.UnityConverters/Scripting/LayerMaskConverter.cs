@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Scripting
 {
     public class LayerMaskConverter : PartialIntConverter<LayerMask>
     {
@@ -29,7 +29,8 @@ namespace Newtonsoft.Json.UnityConverters
             if (reader.TokenType == JsonToken.Integer)
             {
                 return new LayerMask {
-                    value = reader.Value switch{
+                    value = reader.Value switch
+                    {
                         int i => i,
                         uint ui => checked((int)ui),
                         long l => checked((int)l),
