@@ -101,6 +101,9 @@ namespace Newtonsoft.Json.UnityConverters
             case bool boolean:
                 writer.WriteValue(boolean);
                 break;
+
+            default:
+                throw writer.CreateWriterException($"Unexpected type '{value?.GetType().Name ?? "null"}' when serializing {typeof(ContactFilter2D).FullName}.");
             }
         }
     }

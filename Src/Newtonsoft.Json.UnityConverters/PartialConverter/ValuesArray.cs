@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    public readonly struct ValuesArray<TInner> : IReadOnlyList<TInner>
+    public readonly struct ValuesArray<TInner> : IReadOnlyList<TInner>, IEquatable<ValuesArray<TInner>>
     {
         private readonly TInner[] _array;
 
@@ -33,8 +34,15 @@ namespace Newtonsoft.Json.UnityConverters
             return _array[index];
         }
 
+        [return: MaybeNull]
+        public T GetAsTypeOrDefault<T>(int index)
+            where T : struct
+        {
+            return _array[index] as T? ?? default;
+        }
+
         [return: NotNullIfNotNull("fallback")]
-        public T GetAsTypeOrDefault<T>(int index, [AllowNull] T fallback = default)
+        public T GetAsTypeOrDefault<T>(int index, [AllowNull] T fallback)
             where T : struct
         {
             return _array[index] as T? ?? fallback;
@@ -48,6 +56,11 @@ namespace Newtonsoft.Json.UnityConverters
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IReadOnlyList<TInner>)_array).GetEnumerator();
+        }
+
+        public bool Equals(ValuesArray<TInner> other)
+        {
+            return _array == other._array;
         }
 
         public override bool Equals(object? obj)

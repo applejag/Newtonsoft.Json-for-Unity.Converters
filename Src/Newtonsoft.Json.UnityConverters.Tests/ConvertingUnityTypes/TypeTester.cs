@@ -18,6 +18,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         protected TypeTesterBase()
         {
             _serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+        }
+
+        [SetUp]
+        public void SetUpSerializer()
+        {
             ConfigureSerializer(_serializer);
         }
 
@@ -73,7 +78,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return value?.ToString() ?? "<null>";
         }
 
-        protected void AssertAreEqual(T expected, [MaybeNull] T actual, string? message = null)
+        protected void AssertAreEqual(T expected, [MaybeNull] T actual)
+        {
+            AssertAreEqual(expected, actual, null);
+        }
+
+        protected void AssertAreEqual(T expected, [MaybeNull] T actual, string? message)
         {
             if (!AreEqual(expected, actual))
             {
@@ -167,7 +177,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             string expected = Serialize(representation.anonymous);
 
             // Act
-            string result = Serialize(new T?(representation.input));
+            string result = Serialize((T?)representation.input);
 
             // Assert
             Assert.AreEqual(expected, result);
