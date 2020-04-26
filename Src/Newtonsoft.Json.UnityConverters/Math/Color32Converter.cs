@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Math
 {
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity byte based Color type <see cref="Color32"/>.
@@ -19,7 +19,7 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override byte[] ReadInstanceValues(Color32 instance)
         {
-            return new [] { instance.r, instance.g, instance.b, instance.a };
+            return new[] { instance.r, instance.g, instance.b, instance.a };
         }
     }
 }

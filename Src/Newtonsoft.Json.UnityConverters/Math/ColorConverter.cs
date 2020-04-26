@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Math
 {
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
@@ -28,7 +28,7 @@ namespace Newtonsoft.Json.UnityConverters
 
         protected override float[] ReadInstanceValues(Color instance)
         {
-            return new [] { instance.r, instance.g, instance.b, instance.a };
+            return new[] { instance.r, instance.g, instance.b, instance.a };
         }
     }
 }
