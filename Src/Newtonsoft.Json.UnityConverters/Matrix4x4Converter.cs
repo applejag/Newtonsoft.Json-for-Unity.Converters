@@ -31,7 +31,7 @@ namespace Newtonsoft.Json.UnityConverters
             return indexes.SelectMany((row) => indexes.Select((column) => "m" + row + column)).ToArray();
         }
 
-        protected override Matrix4x4 CreateInstanceFromValues(float[] values)
+        protected override Matrix4x4 CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new Matrix4x4 {
                 m00 = values[0], m01 = values[1], m02 = values[2], m03 = values[3],

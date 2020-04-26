@@ -35,7 +35,7 @@ namespace Newtonsoft.Json.UnityConverters
             _ = dummy.size;
         }
 
-        protected override Bounds CreateInstanceFromValues(Vector3[] values)
+        protected override Bounds CreateInstanceFromValues(ValuesArray<Vector3> values)
         {
             return new Bounds(values[0], values[1]);
         }

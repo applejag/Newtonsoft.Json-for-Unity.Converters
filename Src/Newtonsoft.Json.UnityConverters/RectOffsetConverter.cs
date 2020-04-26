@@ -21,7 +21,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override RectOffset CreateInstanceFromValues(int[] values)
+        protected override RectOffset CreateInstanceFromValues(ValuesArray<int> values)
         {
             return new RectOffset(values[0], values[1], values[2], values[3]);
         }

@@ -20,7 +20,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Vector3 CreateInstanceFromValues(float[] values)
+        protected override Vector3 CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new Vector3(values[0], values[1], values[2]);
         }

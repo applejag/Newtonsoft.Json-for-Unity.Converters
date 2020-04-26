@@ -21,7 +21,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Color CreateInstanceFromValues(float[] values)
+        protected override Color CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new Color(values[0], values[1], values[2], values[3]);
         }

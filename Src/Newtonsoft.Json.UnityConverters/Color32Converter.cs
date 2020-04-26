@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Color32 CreateInstanceFromValues(byte[] values)
+        protected override Color32 CreateInstanceFromValues(ValuesArray<byte> values)
         {
             return new Color32(values[0], values[1], values[2], values[3]);
         }

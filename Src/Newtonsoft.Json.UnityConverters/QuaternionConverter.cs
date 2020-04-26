@@ -21,7 +21,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Quaternion CreateInstanceFromValues(float[] values)
+        protected override Quaternion CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new Quaternion(values[0], values[1], values[2], values[3]);
         }

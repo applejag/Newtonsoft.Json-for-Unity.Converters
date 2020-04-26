@@ -13,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters.AI
         {
         }
 
-        protected override NavMeshTriangulation CreateInstanceFromValues(object?[] values)
+        protected override NavMeshTriangulation CreateInstanceFromValues(ValuesArray<object> values)
         {
             return new NavMeshTriangulation {
                 vertices = values[0] as Vector3[],

@@ -10,7 +10,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override RangeInt CreateInstanceFromValues(int[] values)
+        protected override RangeInt CreateInstanceFromValues(ValuesArray<int> values)
         {
             return new RangeInt(values[0], values[1]);
         }

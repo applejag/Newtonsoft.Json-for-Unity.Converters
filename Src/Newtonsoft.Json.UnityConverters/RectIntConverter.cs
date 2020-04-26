@@ -21,7 +21,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override RectInt CreateInstanceFromValues(int[] values)
+        protected override RectInt CreateInstanceFromValues(ValuesArray<int> values)
         {
             return new RectInt(values[0], values[1], values[2], values[3]);
         }

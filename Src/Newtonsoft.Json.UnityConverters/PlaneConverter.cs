@@ -11,7 +11,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Plane CreateInstanceFromValues(object[] values)
+        protected override Plane CreateInstanceFromValues(ValuesArray<object> values)
         {
             return new Plane((Vector3)values[0], (float)values[1]);
         }

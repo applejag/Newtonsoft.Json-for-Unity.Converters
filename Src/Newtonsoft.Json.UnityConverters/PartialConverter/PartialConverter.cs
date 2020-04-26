@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Newtonsoft.Json.UnityConverters
@@ -61,7 +60,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// </summary>
         /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor.</param>
         /// <returns>The instance.</returns>
-        protected abstract T CreateInstanceFromValues([AllowNull] TInner[] values);
+        protected abstract T CreateInstanceFromValues(ValuesArray<TInner> values);
 
         /// <summary>
         /// Read the values off from the given instance.
@@ -136,7 +135,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             reader.Read();
 
-            var values = new TInner[_namesArray.Length];
+            var values = new ValuesArray<TInner>(_namesArray.Length);
             int previousIndex = -1;
 
             while (reader.TokenType == JsonToken.PropertyName)
@@ -171,7 +170,7 @@ namespace Newtonsoft.Json.UnityConverters
             }
             else
             {
-                var values = new TInner[_namesArray.Length];
+                var values = new ValuesArray<TInner>(_namesArray.Length);
                 return CreateInstanceFromValues(values);
             }
         }

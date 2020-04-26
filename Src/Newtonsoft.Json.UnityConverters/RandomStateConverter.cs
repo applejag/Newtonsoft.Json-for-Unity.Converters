@@ -18,7 +18,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Random.State CreateInstanceFromValues(int[] values)
+        protected override Random.State CreateInstanceFromValues(ValuesArray<int> values)
         {
             var state = new Random.State();
 
