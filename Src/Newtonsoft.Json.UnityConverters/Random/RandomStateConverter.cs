@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Random = UnityEngine.Random;
+using State = UnityEngine.Random.State;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Random
 {
-    public class RandomStateConverter : PartialIntConverter<Random.State>
+    public class RandomStateConverter : PartialIntConverter<State>
     {
         private static readonly string[] _memberNames = { "s0", "s1", "s2", "s3" };
 
         private static readonly FieldInfo[] _fieldInfos = _memberNames
-            .Select(o => typeof(Random.State).GetField(o, BindingFlags.NonPublic | BindingFlags.Instance))
+            .Select(o => typeof(State).GetField(o, BindingFlags.NonPublic | BindingFlags.Instance))
             .ToArray();
 
         public RandomStateConverter()
@@ -18,9 +18,9 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Random.State CreateInstanceFromValues(ValuesArray<int> values)
+        protected override State CreateInstanceFromValues(ValuesArray<int> values)
         {
-            var state = new Random.State();
+            var state = new State();
 
             TypedReference reference = __makeref(state);
             _fieldInfos[0].SetValueDirect(reference, values[0]);
@@ -31,9 +31,9 @@ namespace Newtonsoft.Json.UnityConverters
             return state;
         }
 
-        protected override int[] ReadInstanceValues(Random.State instance)
+        protected override int[] ReadInstanceValues(State instance)
         {
-            return new [] {
+            return new[] {
                 (int)_fieldInfos[0].GetValue(instance),
                 (int)_fieldInfos[1].GetValue(instance),
                 (int)_fieldInfos[2].GetValue(instance),
