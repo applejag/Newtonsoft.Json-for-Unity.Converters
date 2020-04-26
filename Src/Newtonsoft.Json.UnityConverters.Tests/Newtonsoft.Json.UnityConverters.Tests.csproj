@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net4.7.2;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net4.7.2;netcoreapp3.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
 
     <UnityVersion>2019.2.11f1</UnityVersion>
