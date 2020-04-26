@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -27,7 +26,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// 	3. <see cref="StringEnumConverter"/>.
         /// 	4. <see cref="VersionConverter"/>.
         /// </remarks>
-        public static JsonSerializerSettings DefaultUnitySettings { get; set; } = new JsonSerializerSettings {
+        public static JsonSerializerSettings DefaultUnityConvertersSettings { get; set; } = new JsonSerializerSettings {
             Converters = CreateConverters()
         };
 
@@ -48,7 +47,6 @@ namespace Newtonsoft.Json.UnityConverters
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
 #pragma warning disable IDE0051 // Remove unused private members
         internal static void Init()
 #pragma warning restore IDE0051 // Remove unused private members
@@ -76,7 +74,7 @@ namespace Newtonsoft.Json.UnityConverters
 
         internal static JsonSerializerSettings GetDefaultUnitySettings()
         {
-            return DefaultUnitySettings;
+            return DefaultUnityConvertersSettings;
         }
 
         /// <summary>
@@ -90,8 +88,8 @@ namespace Newtonsoft.Json.UnityConverters
                 .Select(type => CreateConverter(type))
                 .WhereNotNull();
 
-            return customs.Concat(_builtinConverters).ToList();
-
+            JsonConverter[] array = customs.Concat(_builtinConverters).ToArray();
+            return new List<JsonConverter>(array);
         }
 
         /// <summary>

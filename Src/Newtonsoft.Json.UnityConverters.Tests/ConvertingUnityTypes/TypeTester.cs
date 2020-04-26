@@ -8,6 +8,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         static TypeTesterBase()
         {
             UnityConverterInitializer.ShouldAddConvertsToDefaultSettings = false;
+            UnityConverterInitializer.DefaultUnityConvertersSettings.Formatting = Formatting.None;
         }
 
         protected virtual void ConfigureSettings(JsonSerializerSettings settings)
@@ -17,9 +18,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         protected JsonSerializerSettings GetSettings()
         {
-            JsonSerializerSettings settings = UnityConverterInitializer.DefaultUnitySettings;
+            JsonSerializerSettings settings = UnityConverterInitializer.DefaultUnityConvertersSettings;
             settings.Formatting = Formatting.None;
             ConfigureSettings(settings);
+
             return settings;
         }
 
