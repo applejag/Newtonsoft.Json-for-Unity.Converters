@@ -60,8 +60,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
                 }
             };
 
+            var serializer = JsonSerializer.Create(settings);
+
             // Act
-            string result = JsonConvert.SerializeObject(input, settings);
+            string result = Serialize(input, serializer);
 
             // Assert
             var jobj = JObject.Parse(result);
@@ -79,8 +81,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics2D
                 Converters = new List<JsonConverter>(),
             };
 
+            var serializer = JsonSerializer.Create(settings);
+
             // Act
-            string result = JsonConvert.SerializeObject(input, settings);
+            string result = Serialize(input, serializer);
 
             // Assert
             var jobj = JObject.Parse(result);

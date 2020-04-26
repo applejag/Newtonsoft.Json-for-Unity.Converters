@@ -1,32 +1,63 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Text;
 using NUnit.Framework;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public abstract class TypeTesterBase
     {
+        protected readonly JsonSerializer _serializer;
+
         static TypeTesterBase()
         {
             UnityConverterInitializer.ShouldAddConvertsToDefaultSettings = false;
             UnityConverterInitializer.DefaultUnityConvertersSettings.Formatting = Formatting.None;
         }
 
-        protected virtual void ConfigureSettings(JsonSerializerSettings settings)
+        protected TypeTesterBase()
+        {
+            _serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+            ConfigureSerializer(_serializer);
+        }
+
+        protected virtual void ConfigureSerializer(JsonSerializer serializer)
         {
             // No settings changes by default
         }
 
-        protected JsonSerializerSettings GetSettings()
+        protected string Serialize(object anonymous)
         {
-            JsonSerializerSettings settings = UnityConverterInitializer.DefaultUnityConvertersSettings;
-            settings.Formatting = Formatting.None;
-            ConfigureSettings(settings);
-
-            return settings;
+            return Serialize(anonymous, _serializer);
         }
 
-        protected TypeTesterBase()
+        protected static string Serialize(object anonymous, JsonSerializer serializer)
         {
+            var builder = new StringBuilder();
+            serializer.Serialize(new JsonTextWriter(new StringWriter(builder)), anonymous);
+            return builder.ToString();
+        }
+
+        protected object? Deserialize(string json)
+        {
+            return Deserialize(json, _serializer);
+        }
+
+        protected static object? Deserialize(string json, JsonSerializer serializer)
+        {
+            return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
+        }
+
+        [return: MaybeNull]
+        protected T Deserialize<T>(string json)
+        {
+            return Deserialize<T>(json, _serializer);
+        }
+
+        [return: MaybeNull]
+        protected static T Deserialize<T>(string json, JsonSerializer serializer)
+        {
+            return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
         }
     }
 
@@ -42,17 +73,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return value?.ToString() ?? "<null>";
         }
 
-        protected virtual string SerializeAnonymousRepresentation(object anonymous)
-        {
-            return JsonConvert.SerializeObject(anonymous, Formatting.None);
-        }
-
         protected void AssertAreEqual(T expected, [MaybeNull] T actual, string? message = null)
         {
             if (!AreEqual(expected, actual))
             {
-                Assert.Fail($"Expected: <{ToString(expected)}> (serialized: {SerializeAnonymousRepresentation(expected)})\n" +
-                    $"  But was:  <{ToString(actual)}> (serialized: {SerializeAnonymousRepresentation(actual)})" +
+                Assert.Fail($"Expected: <{ToString(expected)}> (serialized: {Serialize(expected)})\n" +
+                    $"  But was:  <{ToString(actual)}> (serialized: {Serialize(actual)})" +
                     (string.IsNullOrEmpty(message) ? string.Empty : $"\n  {message}"));
             }
         }
@@ -62,11 +88,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void SerializesAsExpected((T input, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string expected = SerializeAnonymousRepresentation(representation.anonymous);
+            string expected = Serialize(representation.anonymous);
 
             // Act
-            string result = JsonConvert.SerializeObject(representation.input, settings);
+            string result = Serialize(representation.input);
 
             // Assert
             Assert.AreEqual(expected, result);
@@ -77,11 +102,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void DeserializesAsExpected((T expected, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string input = SerializeAnonymousRepresentation(representation.anonymous);
+            string input = Serialize(representation.anonymous);
 
             // Act
-            T result = JsonConvert.DeserializeObject<T>(input, settings);
+            T result = Deserialize<T>(input);
 
             // Assert
             AssertAreEqual(representation.expected, result, $"Input given: '{input}'");
@@ -92,12 +116,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void SerializesArrayAsExpected((T input, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string expected = SerializeAnonymousRepresentation(new[] { representation.anonymous });
+            string expected = Serialize(new[] { representation.anonymous });
             T[] input = new[] { representation.input };
 
             // Act
-            string result = JsonConvert.SerializeObject(input, settings);
+            string result = Serialize(input);
 
             // Assert
             Assert.AreEqual(expected, result);
@@ -108,11 +131,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void DeserializesArrayAsExpected((T expected, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string input = SerializeAnonymousRepresentation(new[] { representation.anonymous });
+            string input = Serialize(new[] { representation.anonymous });
 
             // Act
-            T[]? result = JsonConvert.DeserializeObject<T[]>(input, settings);
+            T[]? result = Deserialize<T[]>(input);
 
             // Assert
             Assert.IsNotNull(result);
@@ -124,13 +146,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public virtual void OkWithEmptyObject()
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
             string input = "{}";
 
             // Act
             Assert.DoesNotThrow(() =>
             {
-                _ = JsonConvert.DeserializeObject<T>(input, settings);
+                _ = Deserialize(input);
             });
         }
     }
@@ -143,11 +164,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void SerializesNullableAsExpected((T input, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string expected = SerializeAnonymousRepresentation(representation.anonymous);
+            string expected = Serialize(representation.anonymous);
 
             // Act
-            string result = JsonConvert.SerializeObject(new T?(representation.input), settings);
+            string result = Serialize(new T?(representation.input));
 
             // Assert
             Assert.AreEqual(expected, result);
@@ -158,11 +178,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void DeserializesNullableValueAsExpected((T expected, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
-            string input = SerializeAnonymousRepresentation(representation.anonymous);
+            string input = Serialize(representation.anonymous);
 
             // Act
-            T? result = JsonConvert.DeserializeObject<T?>(input, settings);
+            T? result = Deserialize<T?>(input);
 
             // Assert
             Assert.IsNotNull(result);
@@ -172,11 +191,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         [Test]
         public void DeserializesNullableNullAsExpected()
         {
-            // Arrange
-            JsonSerializerSettings settings = GetSettings();
-
             // Act
-            T? result = JsonConvert.DeserializeObject<T?>("null", settings);
+            T? result = Deserialize<T?>("null");
 
             // Assert
             Assert.IsNull(result);

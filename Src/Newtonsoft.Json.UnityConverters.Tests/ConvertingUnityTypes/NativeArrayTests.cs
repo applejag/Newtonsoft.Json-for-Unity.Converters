@@ -22,11 +22,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // Arrange
             using (var nativeArray = new NativeArray<int>(representation.inputArray, Allocator.Temp))
             {
-                JsonSerializerSettings settings = GetSettings();
                 string expected = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
 
                 // Act
-                string result = JsonConvert.SerializeObject(nativeArray, settings);
+                string result = Serialize(nativeArray);
 
                 // Assert
                 Assert.AreEqual(expected, result);
@@ -38,12 +37,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void ThrowsOnArrayDeserialize((int[] expectedArray, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
             string input = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
 
             // Act
             var ex = Assert.Throws<JsonSerializationException>(
-                () => JsonConvert.DeserializeObject<NativeArray<int>>(input, settings)
+                () => Deserialize<NativeArray<int>>(input)
             );
 
             // Assert
@@ -60,11 +58,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             {
                 var nativeSlice = new NativeSlice<int>(nativeArray);
 
-                JsonSerializerSettings settings = GetSettings();
                 string expected = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
 
                 // Act
-                string result = JsonConvert.SerializeObject(nativeSlice, settings);
+                string result = Serialize(nativeSlice);
 
                 // Assert
                 Assert.AreEqual(expected, result);
@@ -76,12 +73,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void ThrowsOnSliceDeserialize((int[] expectedArray, object anonymous) representation)
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
             string input = JArray.FromObject(representation.anonymous).ToString(Formatting.None);
 
             // Act
             var ex = Assert.Throws<JsonSerializationException>(
-                () => JsonConvert.DeserializeObject<NativeSlice<int>>(input, settings)
+                () => Deserialize<NativeSlice<int>>(input)
             );
 
             // Assert

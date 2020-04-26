@@ -16,11 +16,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         public void DeserializesObjectFine()
         {
             // Arrange
-            JsonSerializerSettings settings = GetSettings();
             string input = @"{ ""value"": 5 }";
 
             // Act
-            LayerMask result = JsonConvert.DeserializeObject<LayerMask>(input, settings);
+            LayerMask result = Deserialize<LayerMask>(input);
 
             // Assert
             Assert.AreEqual(5, result.value);
