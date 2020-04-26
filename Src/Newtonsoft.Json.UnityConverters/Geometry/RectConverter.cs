@@ -7,26 +7,26 @@
 
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Geometry
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectInt type <see cref="RectInt"/>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Rect type <see cref="Rect"/>.
     /// </summary>
-    public class RectIntConverter : PartialIntConverter<RectInt>
+    public class RectConverter : PartialFloatConverter<Rect>
     {
         internal static readonly string[] _memberNames = { "x", "y", "width", "height" };
 
-        public RectIntConverter()
+        public RectConverter()
             : base(_memberNames)
         {
         }
 
-        protected override RectInt CreateInstanceFromValues(ValuesArray<int> values)
+        protected override Rect CreateInstanceFromValues(ValuesArray<float> values)
         {
-            return new RectInt(values[0], values[1], values[2], values[3]);
+            return new Rect(values[0], values[1], values[2], values[3]);
         }
 
-        protected override int[] ReadInstanceValues(RectInt instance)
+        protected override float[] ReadInstanceValues(Rect instance)
         {
             return new[] { instance.x, instance.y, instance.width, instance.height };
         }
