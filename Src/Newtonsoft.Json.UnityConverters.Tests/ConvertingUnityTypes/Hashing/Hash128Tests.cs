@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Hashing
 {
     public class Hash128Tests : ValueTypeTester<Hash128>
     {

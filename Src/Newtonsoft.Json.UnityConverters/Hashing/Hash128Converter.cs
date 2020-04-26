@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Hashing
 {
     public class Hash128Converter : JsonConverter
     {
