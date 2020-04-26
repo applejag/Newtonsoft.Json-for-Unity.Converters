@@ -5,6 +5,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
     public abstract class TypeTesterBase
     {
+        static TypeTesterBase()
+        {
+            UnityConverterInitializer.ShouldAddConvertsToDefaultSettings = false;
+        }
+
         protected virtual void ConfigureSettings(JsonSerializerSettings settings)
         {
             // No settings changes by default
@@ -12,7 +17,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 
         protected JsonSerializerSettings GetSettings()
         {
-            JsonSerializerSettings settings = UnityConverterInitializer.GetDefaultUnitySettings();
+            JsonSerializerSettings settings = UnityConverterInitializer.DefaultUnitySettings;
             settings.Formatting = Formatting.None;
             ConfigureSettings(settings);
             return settings;

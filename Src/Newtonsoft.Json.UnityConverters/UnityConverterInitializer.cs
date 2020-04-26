@@ -14,17 +14,7 @@ namespace Newtonsoft.Json.UnityConverters
             new VersionConverter()
         };
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
-#pragma warning disable IDE0051 // Remove unused private members
-        internal static void Init()
-#pragma warning restore IDE0051 // Remove unused private members
-        {
-            if (JsonConvert.DefaultSettings == null)
-            {
-                JsonConvert.DefaultSettings = GetDefaultUnitySettings;
-            }
-        }
+        private static bool _shouldAddConvertsToDefaultSettings = true;
 
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
@@ -40,6 +30,49 @@ namespace Newtonsoft.Json.UnityConverters
         public static JsonSerializerSettings DefaultUnitySettings { get; set; } = new JsonSerializerSettings {
             Converters = CreateConverters()
         };
+
+        /// <summary>
+        /// If set to <c>false</c> then will not try to inject converters on init via
+        /// the default settings property on JsonConvert
+        /// <see cref="JsonConvert.DefaultSettings"/>.
+        /// Default is <c>true</c>.
+        /// </summary>
+        public static bool ShouldAddConvertsToDefaultSettings
+        {
+            get => _shouldAddConvertsToDefaultSettings;
+            set
+            {
+                _shouldAddConvertsToDefaultSettings = value;
+                UpdateDefaultSettings();
+            }
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [Preserve]
+#pragma warning disable IDE0051 // Remove unused private members
+        internal static void Init()
+#pragma warning restore IDE0051 // Remove unused private members
+        {
+            UpdateDefaultSettings();
+        }
+
+        private static void UpdateDefaultSettings()
+        {
+            if (ShouldAddConvertsToDefaultSettings)
+            {
+                if (JsonConvert.DefaultSettings == null)
+                {
+                    JsonConvert.DefaultSettings = GetDefaultUnitySettings;
+                }
+            }
+            else
+            {
+                if (JsonConvert.DefaultSettings == GetDefaultUnitySettings)
+                {
+                    JsonConvert.DefaultSettings = null;
+                }
+            }
+        }
 
         internal static JsonSerializerSettings GetDefaultUnitySettings()
         {
