@@ -113,7 +113,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
         }
 
         [Test]
-        public void OkWithEmptyObject()
+        public virtual void OkWithEmptyObject()
         {
             // Arrange
             JsonSerializerSettings settings = GetSettings();
