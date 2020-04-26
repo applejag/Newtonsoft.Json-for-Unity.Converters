@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Diagnostics.CodeAnalysis;
+using NUnit.Framework;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
 {
@@ -39,7 +40,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             return JsonConvert.SerializeObject(anonymous, Formatting.None);
         }
 
-        protected void AssertAreEqual(T expected, T actual)
+        protected void AssertAreEqual(T expected, [MaybeNull] T actual)
         {
             if (!AreEqual(expected, actual))
             {
@@ -103,11 +104,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             string input = SerializeAnonymousRepresentation(new[] { representation.anonymous });
 
             // Act
-            T[] result = JsonConvert.DeserializeObject<T[]>(input, settings);
+            T[]? result = JsonConvert.DeserializeObject<T[]>(input, settings);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Length, "result.Length");
+            Assert.AreEqual(1, result!.Length, "result.Length");
             AssertAreEqual(representation.expected, result[0]);
         }
     }
@@ -142,7 +143,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             T? result = JsonConvert.DeserializeObject<T?>(input, settings);
 
             // Assert
-            AssertAreEqual(representation.expected, result.Value);
+            Assert.IsNotNull(result);
+            AssertAreEqual(representation.expected, result!.Value);
         }
 
         [Test]
