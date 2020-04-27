@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
 {
-    public class FrustumPlaneTests : ValueTypeTester<FrustumPlanes>
+    public class FrustumPlanesTests : ValueTypeTester<FrustumPlanes>
     {
         public static readonly IReadOnlyCollection<(FrustumPlanes deserialized, object anonymous)> representations = new (FrustumPlanes, object)[] {
             (new FrustumPlanes {
