@@ -20,7 +20,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Physics.Que
                 distance = 7f,
                 layerMask = 8,
             }, new {
-                from = new { x = 1f, y = 2f, z = 3f },
+                origin = new { x = 1f, y = 2f, z = 3f },
                 radius = 4f,
                 direction = new { x = 5f, y = 6f, z = 7f },
                 distance = 7f,
