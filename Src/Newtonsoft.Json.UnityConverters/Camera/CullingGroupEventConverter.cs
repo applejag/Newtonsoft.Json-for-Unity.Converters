@@ -113,15 +113,5 @@ namespace Newtonsoft.Json.UnityConverters.Camera
                 throw writer.CreateWriterException($"Unexpected type '{value.GetType().Name}' when serializing {typeof(CullingGroupEvent).FullName}");
             }
         }
-
-        private static byte AsVisibility(bool isVisible)
-        {
-            return isVisible ? (byte)0x80 : (byte)0;
-        }
-
-        private static byte AsDistance(byte distance)
-        {
-            return (byte)(distance & DISTANCE_MASK);
-        }
     }
 }
