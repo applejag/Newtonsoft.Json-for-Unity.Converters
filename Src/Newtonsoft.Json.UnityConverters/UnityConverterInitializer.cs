@@ -138,7 +138,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
             try
             {
-                var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
+                var jsonConverter = (JsonConverter?)Activator.CreateInstance(jsonConverterType);
                 return jsonConverter;
             }
             catch (Exception exception)

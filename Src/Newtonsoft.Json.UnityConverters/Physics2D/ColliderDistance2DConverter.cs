@@ -7,7 +7,9 @@ namespace Newtonsoft.Json.UnityConverters.Physics2D
 {
     public class ColliderDistance2DConverter : PartialConverter<ColliderDistance2D, object>
     {
-        private static readonly FieldInfo _normalField = typeof(ColliderDistance2D).GetField("m_Normal", BindingFlags.NonPublic | BindingFlags.Instance);
+        // If field does not exist it should invalidate the converter for
+        // the entirety of the programs lifetime. Which is fine in this case.
+        private static readonly FieldInfo _normalField = GetFieldInfoOrThrow("m_Normal");
         private static readonly string[] _memberNames = { "pointA", "pointB", "normal", "distance", "isValid" };
 
         public ColliderDistance2DConverter()

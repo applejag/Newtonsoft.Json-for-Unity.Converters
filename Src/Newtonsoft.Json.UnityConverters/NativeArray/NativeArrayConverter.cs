@@ -17,7 +17,7 @@ namespace Newtonsoft.Json.UnityConverters.NativeArray
 
             var enumerable = (IEnumerable)value;
             writer.WriteStartArray();
-            foreach (object item in enumerable)
+            foreach (object? item in enumerable)
             {
                 serializer.Serialize(writer, item);
             }

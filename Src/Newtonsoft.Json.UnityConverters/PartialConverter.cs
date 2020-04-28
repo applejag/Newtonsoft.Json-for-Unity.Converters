@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json.UnityConverters.Helpers;
 
 namespace Newtonsoft.Json.UnityConverters
@@ -214,6 +215,24 @@ namespace Newtonsoft.Json.UnityConverters
             }
 
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Gets the non-public instance field info <see cref="FieldInfo"/> for the converted type
+        /// <typeparamref name="T"/>.
+        /// If not found then will throw a missing member exception <see cref="MissingMemberException"/>.
+        /// </summary>
+        /// <remarks>
+        /// If used in static initialization (ex: inside static constructor,
+        /// static field, or static property backing field initialization)
+        /// and the field does not exist it would invalidate the type for
+        /// the entirety of the programs lifetime.
+        /// </remarks>
+        /// <param name="name">Name of the non-public instance field.</param>
+        protected internal static FieldInfo GetFieldInfoOrThrow(string name)
+        {
+            return typeof(T).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
+                ?? throw new MissingMemberException(typeof(T).FullName, name);
         }
     }
 }
