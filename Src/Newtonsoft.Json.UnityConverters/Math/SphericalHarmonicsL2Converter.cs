@@ -4,6 +4,9 @@ namespace Newtonsoft.Json.UnityConverters.Math
 {
     public class SphericalHarmonicsL2Converter : PartialFloatConverter<SphericalHarmonicsL2>
     {
+        // Magic numbers taken from /Runtime/Export/Math/SphericalHarmonicsL2.bindings.cs
+        // inside Unitys open source repo
+        // https://github.com/Unity-Technologies/UnityCsReference/blob/2019.2/Runtime/Export/Math/SphericalHarmonicsL2.bindings.cs#L59
         private const int COEFFICIENT_COUNT = 9;
         private const int ARRAY_SIZE = 3 * COEFFICIENT_COUNT;
         private static readonly string[] _memberNames = GetMemberNames();

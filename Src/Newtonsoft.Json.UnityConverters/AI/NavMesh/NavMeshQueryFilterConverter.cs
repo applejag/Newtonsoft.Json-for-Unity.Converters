@@ -6,7 +6,7 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 {
     public class NavMeshQueryFilterConverter : PartialConverter<NavMeshQueryFilter, object>
     {
-        // Taken from /Modules/AI/NavMesh/NavMesh.bindings.cs
+        // Magic number taken from /Modules/AI/NavMesh/NavMesh.bindings.cs
         // inside Unitys open source repo
         // https://github.com/Unity-Technologies/UnityCsReference/blob/2019.2/Modules/AI/NavMesh/NavMesh.bindings.cs#L149
         private const int AREA_COST_ELEMENT_COUNT = 32;
