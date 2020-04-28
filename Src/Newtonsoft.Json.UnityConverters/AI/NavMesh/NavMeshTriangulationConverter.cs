@@ -45,12 +45,13 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 
         protected override void WriteValue(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            if (value is null)
+            switch (value)
             {
+            case null:
                 writer.WriteNull();
-            }
-            else if (value is Vector3[] vertices)
-            {
+                break;
+
+            case Vector3[] vertices:
                 writer.WriteStartArray();
 
                 foreach (Vector3 vert in vertices)
@@ -59,9 +60,9 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
                 }
 
                 writer.WriteEndArray();
-            }
-            else if (value is int[] numArray)
-            {
+                break;
+
+            case int[] numArray:
                 writer.WriteStartArray();
 
                 foreach (int num in numArray)
@@ -70,6 +71,10 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
                 }
 
                 writer.WriteEndArray();
+                break;
+
+            default:
+                throw writer.CreateWriterException($"Unexpected type '{value.GetType().Name}' when serializing {typeof(NavMeshTriangulation).FullName}");
             }
         }
     }
