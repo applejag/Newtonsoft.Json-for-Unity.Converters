@@ -8,9 +8,15 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
     {
         public static readonly IReadOnlyCollection<(Gradient deserialized, object anonymous)> representations = new (Gradient, object)[] {
             (new Gradient(), new {
-                colorKeys = null as object[],
-                alphaKeys = null as object[],
-                mode = default(GradientMode),
+                colorKeys = new[] {
+                    new { color = new { r = 1f, g = 1f, b = 1f, a = 1f }, time = 0f },
+                    new { color = new { r = 1f, g = 1f, b = 1f, a = 1f }, time = 1f },
+                },
+                alphaKeys = new [] {
+                    new { alpha = 1f, time = 0f },
+                    new { alpha = 1f, time = 1f },
+                },
+                mode = GradientMode.Blend
             }),
             (new Gradient{
                 colorKeys = new[] {
@@ -33,8 +39,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
                 mode = GradientMode.Blend
             }, new {
                 colorKeys = new[] {
-                    new { color = new Color(5,6,7,1), time = .2f },
-                    new { color = new Color(10,11,12,1), time = .4f },
+                    new { color = new { r = 5f, g = 6f, b = 7f, a = 1f }, time = .2f },
+                    new { color = new { r = 10f, g = 11f, b = 12f, a = 1f }, time = .4f },
                 },
                 alphaKeys = new [] {
                     new { alpha = 1f, time = .6f },
