@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Physics2D
 {
     public class ColliderDistance2DConverter : PartialConverter<ColliderDistance2D, object>
     {

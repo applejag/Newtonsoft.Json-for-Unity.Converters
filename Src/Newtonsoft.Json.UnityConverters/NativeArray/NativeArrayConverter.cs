@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using Unity.Collections;
 
 namespace Newtonsoft.Json.UnityConverters.NativeArray

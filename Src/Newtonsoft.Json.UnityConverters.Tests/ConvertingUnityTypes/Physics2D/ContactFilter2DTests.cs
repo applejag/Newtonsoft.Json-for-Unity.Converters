@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.UnityConverters.Physics2D;
 using NUnit.Framework;
 using UnityEngine;
 

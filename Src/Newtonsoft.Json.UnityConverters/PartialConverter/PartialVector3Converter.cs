@@ -5,6 +5,7 @@
 |\                                                      /|   _____))   | !  ] U
 \.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters

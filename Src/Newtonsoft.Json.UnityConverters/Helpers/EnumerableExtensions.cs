@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class EnumerableExtensions
     {

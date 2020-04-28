@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine.AI;
 
 namespace Newtonsoft.Json.UnityConverters.AI.NavMesh

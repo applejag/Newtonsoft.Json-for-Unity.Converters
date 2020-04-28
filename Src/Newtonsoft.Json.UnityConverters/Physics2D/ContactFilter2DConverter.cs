@@ -1,7 +1,8 @@
 ﻿using System;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Physics2D
 {
     public class ContactFilter2DConverter : PartialConverter<ContactFilter2D, object>
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters

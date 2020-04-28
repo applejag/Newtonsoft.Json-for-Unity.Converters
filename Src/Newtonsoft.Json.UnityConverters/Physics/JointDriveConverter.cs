@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Physics
 {
     public class JointDriveConverter : PartialFloatConverter<JointDrive>
     {

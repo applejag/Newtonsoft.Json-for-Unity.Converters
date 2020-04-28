@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Camera

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using NUnit.Framework;
 using UnityEngine;
 using State = UnityEngine.Random.State;

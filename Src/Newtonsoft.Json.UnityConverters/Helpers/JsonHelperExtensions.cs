@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Newtonsoft.Json.UnityConverters
+namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class JsonHelperExtensions
     {
