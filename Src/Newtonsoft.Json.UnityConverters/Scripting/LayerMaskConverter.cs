@@ -58,7 +58,7 @@ namespace Newtonsoft.Json.UnityConverters.Scripting
 
         protected override LayerMask CreateInstanceFromValues(ValuesArray<int> values)
         {
-            return new LayerMask { value = values.GetAsTypeOrDefault<int>(0) };
+            return new LayerMask { value = values[0] };
         }
 
         protected override int[] ReadInstanceValues(LayerMask instance)

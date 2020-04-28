@@ -14,11 +14,11 @@ namespace Newtonsoft.Json.UnityConverters.Physics
         protected override JointLimits CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new JointLimits {
-                min = values.GetAsTypeOrDefault<float>(0),
-                max = values.GetAsTypeOrDefault<float>(1),
-                bounciness = values.GetAsTypeOrDefault<float>(2),
-                bounceMinVelocity = values.GetAsTypeOrDefault<float>(3),
-                contactDistance = values.GetAsTypeOrDefault<float>(4),
+                min = values[0],
+                max = values[1],
+                bounciness = values[2],
+                bounceMinVelocity = values[3],
+                contactDistance = values[4],
             };
         }
 

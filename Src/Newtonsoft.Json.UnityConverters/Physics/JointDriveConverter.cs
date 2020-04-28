@@ -14,9 +14,9 @@ namespace Newtonsoft.Json.UnityConverters.Physics
         protected override JointDrive CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new JointDrive {
-                positionSpring = values.GetAsTypeOrDefault<float>(0),
-                positionDamper = values.GetAsTypeOrDefault<float>(1),
-                maximumForce = values.GetAsTypeOrDefault<float>(2),
+                positionSpring = values[0],
+                positionDamper = values[1],
+                maximumForce = values[2],
             };
         }
 

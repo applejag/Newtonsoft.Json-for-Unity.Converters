@@ -14,9 +14,9 @@ namespace Newtonsoft.Json.UnityConverters.Physics
         protected override SoftJointLimit CreateInstanceFromValues(ValuesArray<float> values)
         {
             return new SoftJointLimit {
-                limit = values.GetAsTypeOrDefault<float>(0),
-                bounciness = values.GetAsTypeOrDefault<float>(1),
-                contactDistance = values.GetAsTypeOrDefault<float>(2),
+                limit = values[0],
+                bounciness = values[1],
+                contactDistance = values[2],
             };
         }
 
