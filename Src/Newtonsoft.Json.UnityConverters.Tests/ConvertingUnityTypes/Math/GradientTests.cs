@@ -7,6 +7,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
     public class GradientTests : TypeTester<Gradient>
     {
         public static readonly IReadOnlyCollection<(Gradient deserialized, object anonymous)> representations = new (Gradient, object)[] {
+            (new Gradient(), new {
+                colorKeys = null as object[],
+                alphaKeys = null as object[],
+                mode = default(GradientMode),
+            }),
             (new Gradient{
                 colorKeys = new[] {
                     // Note 1: The Color alpha channel is reset to 1
@@ -36,7 +41,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes.Math
                     new { alpha = 3f, time = .8f },
                 },
                 mode = GradientMode.Blend
-            })
+            }),
         };
 
         protected override bool AreEqual(Gradient a, Gradient b)
