@@ -6,6 +6,7 @@
 
 This package contains converters to and from common Unity types. Types such as
 Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
+(See the [full compatibility table of all +50 supported Unity types][wiki-Converters-compatability-table])
 
 The perfect complement to the [jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
 
@@ -37,6 +38,29 @@ version. As such, we're masking out the major in our versions.
 - The first release of Newtonsoft.Json-for-Unity.Converters is `x.1.0`.
 - To use together with Newtonsoft.Json 12.0.3, use the UPM version `12.1.0`
 
+## Contributing
+
+Thankful that you're even reading this :)
+
+If you want to contribute, here's what you can do:
+
+- **Spread the word!** ❤ More users &rarr; more feedback &rarr; I get more
+  will-power to work on this project. This is the best way to contribute!
+
+- [Open an issue][issue-create]. Could be a feature request for a new converter,
+  or maybe you've found a bug?
+
+- [Tackle one of the unassigned issues][issue-list-unassigned]. If it looks like
+  a fun task to solve and no one is assigned, then just comment on it and say
+  that you would like to try it out.
+
+- Open a PR with some new feature or issue solved. Remember to ask before
+  starting to work on anything, so no two are working on the same thing.
+
+  Having a feature request or issue pop up and having the submitter suggesting
+  themselves to later add a PR for a solution is the absolute greatest gift
+  a repository maintainer could ever receive. 🎁
+
 ## Changelog
 
 Please see the [CHANGELOG.md][changelog.md] file inside this package.
@@ -55,3 +79,6 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [jillejr.newtonsoft.json-for-unity]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
 [wiki-Install-Converters-via-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
 [wiki-Install-Converters-via-OpenUPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
+[wiki-Converters-compatability-table]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Converters-compatability-table
+[issue-create]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/new/choose
+[issue-list-unassigned]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee
