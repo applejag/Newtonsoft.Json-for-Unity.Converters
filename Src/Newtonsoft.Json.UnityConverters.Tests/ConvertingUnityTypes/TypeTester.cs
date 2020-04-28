@@ -201,5 +201,18 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // Assert
             Assert.IsNull(result);
         }
+
+        [Test]
+        public void OkWithSerializingNullableNull()
+        {
+            // Arrange
+            var value = new { x = (T?)null };
+
+            // Act
+            Assert.DoesNotThrow(() =>
+            {
+                Serialize(value);
+            });
+        }
     }
 }
