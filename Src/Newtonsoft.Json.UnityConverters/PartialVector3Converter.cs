@@ -5,6 +5,7 @@
 |\                                                      /|   _____))   | !  ] U
 \.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ./  (_(__(S)   |___*/
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
@@ -18,10 +19,9 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Vector3 ReadValue(JsonReader reader, JsonSerializer serializer)
+        protected override Vector3 ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            reader.Read();
-            return serializer.Deserialize<Vector3>(reader);
+            return reader.ReadViaSerializer<Vector3>(serializer);
         }
 
         protected override void WriteValue(JsonWriter writer, Vector3 value, JsonSerializer serializer)

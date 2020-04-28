@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -14,17 +14,7 @@ namespace Newtonsoft.Json.UnityConverters
             new VersionConverter()
         };
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
-#pragma warning disable IDE0051 // Remove unused private members
-        internal static void Init()
-#pragma warning restore IDE0051 // Remove unused private members
-        {
-            if (JsonConvert.DefaultSettings == null)
-            {
-                JsonConvert.DefaultSettings = GetDefaultUnitySettings;
-            }
-        }
+        private static bool _shouldAddConvertsToDefaultSettings = true;
 
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
@@ -37,13 +27,55 @@ namespace Newtonsoft.Json.UnityConverters
         /// 	3. <see cref="StringEnumConverter"/>.
         /// 	4. <see cref="VersionConverter"/>.
         /// </remarks>
-        public static JsonSerializerSettings DefaultUnitySettings { get; set; } = new JsonSerializerSettings {
+        public static JsonSerializerSettings DefaultUnityConvertersSettings { get; set; } = new JsonSerializerSettings {
             Converters = CreateConverters()
         };
 
+        /// <summary>
+        /// If set to <c>false</c> then will not try to inject converters on init via
+        /// the default settings property on JsonConvert
+        /// <see cref="JsonConvert.DefaultSettings"/>.
+        /// Default is <c>true</c>.
+        /// </summary>
+        public static bool ShouldAddConvertsToDefaultSettings
+        {
+            get => _shouldAddConvertsToDefaultSettings;
+            set
+            {
+                _shouldAddConvertsToDefaultSettings = value;
+                UpdateDefaultSettings();
+            }
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+#pragma warning disable IDE0051 // Remove unused private members
+        internal static void Init()
+#pragma warning restore IDE0051 // Remove unused private members
+        {
+            UpdateDefaultSettings();
+        }
+
+        private static void UpdateDefaultSettings()
+        {
+            if (ShouldAddConvertsToDefaultSettings)
+            {
+                if (JsonConvert.DefaultSettings == null)
+                {
+                    JsonConvert.DefaultSettings = GetDefaultUnitySettings;
+                }
+            }
+            else
+            {
+                if (JsonConvert.DefaultSettings == GetDefaultUnitySettings)
+                {
+                    JsonConvert.DefaultSettings = null;
+                }
+            }
+        }
+
         internal static JsonSerializerSettings GetDefaultUnitySettings()
         {
-            return DefaultUnitySettings;
+            return DefaultUnityConvertersSettings;
         }
 
         /// <summary>
@@ -55,10 +87,10 @@ namespace Newtonsoft.Json.UnityConverters
             var customs = FindCustomConverters()
                 .Concat(FindUnityConverters())
                 .Select(type => CreateConverter(type))
-                .WhereNotNull();
+                .WhereNotNullRef();
 
-            return customs.Concat(_builtinConverters).ToList();
-
+            JsonConverter[] array = customs.Concat(_builtinConverters).ToArray();
+            return new List<JsonConverter>(array);
         }
 
         /// <summary>
@@ -106,7 +138,7 @@ namespace Newtonsoft.Json.UnityConverters
         {
             try
             {
-                var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
+                var jsonConverter = (JsonConverter?)Activator.CreateInstance(jsonConverterType);
                 return jsonConverter;
             }
             catch (Exception exception)
@@ -115,18 +147,6 @@ namespace Newtonsoft.Json.UnityConverters
             }
 
             return null;
-        }
-
-        private static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> values)
-            where T : class
-        {
-            foreach (T? item in values)
-            {
-                if (item != null)
-                {
-                    yield return item;
-                }
-            }
         }
     }
 }

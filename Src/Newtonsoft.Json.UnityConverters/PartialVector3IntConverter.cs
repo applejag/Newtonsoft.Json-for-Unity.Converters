@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json.UnityConverters.Helpers;
+using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -11,10 +12,9 @@ namespace Newtonsoft.Json.UnityConverters
         {
         }
 
-        protected override Vector3Int ReadValue(JsonReader reader, JsonSerializer serializer)
+        protected override Vector3Int ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            reader.Read();
-            return serializer.Deserialize<Vector3Int>(reader);
+            return reader.ReadViaSerializer<Vector3Int>(serializer);
         }
 
         protected override void WriteValue(JsonWriter writer, Vector3Int value, JsonSerializer serializer)

@@ -8,6 +8,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Newtonsoft.Json.UnityConverters.Helpers;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -58,9 +60,9 @@ namespace Newtonsoft.Json.UnityConverters
         /// <summary>
         /// Create the instance with the given values.
         /// </summary>
-        /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor.</param>
+        /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor of this PartialConverter.</param>
         /// <returns>The instance.</returns>
-        protected abstract T CreateInstanceFromValues(TInner[] values);
+        protected abstract T CreateInstanceFromValues(ValuesArray<TInner> values);
 
         /// <summary>
         /// Read the values off from the given instance.
@@ -85,7 +87,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// for the generic type.
         /// </summary>
         /// <param name="reader">The JSON reader</param>
-        protected abstract TInner ReadValue(JsonReader reader, JsonSerializer serializer);
+        protected abstract TInner ReadValue(JsonReader reader, int index, JsonSerializer serializer);
 
         /// <summary>
         /// Determine if the object type is <typeparamref name="T"/>
@@ -94,7 +96,10 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns><c>true</c> if this can convert the specified type; otherwise, <c>false</c>.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(T) == objectType;
+            return objectType == typeof(T)
+                || (objectType.IsGenericType
+                    && objectType.GetGenericTypeDefinition() == typeof(Nullable<>)
+                    && objectType.GenericTypeArguments[0] == typeof(T));
         }
 
         /// <summary>
@@ -111,16 +116,18 @@ namespace Newtonsoft.Json.UnityConverters
             object? existingValue,
             JsonSerializer serializer)
         {
-            return ReadJson(reader, serializer);
+            bool isNullableStruct = objectType.IsGenericType
+                && objectType.GetGenericTypeDefinition() == typeof(Nullable<>);
+
+            return InternalReadJson(reader, serializer, isNullableStruct);
         }
 
-        public T ReadJson(JsonReader reader, JsonSerializer serializer)
+        private object? InternalReadJson(JsonReader reader, JsonSerializer serializer, bool isNullableStruct)
         {
-            var values = new TInner[_namesArray.Length];
 
             if (reader.TokenType == JsonToken.Null)
             {
-                return CreateInstanceFromValues(values);
+                return CreateValueForNull(isNullableStruct);
             }
 
             if (reader.TokenType != JsonToken.StartObject)
@@ -130,6 +137,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             reader.Read();
 
+            var values = new ValuesArray<TInner>(_namesArray.Length);
             int previousIndex = -1;
 
             while (reader.TokenType == JsonToken.PropertyName)
@@ -143,7 +151,7 @@ namespace Newtonsoft.Json.UnityConverters
                     }
 
                     previousIndex = index;
-                    values[index] = ReadValue(reader, serializer);
+                    values[index] = ReadValue(reader, index, serializer);
                 }
                 else
                 {
@@ -156,7 +164,18 @@ namespace Newtonsoft.Json.UnityConverters
             return CreateInstanceFromValues(values);
         }
 
-
+        private object? CreateValueForNull(bool isNullableStruct)
+        {
+            if (isNullableStruct)
+            {
+                return null;
+            }
+            else
+            {
+                var values = new ValuesArray<TInner>(_namesArray.Length);
+                return CreateInstanceFromValues(values);
+            }
+        }
 
         /// <summary>
         /// Write the specified properties of the object.
@@ -198,5 +217,22 @@ namespace Newtonsoft.Json.UnityConverters
             writer.WriteEndObject();
         }
 
+        /// <summary>
+        /// Gets the non-public instance field info <see cref="FieldInfo"/> for the converted type
+        /// <typeparamref name="T"/>.
+        /// If not found then will throw a missing member exception <see cref="MissingMemberException"/>.
+        /// </summary>
+        /// <remarks>
+        /// If used in static initialization (ex: inside static constructor,
+        /// static field, or static property backing field initialization)
+        /// and the field does not exist it would invalidate the type for
+        /// the entirety of the programs lifetime.
+        /// </remarks>
+        /// <param name="name">Name of the non-public instance field.</param>
+        protected internal static FieldInfo GetFieldInfoOrThrow(string name)
+        {
+            return typeof(T).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
+                ?? throw new MissingMemberException(typeof(T).FullName, name);
+        }
     }
 }
