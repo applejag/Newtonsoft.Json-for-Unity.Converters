@@ -9,18 +9,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
     {
         protected readonly JsonSerializer _serializer;
 
-        static TypeTesterBase()
-        {
-            UnityConverterInitializer.ShouldAddConvertsToDefaultSettings = false;
-            UnityConverterInitializer.DefaultUnityConvertersSettings.Formatting = Formatting.None;
-        }
-
         protected TypeTesterBase()
         {
             _serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
         }
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUpSerializer()
         {
             ConfigureSerializer(_serializer);
@@ -31,15 +25,15 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // No settings changes by default
         }
 
-        protected string Serialize(object? anonymous)
+        protected string Serialize(object? value)
         {
-            return Serialize(anonymous, _serializer);
+            return Serialize(value, _serializer);
         }
 
-        protected static string Serialize(object? anonymous, JsonSerializer serializer)
+        protected static string Serialize(object? value, JsonSerializer serializer)
         {
             var builder = new StringBuilder();
-            serializer.Serialize(new JsonTextWriter(new StringWriter(builder)), anonymous);
+            serializer.Serialize(new JsonTextWriter(new StringWriter(builder)), value);
             return builder.ToString();
         }
 
