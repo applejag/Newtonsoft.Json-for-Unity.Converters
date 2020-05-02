@@ -23,6 +23,7 @@ _ReSharper.*
 
 # License files
 *.ulf
+*.ulf.b64
 *.ilf
 *.alf
 
