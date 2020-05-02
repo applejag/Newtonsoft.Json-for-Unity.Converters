@@ -1,0 +1,5 @@
+engines:
+  duplication:
+    enabled: true
+    exclude_paths:
+      - Assets/Newtonsoft.Json.UnityConverters.Tests/**

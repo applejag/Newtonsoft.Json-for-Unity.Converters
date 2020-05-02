@@ -33,6 +33,7 @@ do
         -testResults $test_results_file \
         -buildTarget Linux64 \
         -batchmode \
+        -nographics \
         -logfile /dev/stdout
 
     UNITY_EXIT_CODE=$?
@@ -120,6 +121,11 @@ echo "export TEST_FAILED=\$(($failed))" >> $BASH_ENV
 echo "export TEST_INCONCLUSIVE=\$(($inconclusive))" >> $BASH_ENV
 echo "export TEST_SKIPPED=\$(($skipped))" >> $BASH_ENV
 echo "export TEST_TOTAL=\$(($total))" >> $BASH_ENV
+
+if [ $total -eq 0 ]; then
+    echo "[!] No tests found. Reporting as failed. Exit code: 1"
+    exit 1
+fi
 
 exitCode=$((failed+inconclusive))
 exit $exitCode

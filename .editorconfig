@@ -6,7 +6,7 @@ root = true
 [*]
 
 # EditorGuidelines https://github.com/pharring/EditorGuidelines
-guidelines = 80
+guidelines = 80, 199, 200
 
 indent_style = space
 indent_size = 4
@@ -23,7 +23,7 @@ indent_size = 2
 # === C# files ===
 [*.cs]
 
-guidelines = 80, 120, 121
+guidelines = 80, 120, 121, 199, 200
 
 indent_style = space
 indent_size = 4
