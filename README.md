@@ -83,17 +83,6 @@ having the `jillejr.newtonsoft.json-for-unity.converters` package selected.
 ![outdated package in package list](https://i.imgur.com/plejYzI.png)
 ![update button](https://i.imgur.com/iJsGyFy.png)
 
-## Versioning format
-
-To use the package with Newtonsoft.Json, you must match the Major component of
-the versions for it to compile. The rest of the components are reserved for
-the iterations of this package, Newtonsoft.Json-for-Unity.Converts.
-
-![explanation of version][version-explanation.png]
-
-Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity.Converters
-12.*xx.xx*.
-
 ## Changelog
 
 Please see the [CHANGELOG.md][changelog.md] file inside this package.
