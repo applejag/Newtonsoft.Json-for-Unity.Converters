@@ -14,7 +14,7 @@ Repeat the following steps for the following versions:
 - 2020.1.0b6-linux-il2cpp
 
 1. Run `Build/local_docker_run.ps1` in PowerShell with `-UnityVersion` parameter
-    being set to Unity version, ex:
+   being set to Unity version, ex:
 
     ```powershell
     # Assuming working directory is at repo root
@@ -61,8 +61,8 @@ Repeat the following steps for the following versions:
 ### Add licenses to CircleCI environment variables
 
 1. Get the base-64 formatted content of the license files `.ulf`. Tip to save
-    these as `*.b64` so you then can copy paste the content of the files into
-    CircleCI.
+   these as `*.b64` so you then can copy paste the content of the files into
+   CircleCI.
    
     For example, in bash:
     ```bash
@@ -80,10 +80,10 @@ Repeat the following steps for the following versions:
     ```
 
 2. Copy the content of these `.ulf.b64` files and add them as variables inside
-    the CircleCI settings.
+   the CircleCI settings.
     
-    > For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
-    > <https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/environment-variables>
+    >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
+    ><https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/environment-variables>
 
     Here's a table of the desired contents:
 
