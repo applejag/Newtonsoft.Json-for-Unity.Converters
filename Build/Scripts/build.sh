@@ -35,6 +35,7 @@ echo "############"
 echo
 
 msbuild -t:build "$BUILD_SOLUTION" \
+    -p:TargetFramework="$BUILD_FRAMEWORK" \
     -p:Configuration="$BUILD_CONFIGURATION" \
     -p:OutputPath="$BUILD_DESTINATION" \
     -p:VersionPrefix="$VERSION_JSON_NET" \
