@@ -52,8 +52,8 @@ jobs:
       - run:
           name: NuGet restore
           command: |
-            msbuild -t:restore "$BUILD_SOLUTION"
-            msbuild -t:restore "$TEST_SOLUTION" -p:UnityBuild=Tests
+            msbuild -t:restore "$BUILD_SOLUTION" -p:TargetFramework=netstandard2.0
+            msbuild -t:restore "$TEST_SOLUTION" -p:UnityBuild=Tests -p:TargetFramework=net472
 
       - save_cache:
           key: build-package-nuget
