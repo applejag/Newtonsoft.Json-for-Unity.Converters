@@ -1,9 +1,6 @@
 ﻿#pragma warning disable MA0048 // File name must match type name
 #define INTERNAL_NULLABLE_ATTRIBUTES
-// Unity defines
-#if NET_STANDARD_2_0 || NET_4_6 || NET_2_0 || NET_2_0_SUBSET || NET_LEGACY
-// MSBuild defines
-#if NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NET45 || NET451 || NET452 || NET6 || NET461 || NET462 || NET47 || NET471 || NET472 || NET48
+#if NET_STANDARD_2_0 || NET_4_6 || NET_2_0 || NET_2_0_SUBSET || NET_LEGACY 
 
 // https://github.com/dotnet/corefx/blob/48363ac826ccf66fbe31a5dcb1dc2aab9a7dd768/src/Common/src/CoreLib/System/Diagnostics/CodeAnalysis/NullableAttributes.cs
 
@@ -152,5 +149,4 @@ namespace System.Diagnostics.CodeAnalysis
         public bool ParameterValue { get; }
     }
 }
-#endif
 #endif
