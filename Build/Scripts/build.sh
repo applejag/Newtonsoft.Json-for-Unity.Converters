@@ -34,7 +34,12 @@ echo "$0: ADDITIONAL CONSTANTS '$BUILD_ADDITIONAL_CONSTANTS'"
 echo "############"
 echo
 
-msbuild -t:build "$BUILD_SOLUTION" \
+_exec() {
+    printf '\e[33m$ %s\e[0m' "$*"
+    "$@"
+}
+
+_exec msbuild -t:build "$BUILD_SOLUTION" \
     -p:TargetFramework="$BUILD_FRAMEWORK" \
     -p:Configuration="$BUILD_CONFIGURATION" \
     -p:OutputPath="$BUILD_DESTINATION" \
