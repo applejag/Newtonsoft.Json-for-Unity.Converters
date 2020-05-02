@@ -35,7 +35,7 @@ echo "############"
 echo
 
 _exec() {
-    printf '\e[33m$ %s\e[0m' "$*"
+    printf '\e[33m$ %s\e[0m\n' "$*"
     "$@"
 }
 
