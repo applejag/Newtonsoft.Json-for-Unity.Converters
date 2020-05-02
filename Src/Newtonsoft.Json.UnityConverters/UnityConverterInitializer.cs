@@ -100,7 +100,7 @@ namespace Newtonsoft.Json.UnityConverters
         private static IEnumerable<Type> FindCustomConverters()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .Select(dll => dll.GetTypes()
+                .Select(dll => dll.GetLoadableTypes()
                     .Where(type
                         => typeof(JsonConverter).IsAssignableFrom(type)
 
