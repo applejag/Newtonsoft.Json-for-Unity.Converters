@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472</TargetFrameworks>
-    <!-- <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks> -->
-    <!-- <IsPackable>false</IsPackable> -->
+    <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
 
     <UnityVersion>2019.2.11f1</UnityVersion>
     
@@ -11,15 +10,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
+  <ItemGroup>
     <FileToCopyIntoUnity Include="Newtonsoft.Json.UnityConverters.Tests.dll" />
     <FileToCopyIntoUnity Include="Newtonsoft.Json.UnityConverters.Tests.pdb" />
     <FileToCopyIntoUnity Include="Newtonsoft.Json.UnityConverters.dll" />
     <FileToCopyIntoUnity Include="Newtonsoft.Json.UnityConverters.pdb" />
-  </ItemGroup> -->
+  </ItemGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" PrivateAssets="all" Condition="'$(TargetFramework)' == 'net472'" /> -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" PrivateAssets="all" Condition="'$(TargetFramework)' == 'net472'" />
     <PackageReference Include="nunit" Version="3.5.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -30,13 +29,13 @@
     <ProjectReference Include="..\Newtonsoft.Json.UnityConverters\Newtonsoft.Json.UnityConverters.csproj" />
   </ItemGroup>
 
-  <!-- <Target Name="CopyFilesIntoUnity" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(TargetFramework)' == 'net472'">
+  <Target Name="CopyFilesIntoUnity" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(TargetFramework)' == 'net472'">
     <Copy SourceFiles="@(FileToCopyIntoUnity->'$(OutputPath)\%(Filename)%(Extension)')" DestinationFolder="..\UnityConvertersTestingProject\Assets\Plugins\" />
     <Message Text="Copied @(FileToCopyIntoUnity->'%(Filename)%(Extension)') in to Unity" />
-  </Target> -->
+  </Target>
 
   <!-- disable the nullable warnings when compiling for .NET 4.7.2 -->
-  <!-- <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
     <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
-  </PropertyGroup> -->
+  </PropertyGroup>
 </Project>
