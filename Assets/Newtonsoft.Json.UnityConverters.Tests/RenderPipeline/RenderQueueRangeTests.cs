@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_2019_1_OR_NEWER
+using System.Collections.Generic;
 using UnityEngine.Rendering;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.RenderPipeline
@@ -11,3 +12,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.RenderPipeline
         };
     }
 }
+#endif
