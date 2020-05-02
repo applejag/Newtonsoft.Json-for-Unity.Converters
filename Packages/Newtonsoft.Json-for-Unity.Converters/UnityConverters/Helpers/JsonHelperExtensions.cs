@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class JsonHelperExtensions
     {
-        internal static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, Exception? innerException = null)
+        internal static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, [AllowNull] Exception innerException = null)
         {
             StringBuilder builder = CreateStringBuilderWithSpaceAfter(message);
 
@@ -29,7 +30,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
                 message: builder.ToString(), reader.Path, lineNumber, linePosition, innerException);
         }
 
-        internal static JsonWriterException CreateWriterException(this JsonWriter writer, string message, Exception? innerException = null)
+        internal static JsonWriterException CreateWriterException(this JsonWriter writer, string message, [AllowNull] Exception innerException = null)
         {
             StringBuilder builder = CreateStringBuilderWithSpaceAfter(message);
 
@@ -55,6 +56,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
             return builder;
         }
 
+        [return: MaybeNull]
         internal static T ReadViaSerializer<T>(this JsonReader reader, JsonSerializer serializer)
         {
             reader.Read();

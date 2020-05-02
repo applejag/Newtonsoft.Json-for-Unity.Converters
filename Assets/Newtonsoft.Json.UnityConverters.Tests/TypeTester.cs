@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using NUnit.Framework;
 
-namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
+namespace Newtonsoft.Json.UnityConverters.Tests
 {
     public abstract class TypeTesterBase
     {
@@ -25,24 +25,26 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             // No settings changes by default
         }
 
-        protected string Serialize(object? value)
+        protected string Serialize([AllowNull] object value)
         {
             return Serialize(value, _serializer);
         }
 
-        protected static string Serialize(object? value, JsonSerializer serializer)
+        protected static string Serialize([AllowNull] object value, JsonSerializer serializer)
         {
             var builder = new StringBuilder();
             serializer.Serialize(new JsonTextWriter(new StringWriter(builder)), value);
             return builder.ToString();
         }
 
-        protected object? Deserialize(string json)
+        [return: MaybeNull]
+        protected object Deserialize(string json)
         {
             return Deserialize(json, _serializer);
         }
 
-        protected static object? Deserialize(string json, JsonSerializer serializer)
+        [return: MaybeNull]
+        protected static object Deserialize(string json, JsonSerializer serializer)
         {
             return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
         }
@@ -77,7 +79,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             AssertAreEqual(expected, actual, null);
         }
 
-        protected void AssertAreEqual(T expected, [AllowNull] T actual, string? message)
+        protected void AssertAreEqual(T expected, [AllowNull] T actual, [AllowNull] string message)
         {
             if (!AreEqual(expected, actual))
             {
@@ -138,7 +140,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.ConvertingUnityTypes
             string input = Serialize(new[] { representation.anonymous });
 
             // Act
-            T[]? result = Deserialize<T[]>(input);
+            T[] result = Deserialize<T[]>(input);
 
             // Assert
             Assert.IsNotNull(result);

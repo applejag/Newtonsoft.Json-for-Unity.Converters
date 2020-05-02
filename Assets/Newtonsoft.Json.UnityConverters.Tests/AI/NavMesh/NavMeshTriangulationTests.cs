@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
@@ -50,20 +51,21 @@ namespace Newtonsoft.Json.UnityConverters.Tests.AI.NavMesh
                 && NullsafeSequenceEquals(a.indices, b.indices)
                 && NullsafeSequenceEquals(a.areas, b.areas);
 
-            static bool NullsafeSequenceEquals<T>(T[]? first, T[]? second)
+        }
+
+        private static bool NullsafeSequenceEquals<T>([AllowNull] T[] first, [AllowNull] T[] second)
+        {
+            if (first == null && second == null)
             {
-                if (first == null && second == null)
-                {
-                    return true;
-                }
-                else if (first == null || second == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return first.SequenceEqual(second);
-                }
+                return true;
+            }
+            else if (first == null || second == null)
+            {
+                return false;
+            }
+            else
+            {
+                return first.SequenceEqual(second);
             }
         }
     }

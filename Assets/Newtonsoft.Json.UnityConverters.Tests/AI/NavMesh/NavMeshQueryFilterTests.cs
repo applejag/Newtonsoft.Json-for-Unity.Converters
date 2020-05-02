@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using UnityEngine.AI;
 
@@ -7,7 +8,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.AI.NavMesh
 {
     public class NavMeshQueryFilterTests : ValueTypeTester<NavMeshQueryFilter>
     {
-        private static readonly PropertyInfo? _costsProperty = typeof(NavMeshQueryFilter).GetProperty("costs", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly PropertyInfo _costsProperty = typeof(NavMeshQueryFilter).GetProperty("costs", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static readonly IReadOnlyCollection<(NavMeshQueryFilter deserialized, object anonymous)> representations = new (NavMeshQueryFilter, object)[] {
             (new NavMeshQueryFilter(), new {

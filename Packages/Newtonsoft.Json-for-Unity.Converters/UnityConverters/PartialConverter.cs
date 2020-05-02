@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.UnityConverters.Helpers;
@@ -110,10 +111,11 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="objectType">Type of the object.</param>
         /// <param name="existingValue">The existing value of object being read.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override object? ReadJson(
+        [return: MaybeNull]
+        public override object ReadJson(
             JsonReader reader,
             Type objectType,
-            object? existingValue,
+            [AllowNull] object existingValue,
             JsonSerializer serializer)
         {
             bool isNullableStruct = objectType.IsGenericType
@@ -122,7 +124,8 @@ namespace Newtonsoft.Json.UnityConverters
             return InternalReadJson(reader, serializer, isNullableStruct);
         }
 
-        private object? InternalReadJson(JsonReader reader, JsonSerializer serializer, bool isNullableStruct)
+        [return: MaybeNull]
+        private object InternalReadJson(JsonReader reader, JsonSerializer serializer, bool isNullableStruct)
         {
 
             if (reader.TokenType == JsonToken.Null)
@@ -164,7 +167,8 @@ namespace Newtonsoft.Json.UnityConverters
             return CreateInstanceFromValues(values);
         }
 
-        private object? CreateValueForNull(bool isNullableStruct)
+        [return: MaybeNull]
+        private object CreateValueForNull(bool isNullableStruct)
         {
             if (isNullableStruct)
             {
@@ -183,7 +187,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <param name="writer">The <c>Newtonsoft.Json.JsonWriter</c> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
         {
             if (value == null)
             {

@@ -97,7 +97,7 @@ namespace Newtonsoft.Json.UnityConverters
             return _array == other._array;
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals([AllowNull] object obj)
         {
             return obj is ValuesArray<TInner> array &&
                    EqualityComparer<TInner[]>.Default.Equals(_array, array._array);

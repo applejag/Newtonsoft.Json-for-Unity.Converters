@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using Unity.Collections;
 
@@ -7,7 +8,7 @@ namespace Newtonsoft.Json.UnityConverters.NativeArray
 {
     public class NativeArrayConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
         {
             if (value is null)
             {
@@ -17,14 +18,15 @@ namespace Newtonsoft.Json.UnityConverters.NativeArray
 
             var enumerable = (IEnumerable)value;
             writer.WriteStartArray();
-            foreach (object? item in enumerable)
+            foreach (object item in enumerable)
             {
                 serializer.Serialize(writer, item);
             }
             writer.WriteEndArray();
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        [return: MaybeNull]
+        public override object ReadJson(JsonReader reader, Type objectType, [AllowNull] object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {

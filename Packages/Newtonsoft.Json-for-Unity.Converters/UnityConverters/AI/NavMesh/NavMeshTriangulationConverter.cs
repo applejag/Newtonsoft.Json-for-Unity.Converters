@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 {
-    public class NavMeshTriangulationConverter : PartialConverter<NavMeshTriangulation, object?>
+    public class NavMeshTriangulationConverter : PartialConverter<NavMeshTriangulation, object>
     {
         private static readonly string[] _memberNames = { "vertices", "indices", "areas" };
 
@@ -14,7 +15,7 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
         {
         }
 
-        protected override NavMeshTriangulation CreateInstanceFromValues(ValuesArray<object?> values)
+        protected override NavMeshTriangulation CreateInstanceFromValues(ValuesArray<object> values)
         {
             return new NavMeshTriangulation {
                 vertices = values[0] as Vector3[],
@@ -23,28 +24,30 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
             };
         }
 
-        protected override object?[] ReadInstanceValues(NavMeshTriangulation instance)
+        [return: MaybeNull]
+        protected override object[] ReadInstanceValues(NavMeshTriangulation instance)
         {
-            return new object?[] {
+            return new object[] {
                 instance.vertices,
                 instance.indices,
                 instance.areas
             };
         }
 
-        protected override object? ReadValue(JsonReader reader, int index, JsonSerializer serializer)
+        [return: MaybeNull]
+        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
             return index switch
             {
-                0 => reader.ReadViaSerializer<Vector3[]?>(serializer),
-                1 => reader.ReadViaSerializer<int[]?>(serializer),
-                2 => reader.ReadViaSerializer<int[]?>(serializer),
+                0 => reader.ReadViaSerializer<Vector3[]>(serializer),
+                1 => reader.ReadViaSerializer<int[]>(serializer),
+                2 => reader.ReadViaSerializer<int[]>(serializer),
 
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..2")
             };
         }
 
-        protected override void WriteValue(JsonWriter writer, object? value, JsonSerializer serializer)
+        protected override void WriteValue(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
         {
             switch (value)
             {

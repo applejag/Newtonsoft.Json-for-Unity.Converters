@@ -4,10 +4,10 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class EnumerableExtensions
     {
-        internal static IEnumerable<T> WhereNotNullRef<T>(this IEnumerable<T?> values)
+        internal static IEnumerable<T> WhereNotNullRef<T>(this IEnumerable<T> values)
             where T : class
         {
-            foreach (T? item in values)
+            foreach (T item in values)
             {
                 if (item != null)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
@@ -9,9 +10,12 @@ namespace Newtonsoft.Json.UnityConverters.Camera
     {
         private const byte DISTANCE_MASK = (1 << 7) - 1;
 
-        private static readonly FieldInfo? _indexField = typeof(CullingGroupEvent).GetField("m_Index", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo? _prevStateField = typeof(CullingGroupEvent).GetField("m_PrevState", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo? _thisStateField = typeof(CullingGroupEvent).GetField("m_ThisState", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _indexField = typeof(CullingGroupEvent).GetField("m_Index", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _prevStateField = typeof(CullingGroupEvent).GetField("m_PrevState", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _thisStateField = typeof(CullingGroupEvent).GetField("m_ThisState", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private static readonly string[] _memberNames = { "index", "isVisible", "wasVisible", "currentDistance", "previousDistance" };
 

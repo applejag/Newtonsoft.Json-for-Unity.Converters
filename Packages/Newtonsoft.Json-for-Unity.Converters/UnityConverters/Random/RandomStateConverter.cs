@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using State = UnityEngine.Random.State;
+using RandomState = UnityEngine.Random.State;
 
 namespace Newtonsoft.Json.UnityConverters.Random
 {
-    public class RandomStateConverter : PartialIntConverter<State>
+    public class RandomStateConverter : PartialIntConverter<RandomState>
     {
         private static readonly string[] _memberNames = { "s0", "s1", "s2", "s3" };
 
@@ -20,9 +20,9 @@ namespace Newtonsoft.Json.UnityConverters.Random
         {
         }
 
-        protected override State CreateInstanceFromValues(ValuesArray<int> values)
+        protected override RandomState CreateInstanceFromValues(ValuesArray<int> values)
         {
-            var state = new State();
+            var state = new RandomState();
 
             TypedReference reference = __makeref(state);
             _s0Field.SetValueDirect(reference, values[0]);
@@ -33,7 +33,7 @@ namespace Newtonsoft.Json.UnityConverters.Random
             return state;
         }
 
-        protected override int[] ReadInstanceValues(State instance)
+        protected override int[] ReadInstanceValues(RandomState instance)
         {
             return new[] {
                 (int)(_s0Field.GetValue(instance) ?? 0),

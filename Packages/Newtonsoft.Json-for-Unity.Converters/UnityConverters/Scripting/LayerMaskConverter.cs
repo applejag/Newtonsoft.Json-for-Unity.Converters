@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Scripting
@@ -17,7 +18,8 @@ namespace Newtonsoft.Json.UnityConverters.Scripting
             return objectType == typeof(LayerMask) || objectType == typeof(LayerMask?);
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        [return: MaybeNull]
+        public override object ReadJson(JsonReader reader, Type objectType, [AllowNull] object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {
@@ -43,7 +45,7 @@ namespace Newtonsoft.Json.UnityConverters.Scripting
             return base.ReadJson(reader, objectType, existingValue, serializer);
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
         {
             if (value is null)
             {

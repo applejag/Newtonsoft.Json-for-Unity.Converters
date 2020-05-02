@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using UnityEngine;
 
@@ -9,9 +10,12 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Camera
     {
         private const byte DISTANCE_MASK = (1 << 7) - 1;
 
-        private static readonly FieldInfo? _indexField = typeof(CullingGroupEvent).GetField("m_Index", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo? _prevStateField = typeof(CullingGroupEvent).GetField("m_PrevState", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo? _thisStateField = typeof(CullingGroupEvent).GetField("m_ThisState", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _indexField = typeof(CullingGroupEvent).GetField("m_Index", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _prevStateField = typeof(CullingGroupEvent).GetField("m_PrevState", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _thisStateField = typeof(CullingGroupEvent).GetField("m_ThisState", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static readonly IReadOnlyCollection<(CullingGroupEvent deserialized, object anonymous)> representations = new (CullingGroupEvent, object)[] {
             (new CullingGroupEvent(), new {

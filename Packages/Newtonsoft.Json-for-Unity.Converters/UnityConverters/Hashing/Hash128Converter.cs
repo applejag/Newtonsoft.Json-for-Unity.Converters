@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ namespace Newtonsoft.Json.UnityConverters.Hashing
             return objectType == typeof(Hash128) || objectType == typeof(Hash128?);
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        [return: MaybeNull]
+        public override object ReadJson(JsonReader reader, Type objectType, [AllowNull] object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {
@@ -30,7 +32,7 @@ namespace Newtonsoft.Json.UnityConverters.Hashing
             }
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
         {
             if (value is null)
             {

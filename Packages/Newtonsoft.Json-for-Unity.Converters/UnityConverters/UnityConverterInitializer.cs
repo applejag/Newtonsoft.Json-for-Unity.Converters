@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Helpers;
@@ -134,11 +135,12 @@ namespace Newtonsoft.Json.UnityConverters
         /// </summary>
         /// <returns>The converter.</returns>
         /// <param name="jsonConverterType">Type.</param>
-        private static JsonConverter? CreateConverter(Type jsonConverterType)
+        [return: MaybeNull]
+        private static JsonConverter CreateConverter(Type jsonConverterType)
         {
             try
             {
-                var jsonConverter = (JsonConverter?)Activator.CreateInstance(jsonConverterType);
+                var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
                 return jsonConverter;
             }
             catch (Exception exception)

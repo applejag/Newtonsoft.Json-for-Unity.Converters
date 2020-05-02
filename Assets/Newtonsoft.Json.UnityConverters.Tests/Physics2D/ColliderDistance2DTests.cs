@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
@@ -8,7 +9,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
 {
     public class ColliderDistance2DTests : ValueTypeTester<ColliderDistance2D>
     {
-        private static readonly FieldInfo? _normalField = typeof(ColliderDistance2D).GetField("m_Normal", BindingFlags.NonPublic | BindingFlags.Instance);
+        [MaybeNull]
+        private static readonly FieldInfo _normalField = typeof(ColliderDistance2D).GetField("m_Normal", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static readonly IReadOnlyCollection<(ColliderDistance2D deserialized, object anonymous)> representations = new (ColliderDistance2D, object)[] {
             (new ColliderDistance2D(), new {
