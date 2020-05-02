@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net4.7.2;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
 
     <UnityVersion>2019.2.11f1</UnityVersion>
-    
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.5.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" PrivateAssets="all" Condition="'$(TargetFramework)' == 'net4.7.2'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" PrivateAssets="all" Condition="'$(TargetFramework)' == 'net472'" />
     <PackageReference Include="nunit" Version="3.5.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -30,13 +26,13 @@
     <ProjectReference Include="..\Newtonsoft.Json.UnityConverters\Newtonsoft.Json.UnityConverters.csproj" />
   </ItemGroup>
 
-  <Target Name="CopyFilesIntoUnity" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(TargetFramework)' == 'net4.7.2'">
+  <Target Name="CopyFilesIntoUnity" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(TargetFramework)' == 'net472'">
     <Copy SourceFiles="@(FileToCopyIntoUnity->'$(OutputPath)\%(Filename)%(Extension)')" DestinationFolder="..\UnityConvertersTestingProject\Assets\Plugins\" />
     <Message Text="Copied @(FileToCopyIntoUnity->'%(Filename)%(Extension)') in to Unity" />
   </Target>
 
   <!-- disable the nullable warnings when compiling for .NET 4.7.2 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net4.7.2'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
     <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
   </PropertyGroup>
 </Project>

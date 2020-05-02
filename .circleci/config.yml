@@ -52,8 +52,8 @@ jobs:
       - run:
           name: NuGet restore
           command: |
-            msbuild -t:restore "$BUILD_SOLUTION"
-            msbuild -t:restore "$TEST_SOLUTION" -p:UnityBuild=Tests
+            msbuild -t:restore "$BUILD_SOLUTION" -p:TargetFramework=netstandard2.0
+            msbuild -t:restore "$TEST_SOLUTION" -p:UnityBuild=Tests -p:TargetFramework=net472
 
       - save_cache:
           key: build-package-nuget
@@ -79,6 +79,7 @@ jobs:
             BUILD_CONFIGURATION=Debug \
             BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.UnityConverters.Tests/bin \
             BUILD_ADDITIONAL_CONSTANTS=UNITY_EDITOR_LINUX \
+            BUILD_FRAMEWORK=net472 \
             $SCRIPTS/build.sh
 
       - run:
@@ -249,6 +250,72 @@ jobs:
           paths:
             - /root/.config/unity3d/cache
 
+  test-unity-2020-1-0b6:
+    working_directory: ~/repo
+    
+    environment:
+      SCRIPTS: /root/repo/Build/Scripts
+      ASSETS_FOLDER: /root/repo/Src/UnityConvertersTestingProject/Assets
+      TEST_PROJECT: /root/repo/Src/UnityConvertersTestingProject
+      PLATFORMS: playmode
+
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
+
+    steps:
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - restore_cache:
+          keys:
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Src/UnityConvertersTestingProject/Packages/manifest.json" }}
+
+      - restore_cache:
+          keys:
+            - test-unity-upm-global-2020
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Setup Unity license
+          command: |
+            # Requires UNITY_2020_1_0b6_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
+            UNITY_LICENSE_CONTENT_B64="$UNITY_2020_1_0b6_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
+
+      - attach_workspace:
+          at: /workspace
+
+      - run:
+          name: Copy dll's into Unity testing project
+          command: |
+            cp -vfr /workspace/tests/. $ASSETS_FOLDER/Plugins/
+            cp -vfr /workspace/debug/. $ASSETS_FOLDER/Plugins/
+
+      - run:
+          name: Run tests
+          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
+
+      - run:
+          name: Convert NUnit to JUnit xml
+          when: always
+          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
+
+      - store_test_results:
+          name: Store test results -> ~/tests/junit
+          path: ~/tests/junit
+
+      - save_cache:
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Src/UnityConvertersTestingProject/Packages/manifest.json" }}
+          paths:
+            - /root/repo/Src/UnityConvertersTestingProject/Library/PackageCache
+
+      - save_cache:
+          key: test-unity-upm-global-2020
+          paths:
+            - /root/.config/unity3d/cache
+
   # deploy-cloudsmith:
   #   working_directory: /root/repo
     
@@ -405,6 +472,9 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
+      - test-unity-2020-1-0b6:
+          requires:
+            - build-package
   check-deploy-ready:
     jobs:
       - check-deploy-ready:
@@ -423,12 +493,16 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
+      - test-unity-2020-1-0b6:
+          requires:
+            - build-package
       # - hold:
       #     type: approval
       #     requires:
       #       - test-windows
       #       - test-unity-2018-4-14f1
       #       - test-unity-2019-2-11f1
+      #       - test-unity-2020-1-0b6
       # - deploy-cloudsmith:
       #     requires:
       #       - hold
