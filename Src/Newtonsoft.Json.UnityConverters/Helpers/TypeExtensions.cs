@@ -15,7 +15,9 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
             }
             catch (ReflectionTypeLoadException ex)
             {
-                Console.WriteLine($"Newtonsoft.Json.UnityConverters: Failed to load some types from assembly '{assembly.FullName}'. Maybe assembly is not fully loaded yet?\n{ex}");
+#if DEBUG
+                Console.WriteLine($"Newtonsoft.Json.UnityConverters.Helpers.TypeExtensions: Failed to load some types from assembly '{assembly.FullName}'. Maybe assembly is not fully loaded yet?\n{ex}");
+#endif
                 return ex.Types.Where(t => t != null);
             }
         }
