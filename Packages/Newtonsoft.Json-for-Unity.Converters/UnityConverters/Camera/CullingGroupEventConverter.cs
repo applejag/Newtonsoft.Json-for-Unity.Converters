@@ -72,26 +72,32 @@ namespace Newtonsoft.Json.UnityConverters.Camera
 
         protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            return index switch
+            switch (index)
             {
-                0 => reader.ReadAsInt32() ?? 0,
-                1 => reader.ReadAsBoolean() ?? false,
-                2 => reader.ReadAsBoolean() ?? false,
-                3 => ReadDistance(reader),
-                4 => ReadDistance(reader),
+            case 0:
+                return reader.ReadAsInt32() ?? 0;
 
-                _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4")
-            };
+            case 1:
+            case 2:
+                return reader.ReadAsBoolean() ?? false;
 
-            static byte ReadDistance(JsonReader reader)
-            {
-                int value = reader.ReadAsInt32() ?? 0;
-                if (value >= 0x80 || value < 0)
-                {
-                    throw reader.CreateSerializationException($"Overflow in {typeof(CullingGroupEvent).FullName} distance value. Distance must be between 0..127 (inclusive), got {value}");
-                }
-                return (byte)value;
+            case 3:
+            case 4:
+                return ReadDistance(reader);
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4");
             }
+        }
+
+        private static byte ReadDistance(JsonReader reader)
+        {
+            int value = reader.ReadAsInt32() ?? 0;
+            if (value >= 0x80 || value < 0)
+            {
+                throw reader.CreateSerializationException($"Overflow in {typeof(CullingGroupEvent).FullName} distance value. Distance must be between 0..127 (inclusive), got {value}");
+            }
+            return (byte)value;
         }
 
         protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)

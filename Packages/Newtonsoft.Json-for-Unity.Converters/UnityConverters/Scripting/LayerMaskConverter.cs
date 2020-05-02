@@ -31,18 +31,23 @@ namespace Newtonsoft.Json.UnityConverters.Scripting
             if (reader.TokenType == JsonToken.Integer)
             {
                 return new LayerMask {
-                    value = reader.Value switch
-                    {
-                        int i => i,
-                        uint ui => checked((int)ui),
-                        long l => checked((int)l),
-                        ulong ul => checked((int)ul),
-                        _ => 0
-                    }
+                    value = GetInt(reader.Value)
                 };
             }
 
             return base.ReadJson(reader, objectType, existingValue, serializer);
+        }
+
+        private static int GetInt(object value)
+        {
+            switch (value)
+            {
+            case int i: return i;
+            case uint ui: return checked((int)ui);
+            case long l: return checked((int)l);
+            case ulong ul: return checked((int)ul);
+            default: return 0;
+            }
         }
 
         public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)

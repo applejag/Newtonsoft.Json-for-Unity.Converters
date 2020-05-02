@@ -62,7 +62,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
             Assert.AreEqual(new Vector2(), ((ColliderDistance2D)boxed).normal);
 
             Assert.IsNotNull(_normalField);
-            FieldInfo field = _normalField!;
+            FieldInfo field = _normalField;
 
             var normal = new Vector2(1, 0);
 
@@ -82,7 +82,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
             Assert.AreEqual(new Vector2(), value.normal);
 
             Assert.IsNotNull(_normalField);
-            FieldInfo field = _normalField!;
+            FieldInfo field = _normalField;
 
             var normal = new Vector2(1, 0);
 

@@ -32,18 +32,18 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Math
             ApplyArray(ref instance, b, 2);
 
             return instance;
+        }
 
-            static void ApplyArray(ref SphericalHarmonicsL2 sh, float[] values, int rgbIndex)
+        private static void ApplyArray(ref SphericalHarmonicsL2 sh, float[] values, int rgbIndex)
+        {
+            if (values?.Length != 9)
             {
-                if (values?.Length != 9)
-                {
-                    throw new ArgumentException($"Expected 9 elements in RGB index {rgbIndex}, got {values?.Length.ToString() ?? "null"}");
-                }
+                throw new ArgumentException($"Expected 9 elements in RGB index {rgbIndex}, got {values?.Length.ToString() ?? "null"}");
+            }
 
-                for (int i = 0; i < 9; i++)
-                {
-                    sh[rgbIndex, i] = values[i];
-                }
+            for (int i = 0; i < 9; i++)
+            {
+                sh[rgbIndex, i] = values[i];
             }
         }
     }

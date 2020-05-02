@@ -144,7 +144,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result!.Length, "result.Length");
+            Assert.AreEqual(1, result.Length, "result.Length");
             AssertAreEqual(representation.expected, result[0], $"Input given: '{input}'");
         }
 
@@ -191,7 +191,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
             // Assert
             Assert.IsNotNull(result);
-            AssertAreEqual(representation.expected, result!.Value);
+            AssertAreEqual(representation.expected, result.Value);
         }
 
         [Test]

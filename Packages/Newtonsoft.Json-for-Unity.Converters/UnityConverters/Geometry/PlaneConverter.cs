@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json.UnityConverters.Helpers;
+﻿using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Geometry
@@ -27,13 +26,14 @@ namespace Newtonsoft.Json.UnityConverters.Geometry
 
         protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            return index switch
+            if (index == 0)
             {
-                0 => reader.ReadViaSerializer<Vector3>(serializer),
-                1 => (float)(reader.ReadAsDouble() ?? 0),
-
-                _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..1")
-            };
+                return reader.ReadViaSerializer<Vector3>(serializer);
+            }
+            else
+            {
+                return (float)(reader.ReadAsDouble() ?? 0);
+            }
         }
 
         protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)

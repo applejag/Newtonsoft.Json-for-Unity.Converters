@@ -60,7 +60,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
         internal static T ReadViaSerializer<T>(this JsonReader reader, JsonSerializer serializer)
         {
             reader.Read();
-            return serializer.Deserialize<T>(reader)!;
+            return serializer.Deserialize<T>(reader);
         }
     }
 }

@@ -52,16 +52,22 @@ namespace Newtonsoft.Json.UnityConverters.Physics2D
 
         protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            return index switch
+            switch (index)
             {
-                0 => reader.ReadViaSerializer<Vector2>(serializer),
-                1 => reader.ReadViaSerializer<Vector2>(serializer),
-                2 => reader.ReadViaSerializer<Vector2>(serializer),
-                3 => (float)(reader.ReadAsDouble() ?? 0),
-                4 => reader.ReadAsBoolean() ?? false,
+            case 0:
+            case 1:
+            case 2:
+                return reader.ReadViaSerializer<Vector2>(serializer);
 
-                _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4")
-            };
+            case 3:
+                return (float)(reader.ReadAsDouble() ?? 0);
+
+            case 4:
+                return reader.ReadAsBoolean() ?? false;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4");
+            }
         }
 
         protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)

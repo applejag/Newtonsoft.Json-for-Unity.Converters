@@ -37,14 +37,18 @@ namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
         [return: MaybeNull]
         protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
         {
-            return index switch
+            switch (index)
             {
-                0 => reader.ReadViaSerializer<Vector3[]>(serializer),
-                1 => reader.ReadViaSerializer<int[]>(serializer),
-                2 => reader.ReadViaSerializer<int[]>(serializer),
+            case 0:
+                return reader.ReadViaSerializer<Vector3[]>(serializer);
 
-                _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..2")
-            };
+            case 1:
+            case 2:
+                return reader.ReadViaSerializer<int[]>(serializer);
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..2");
+            }
         }
 
         protected override void WriteValue(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
