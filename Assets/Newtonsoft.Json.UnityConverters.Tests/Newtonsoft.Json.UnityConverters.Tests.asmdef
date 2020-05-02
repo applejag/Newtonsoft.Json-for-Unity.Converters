@@ -5,9 +5,7 @@
         "UnityEditor.TestRunner",
         "Newtonsoft.Json.UnityConverters"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
