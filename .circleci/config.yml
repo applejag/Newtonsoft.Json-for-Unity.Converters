@@ -346,20 +346,14 @@ workflows:
   test:
     jobs:
       - test-unity-2018-4-14f1:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-unity-2019-2-11f1:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-unity-2020-1-0b6:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
@@ -372,20 +366,14 @@ workflows:
   test-deploy:
     jobs:
       - test-unity-2018-4-14f1:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-unity-2019-2-11f1:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-unity-2020-1-0b6:
-          requires:
-            - build-package
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
