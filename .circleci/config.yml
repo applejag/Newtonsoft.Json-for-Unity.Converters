@@ -330,7 +330,7 @@ jobs:
             }
             echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
             env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
-            env VERSION_CONVERTERS_NO_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json CONVERTERS_NO_SUFFIX)"
+            env VERSION_UPM_NO_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM_NO_SUFFIX)"
             echo
             
             echo ">>> SETTING UP NPM"

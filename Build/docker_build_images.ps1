@@ -69,9 +69,6 @@ function Start-DockerBuild  {
 }
 
 $Builds = [DockerBuild[]] @(
-    , [DockerBuild]::new('package-builder', 'v2-2019.2.11f1').
-        WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
-
     , [DockerBuild]::new('package-unity-tester', 'v1-2018.4.14f1').
         WithExtraArg('--build-arg', 'UNITY_VERSION=2018.4.14f1')
 
