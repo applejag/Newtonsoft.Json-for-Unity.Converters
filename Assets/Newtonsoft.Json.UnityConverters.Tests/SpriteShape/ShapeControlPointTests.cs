@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_2019_3_OR_NEWER
+using UnityEngine.U2D;
+#else
 using UnityEngine.Experimental.U2D;
+#endif
 
 namespace Newtonsoft.Json.UnityConverters.Tests.SpriteShape
 {
