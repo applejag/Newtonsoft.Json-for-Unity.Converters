@@ -60,7 +60,7 @@ package in the list of dependencies.
   ],
   "dependencies": {
     "jillejr.newtonsoft.json-for-unity": "12.0.101",
-    "jillejr.newtonsoft.json-for-unity.converters": "12.0.1",
+    "jillejr.newtonsoft.json-for-unity.converters": "1.0.0",
 
     //...
   }
