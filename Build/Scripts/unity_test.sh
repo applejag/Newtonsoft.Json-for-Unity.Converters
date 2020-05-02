@@ -33,6 +33,7 @@ do
         -testResults $test_results_file \
         -buildTarget Linux64 \
         -batchmode \
+        -nographics \
         -logfile /dev/stdout
 
     UNITY_EXIT_CODE=$?
