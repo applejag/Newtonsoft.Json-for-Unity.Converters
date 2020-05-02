@@ -79,6 +79,7 @@ jobs:
             BUILD_CONFIGURATION=Debug \
             BUILD_DESTINATION=/root/tmp/Newtonsoft.Json.UnityConverters.Tests/bin \
             BUILD_ADDITIONAL_CONSTANTS=UNITY_EDITOR_LINUX \
+            BUILD_FRAMEWORK=net4.7.2 \
             $SCRIPTS/build.sh
 
       - run:
