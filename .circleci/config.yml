@@ -78,7 +78,7 @@ jobs:
       - save_cache:
           key: test-unity-upm-manifest-2018
           paths:
-            - $TEST_PROJECT/Library/PackageCache
+            - /root/repo/Library/PackageCache
 
       - save_cache:
           key: test-unity-upm-global-2018
@@ -103,7 +103,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-{{ checksum "$TEST_PROJECT/Packages/manifest.json" }}
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
 
       - restore_cache:
           keys:
@@ -133,9 +133,9 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-{{ checksum "$TEST_PROJECT/Packages/manifest.json" }}
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
           paths:
-            - $TEST_PROJECT/Library/PackageCache
+            - /root/repo/Library/PackageCache
 
       - save_cache:
           key: test-unity-upm-global-2019
@@ -160,7 +160,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-{{ checksum "$TEST_PROJECT/Packages/manifest.json" }}
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
 
       - restore_cache:
           keys:
@@ -190,9 +190,9 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-{{ checksum "$TEST_PROJECT/Packages/manifest.json" }}
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
           paths:
-            - $TEST_PROJECT/Library/PackageCache
+            - /root/repo/Library/PackageCache
 
       - save_cache:
           key: test-unity-upm-global-2020
