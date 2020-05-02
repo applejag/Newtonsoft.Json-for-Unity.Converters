@@ -471,6 +471,9 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
+      - test-unity-2020-1-0b6:
+          requires:
+            - build-package
   check-deploy-ready:
     jobs:
       - check-deploy-ready:
@@ -489,12 +492,16 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
+      - test-unity-2020-1-0b6:
+          requires:
+            - build-package
       # - hold:
       #     type: approval
       #     requires:
       #       - test-windows
       #       - test-unity-2018-4-14f1
       #       - test-unity-2019-2-11f1
+      #       - test-unity-2020-1-0b6
       # - deploy-cloudsmith:
       #     requires:
       #       - hold
