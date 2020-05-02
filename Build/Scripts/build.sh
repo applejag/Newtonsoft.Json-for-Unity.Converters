@@ -38,12 +38,11 @@ msbuild -t:build "$BUILD_SOLUTION" \
     -p:TargetFramework="$BUILD_FRAMEWORK" \
     -p:Configuration="$BUILD_CONFIGURATION" \
     -p:OutputPath="$BUILD_DESTINATION" \
-    -p:VersionPrefix="$VERSION_JSON_NET" \
+    -p:VersionPrefix="$VERSION_UPM_NO_SUFFIX" \
     -p:VersionSuffix="$VERSION_SUFFIX" \
     -p:AssemblyVersion="$VERSION_ASSEMBLY" \
     -p:FileVersion="$VERSION_FILE" \
     -p:AdditionalConstants=\""$BUILD_ADDITIONAL_CONSTANTS"\"
-
 
 echo
 echo "############"

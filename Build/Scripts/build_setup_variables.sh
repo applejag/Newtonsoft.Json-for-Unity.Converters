@@ -13,6 +13,7 @@ env() {
 echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
 env VERSION_FILE "$($SCRIPTS/get_json_version.sh ./Build/version.json FILE)"
 env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
+env VERSION_UPM_NO_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM_NO_SUFFIX)"
 env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
 env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./Build/version.json JSON_NET)"
 env VERSION_CONVERTERS "$($SCRIPTS/get_json_version.sh ./Build/version.json CONVERTERS)"
@@ -22,6 +23,7 @@ echo
 # Example output of variables:
 # VERSION_FILE='12.0.1.633183'
 # VERSION_UPM='12.0.1-preview.1'
+# VERSION_UPM_NO_SUFFIX='12.0.1'
 # VERSION_SUFFIX='preview.1'
 # VERSION_JSON_NET='12.x.x'
 # VERSION_CONVERTERS='x.0.1-preview.1'
