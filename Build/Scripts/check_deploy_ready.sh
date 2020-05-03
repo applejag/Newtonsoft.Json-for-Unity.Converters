@@ -12,7 +12,7 @@ OK=1
 
 echo
 
-if git show-ref --verify --quiet refs/heads/upm
+if git rev-parse --verify --quiet upm
 then
     echo "> Branch 'upm' exists, all ok!"
 else
