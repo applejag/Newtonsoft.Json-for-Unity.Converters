@@ -23,6 +23,7 @@ jobs:
 
     environment:
       SCRIPTS: /root/repo/Build/Scripts
+      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
       ASSETS_FOLDER: /root/repo/Assets
       TEST_PROJECT: /root/repo
       PLATFORMS: playmode
@@ -91,6 +92,7 @@ jobs:
 
     environment:
       SCRIPTS: /root/repo/Build/Scripts
+      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
       ASSETS_FOLDER: /root/repo/Assets
       TEST_PROJECT: /root/repo
       PLATFORMS: playmode
@@ -148,6 +150,7 @@ jobs:
 
     environment:
       SCRIPTS: /root/repo/Build/Scripts
+      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
       ASSETS_FOLDER: /root/repo/Assets
       TEST_PROJECT: /root/repo
       PLATFORMS: playmode
@@ -208,6 +211,7 @@ jobs:
 
     environment:
       SCRIPTS: /root/repo/Build/Scripts
+      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
 
     steps:
       - checkout

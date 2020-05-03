@@ -15,7 +15,6 @@ echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
 env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
 env VERSION_UPM_NO_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM_NO_SUFFIX)"
 env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
-env PACKAGE_FOLDER '/root/repo/Packages/Newtonsoft.Json-for-Unity.Converters'
 echo
 
 # Example output of variables:
