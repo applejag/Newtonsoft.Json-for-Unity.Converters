@@ -7,52 +7,31 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-: ${GITHUB_USER_NAME?}
-: ${GITHUB_USER_EMAIL?}
-: ${GITHUB_GPG_ID?}
-: ${GITHUB_GPG_SEC_B64?}
-: ${GITHUB_SSH_SEC_B64:-}
-
-# Load GPG keys
-GITHUB_GPG_SEC=$(base64 -di - <<< "$GITHUB_GPG_SEC_B64")
-gpg --import - <<< "$GITHUB_GPG_SEC"
+: ${GIT_USER_NAME:?}
+: ${GIT_USER_EMAIL:?}
 
 # Git settings
-git config --global user.name "$GITHUB_USER_NAME"
-echo "Set git username to: '$GITHUB_USER_NAME'"
-git config --global user.email "$GITHUB_USER_EMAIL"
-echo "Set git user email to: '$GITHUB_USER_EMAIL'"
-git config --global user.signingKey "$GITHUB_GPG_ID"
-echo "Set git gpg key to: '$GITHUB_GPG_ID'"
-git config --global commit.gpgSign true
-echo "Set git commit signing to: true"
-git config --global tag.forceSignAnnotated true
-echo "Set git tag signing to: true"
+git config --global user.name "$GIT_USER_NAME"
+echo "Set git username to: '$GIT_USER_NAME'"
+git config --global user.email "$GIT_USER_EMAIL"
+echo "Set git user email to: '$GIT_USER_EMAIL'"
 
-mkdir -p ~/.gnupg
-echo 'no-tty' >> ~/.gnupg/gpg.conf
+if [ "${GIT_GPG_ID:-}" != "" ]; then
+    : ${GIT_GPG_SEC_B64:?"GPG key content must be set if '\$GIT_GPG_ID' is set"}
 
-if [ -n "${GITHUB_SSH_SEC_B64:-}" ]
-then
-    # Add ssh key
-    mkdir -p ~/.ssh
-    eval $(ssh-agent) # create the process
-    GITHUB_SSH_SEC=$(base64 -di - <<< "${GITHUB_SSH_SEC_B64?}")
-    echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
-    chmod 600 ~/.ssh/id_rsa
-    ssh-add -D
-    ssh-add ~/.ssh/id_rsa
+    # Load GPG keys
+    GIT_GPG_SEC=$(base64 -di - <<< "$GIT_GPG_SEC_B64")
+    gpg --import - <<< "$GIT_GPG_SEC"
 
-    echo
-    echo "Testing connection to GitHub using SSH"
-    set +o errexit
-    ssh -T git@github.com
-    status=$?
-    set -o errexit
+    git config --global user.signingKey "$GIT_GPG_ID"
+    echo "Set git gpg key to: '$GIT_GPG_ID'"
+    git config --global commit.gpgSign true
+    echo "Set git commit signing to: true"
+    git config --global tag.forceSignAnnotated true
+    echo "Set git tag signing to: true"
 
-    if [ $status == 255 ]
-    then
-        echo "Error on testing connection to github.com via SSH"
-        exit $status
-    fi
+    mkdir -p ~/.gnupg
+    echo 'no-tty' >> ~/.gnupg/gpg.conf
+else
+    echo "Not loading GPG key; \$GIT_GPG_ID was empty"
 fi
