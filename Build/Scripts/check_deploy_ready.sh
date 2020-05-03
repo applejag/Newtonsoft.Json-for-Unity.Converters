@@ -7,33 +7,20 @@ set -o pipefail
 
 : ${VERSION_UPM:?"Need the version to be checked"}
 : ${VERSION_UPM_NO_SUFFIX:?"Need the version of Newtonsoft.Json.UnityConverters (without suffix) to be checked"}
-: ${NPM_REGISTRY:?"Need the NPM registry to be checked against"}
 
 OK=1
 
-if [ "$(npm search jillejr.newtonsoft.json-for-unity.converters)" == 'No matches found for "jillejr.newtonsoft.json-for-unity.converters"' ]
-then
-    echo "> Package jillejr.newtonsoft.json-for-unity.converters does not exist on the registry and is available for publishing, all ok!"
-elif [ -z "$(npm view jillejr.newtonsoft.json-for-unity.converters@$VERSION_UPM versions)" ]
-then
-    echo "> Package jillejr.newtonsoft.json-for-unity.converters version $VERSION_UPM does not exist on the registry and is available for publishing, all ok!"
-else
-    echo
-    echo "[!] Package version $VERSION_UPM already existed on $NPM_REGISTRY"
-    echo "[!] Make sure to update the /Build/version.json"
-    OK=0
-fi
-
 echo
 
-if git tag --list | egrep -q "^$VERSION_UPM$"
+if git show-ref --verify --quiet refs/remotes/origin/upm
 then
-    echo
-    echo "[!] Tag $VERSION_UPM already existed."
-    echo "[!] Make sure to update the /Build/version.json"
-    OK=0
+    echo "> Branch 'upm' exists, all ok!"
 else
-    echo "> Tag $VERSION_UPM is available for publishing, all ok!"
+    echo "[!] Missing branch 'upm'."
+    echo "[!] Make sure to create that branch in advance"
+    echo "[!] Branches found:"
+    git show-ref
+    OK=0
 fi
 
 echo
@@ -42,11 +29,25 @@ if egrep -q "^## ${VERSION_UPM_NO_SUFFIX//\./\\.}$" CHANGELOG.md
 then
     echo "> Changelog has been updated, all ok!"
 else
-    echo
     echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION_UPM_NO_SUFFIX'."
     echo "[!] Make sure to update the CHANGELOG.md"
     OK=0
 fi
+
+echo
+
+for ENV_VAR in NPM_AUTH_TOKEN GIT_USER_EMAIL GIT_USER_NAME GIT_GPG_ID GIT_GPG_SEC_B64
+do
+    if [ -z "${!ENV_VAR}" ]
+    then
+        echo "[!] Missing environment variable \$$ENV_VAR."
+        OK=0
+    else
+        echo "> Environment variable \$$ENV_VAR is set, all ok!"
+    fi
+
+    echo
+done
 
 echo
 

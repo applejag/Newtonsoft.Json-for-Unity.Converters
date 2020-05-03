@@ -5,6 +5,7 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
+
 env() {
     echo "export '$1=$2'" >> $BASH_ENV
     echo "$1='$2'"
@@ -38,9 +39,9 @@ https://github.com/dotnet/runtime
 
 See full copyrights in LICENSE.md inside package"
 
-echo ">>> UPDATING VERSION IN $(pwd)/Src/UnityConvertersPackage/package.json"
+echo ">>> UPDATING VERSION IN $(pwd)/$PACKAGE_FOLDER/package.json"
 echo "BEFORE:"
-echo ".version=$(jq ".version" Src/UnityConvertersPackage/package.json)"
-echo "$(jq ".version=\"$VERSION_UPM\" | .description=\"$DESCRIPTION\"" Src/UnityConvertersPackage/package.json)" > Src/UnityConvertersPackage/package.json
+echo ".version=$(jq ".version" $PACKAGE_FOLDER/package.json)"
+echo "$(jq ".version=\"$VERSION_UPM\" | .description=\"$DESCRIPTION\"" $PACKAGE_FOLDER/package.json)" > $PACKAGE_FOLDER/package.json
 echo "AFTER:"
-echo ".version=$(jq ".version" Src/UnityConvertersPackage/package.json)"
+echo ".version=$(jq ".version" $PACKAGE_FOLDER/package.json)"

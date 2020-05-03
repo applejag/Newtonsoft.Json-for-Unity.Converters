@@ -1,6 +1,10 @@
+using namespace System.Collections.Generic
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
-Param ()
+Param (
+    [switch]
+    $Force
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -14,12 +18,14 @@ if (-not $PSBoundParameters.ContainsKey('WhatIf')) {
 class DockerBuild {
     [string] $ImageNameKey
     [string] $ImageVersion
-    [System.Collections.Generic.List[string]] $ExtraArgs
+    [List[string]] $ExtraArgs
+    [bool] $Latest
 
     DockerBuild([string] $ImageNameKey, [string] $ImageVersion) {
         $this.ImageNameKey = $ImageNameKey
         $this.ImageVersion = $ImageVersion
-        $this.ExtraArgs = [System.Collections.Generic.List[string]]::new()
+        $this.ExtraArgs = [List[string]]::new()
+        $this.Latest = $false
     }
 
     [DockerBuild] WithExtraArg([string] $ExtraSwitch) {
@@ -29,6 +35,10 @@ class DockerBuild {
     [DockerBuild] WithExtraArg([string] $ExtraKey, [string] $ExtraValue) {
         $this.ExtraArgs.Add($ExtraKey)
         $this.ExtraArgs.Add($ExtraValue)
+        return $this
+    }
+    [DockerBuild] IsLatest() {
+        $this.Latest = $true
         return $this
     }
 }
@@ -45,30 +55,47 @@ function Start-DockerBuild  {
         $DockerFile = "$PSScriptRoot/$($Build.ImageNameKey).Dockerfile"
         $ImageVersion = $Build.ImageVersion
         $ExtraArgs = $Build.ExtraArgs
-        if ($PSCmdlet.ShouldProcess("${ImageName}:${ImageVersion}")) {
-            Write-Host "`n>> Building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGreen
+        $ImageTags = @("${ImageVersion}")
+
+        if ($Build.Latest) {
+            $ImageTags += "latest"
+        }
+
+        $ImageTagArgs = $ImageTags | ForEach-Object { "-t${ImageName}:$_" } -Confirm:$false -WhatIf:$false
+        $ImageTagsJoined = $ImageTags -join ", "
+
+        if ($Force -or $PSCmdlet.ShouldProcess("${ImageName}, $($ImageTags.Length) tag(s): $ImageTagsJoined")) {
+            Write-Host "`n>> Building ${ImageName} " -ForegroundColor DarkGreen
             if ($ExtraArgs.Count -gt 0) {
-                Write-Host "Extra args:`n$ExtraArgs" -ForegroundColor Yellow
+                Write-Host "Extra args ($($ExtraArgs.Count)): $ExtraArgs" -ForegroundColor Yellow
             }
+            Write-Host "Image tags ($($ImageTagArgs.Length)): $ImageTagsJoined" -ForegroundColor Yellow
             Write-Host ""
             docker build `
                 -f $DockerFile `
                 --build-arg IMAGE_VERSION=${ImageVersion} `
-                -t ${ImageName}:${ImageVersion} `
-                -t ${ImageName}:latest `
+                @ImageTagArgs `
                 @ExtraArgs `
                 $PSScriptRoot
-            
-            if ($LASTEXITCODE -ne 0) {
+
+            if (-not $?) {
                 throw "Failed to build with args $ExtraArgs";
             }
         } else {
-            Write-Host "`n>> Skipping building ${ImageName}:${ImageVersion} `n" -ForegroundColor DarkGray
+            Write-Host "`n>> Skipping building $ImageName, $($ImageTags.Length) tag(s): $ImageTagsJoined `n" -ForegroundColor DarkGray
         }
     }
 }
 
 $Builds = [DockerBuild[]] @(
+    , [DockerBuild]::new('package-deploy-npm', 'v3').
+        IsLatest().
+        WithExtraArg('--build-arg', 'IMAGE_VERSION=v3')
+
+    , [DockerBuild]::new('package-deploy-github', 'v4').
+        IsLatest().
+        WithExtraArg('--build-arg', 'IMAGE_VERSION=v4')
+
     , [DockerBuild]::new('package-unity-tester', 'v1-2018.4.14f1').
         WithExtraArg('--build-arg', 'UNITY_VERSION=2018.4.14f1')
 
@@ -76,6 +103,7 @@ $Builds = [DockerBuild[]] @(
         WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
 
     , [DockerBuild]::new('package-unity-tester', 'v1-2020.1.0b6-linux-il2cpp').
+        IsLatest().
         WithExtraArg('--build-arg', 'UNITY_VERSION=2020.1.0b6-linux-il2cpp')
 )
 
