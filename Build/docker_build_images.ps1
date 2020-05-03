@@ -1,3 +1,4 @@
+using namespace System.Collections.Generic
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
 Param ()
@@ -14,12 +15,14 @@ if (-not $PSBoundParameters.ContainsKey('WhatIf')) {
 class DockerBuild {
     [string] $ImageNameKey
     [string] $ImageVersion
-    [System.Collections.Generic.List[string]] $ExtraArgs
+    [List[string]] $ExtraArgs
+    [bool] $Latest
 
     DockerBuild([string] $ImageNameKey, [string] $ImageVersion) {
         $this.ImageNameKey = $ImageNameKey
         $this.ImageVersion = $ImageVersion
-        $this.ExtraArgs = [System.Collections.Generic.List[string]]::new()
+        $this.ExtraArgs = [List[string]]::new()
+        $this.Latest = $false
     }
 
     [DockerBuild] WithExtraArg([string] $ExtraSwitch) {
@@ -31,6 +34,10 @@ class DockerBuild {
         $this.ExtraArgs.Add($ExtraValue)
         return $this
     }
+    [DockerBuild] IsLatest() {
+        $this.Latest = $true
+        return $this
+}
 }
 
 function Start-DockerBuild  {
@@ -45,7 +52,15 @@ function Start-DockerBuild  {
         $DockerFile = "$PSScriptRoot/$($Build.ImageNameKey).Dockerfile"
         $ImageVersion = $Build.ImageVersion
         $ExtraArgs = $Build.ExtraArgs
-        if ($PSCmdlet.ShouldProcess("${ImageName}:${ImageVersion}")) {
+        $ImageTags = @("${ImageVersion}")
+
+        if ($Build.Latest) {
+            $ImageTags += "latest"
+        }
+
+        $ImageTagArgs = $ImageTags | ForEach-Object -WhatIf:$false "-t ${ImageName}:$_"
+
+        if ($PSCmdlet.ShouldProcess("${ImageName}, $($ImageTags.Length) tag(s): $ImageTags")) {
             Write-Host "`n>> Building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGreen
             if ($ExtraArgs.Count -gt 0) {
                 Write-Host "Extra args:`n$ExtraArgs" -ForegroundColor Yellow
@@ -54,8 +69,7 @@ function Start-DockerBuild  {
             docker build `
                 -f $DockerFile `
                 --build-arg IMAGE_VERSION=${ImageVersion} `
-                -t ${ImageName}:${ImageVersion} `
-                -t ${ImageName}:latest `
+                @ImageTagArgs `
                 @ExtraArgs `
                 $PSScriptRoot
             
@@ -63,7 +77,7 @@ function Start-DockerBuild  {
                 throw "Failed to build with args $ExtraArgs";
             }
         } else {
-            Write-Host "`n>> Skipping building ${ImageName}:${ImageVersion} `n" -ForegroundColor DarkGray
+            Write-Host "`n>> Skipping building $ImageName, $($ImageTags.Length) tag(s): $ImageTags `n" -ForegroundColor DarkGray
         }
     }
 }
