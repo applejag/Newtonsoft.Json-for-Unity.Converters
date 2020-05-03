@@ -1,7 +1,7 @@
 # Unity types compatibility table
 
 | Module | Type | Can read | Can write | Custom converter
-| --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | AI/NavMesh | _UnityEngine.<i></i>AI_.**NavMeshDataInstance** | ❌<sup>[[2]](#footnote-2)</sup> | ❓<sup>[[3]](#footnote-3)</sup> | ❌<sup>[[2]](#footnote-2)</sup>
 | AI/NavMesh | _UnityEngine.<i></i>AI_.**NavMeshHit** | ✔ | ✔ | ✖<sup>[[1]](#footnote-1)</sup>
 | AI/NavMesh | _UnityEngine.<i></i>AI_.**NavMeshLinkData** | ✔ | ✔ | ✖<sup>[[1]](#footnote-1)</sup>
