@@ -6,7 +6,7 @@
 
 This package contains converters to and from common Unity types. Types such as
 **Vector2, Vector3, Matrix4x4, Quaternions, Color,** _and many, many more._
-(See the [full compatibility table of all +50 supported Unity types][Doc-Compatability-table])
+(See the [full compatibility table of all +50 supported Unity types][doc-compatability-table])
 
 The perfect complement to the
 [jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
@@ -21,9 +21,9 @@ Click the "Watch" button at the top to get an email when we have new releases.
 
 Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki for installation
 
-- [Installation via <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>][wiki-Install-Converters-via-UPM]
-- [Installation via <abbr title="OpenUPM: A very popular open source Unity package registry for UPM packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)][wiki-Install-Converters-via-OpenUPM]
-- [Installation via <abbr title="Git: Git is a free and open source distributed version control system.">Git</abbr> in UPM][wiki-Install-Converters-via-Git-in-UPM]
+- [Installation via <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>][wiki-install-converters-via-upm]
+- [Installation via <abbr title="OpenUPM: A very popular open source Unity package registry for UPM packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)][wiki-install-converters-via-openupm]
+- [Installation via <abbr title="Git: Git is a free and open source distributed version control system.">Git</abbr> in UPM][wiki-install-converters-via-git-in-upm]
 
 ## Contributing
 
@@ -64,9 +64,9 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [license.md]: /LICENSE.md
 [changelog.md]: /CHANGELOG.md
 [jillejr.newtonsoft.json-for-unity]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
-[wiki-Install-Converters-via-Git-in-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
-[wiki-Install-Converters-via-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
-[wiki-Install-Converters-via-OpenUPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
-[Doc-Compatability-table]: Doc/Compatability-table.md
+[wiki-install-converters-via-git-in-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
+[wiki-install-converters-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
+[wiki-install-converters-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
+[doc-compatability-table]: Doc/Compatability-table.md
 [issue-create]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/new/choose
 [issue-list-unassigned]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee
