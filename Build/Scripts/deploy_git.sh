@@ -61,6 +61,6 @@ Build #$CIRCLE_BUILD_NUM
 $CIRCLE_BUILD_URL"
 
 echo "Created tag '$(git tag -l $VERSION_UPM -n1)'"
-git push --follow-tags --dry-run
+git push --follow-tags
 echo
 echo "Successfully pushed"

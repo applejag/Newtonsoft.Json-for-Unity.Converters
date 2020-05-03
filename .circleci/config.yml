@@ -3,14 +3,13 @@ version: 2.1
 preset-filter-test: &WORKFLOW_TEST_FILTER
   only:
     - develop
-    # - /^feature.*/
+    - /^feature.*/
     - /^hotfix.*/
     - /^release.*/
 
 preset-filter-deploy: &WORKFLOW_TEST_DEPLOY_FILTER
   only:
     - master
-    - /^feature.*/
 
 preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
@@ -270,7 +269,7 @@ jobs:
               echo
 
               cd $PACKAGE_FOLDER
-              npm publish --dry-run
+              npm publish
             else
               echo "Package version $VERSION_UPM already existed. Skipping the publish"
             fi
