@@ -133,16 +133,40 @@ Ensure you have a branch called `upm`
 
 ### Git SSH key
 
-1. Go to SSH section in the project settings in CircleCI
+1. Generate a new SSH key, replacing `your_email@example.com` with
+   the email address of the GitHub account that will be used for the auto
+   deployment.
+
+    ```sh
+    $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+    ```
+
+    - When you're prompted to "Enter a file in which to save the key,", enter a
+      new location such as `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa`
+
+    - At the prompt, **enter no passphrase**.
+
+2. Copy the content of the public key file
+   (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa.pub`)
+   into the GitHub project as a deploy key, naming it something like
+   "Newtonsoft.Json-for-Unity.Converters UPM branch deployment key"
+
+    >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
+    ><https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/settings/keys/new>
+
+    - Make sure to check the "Allow write access" checkbox.
+
+3. Copy the content of the private key file
+   (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa`)
+   into the "Add SSH Key" dialog in CircleCI, specifying hostname as
+   "github.com"
     
     >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
     ><https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/ssh>
 
-2. Ensure you have a "Deploy key"
+4. Copy the fingerprint of the new deploy key shown in CircleCIs UI
 
-3. Copy the fingerprint of the deploy key for this repo
-
-4. Update the `deploy-github` job 
+5. Update the `deploy-github` job 
    inside the `.circleci/config.yml` file to use the correct SSH key
    fingerprint.
 
