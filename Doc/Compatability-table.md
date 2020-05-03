@@ -88,8 +88,9 @@
     or infinite recursions.
 
 4. ❌<a name="footnote-4"></a> Type directly or indirectly contains reference to
-    the NativeArray or NativeSlice types. Deserializing these types may cause
-    imminent memory leaks.
+    the NativeArray or NativeSlice types. Deserializing these types will cause
+    imminent memory leaks and so deserializing (writing JSON) using these types
+    are therefore highly discouraged.
 
 5. ❔<a name="footnote-5"></a> Serializing this type has not been tested nor
     proven to work. It is fully possible they work alright, but be wary.
