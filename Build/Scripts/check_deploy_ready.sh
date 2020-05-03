@@ -38,10 +38,10 @@ for ENV_VAR in NPM_AUTH_TOKEN GIT_USER_EMAIL GIT_USER_NAME GIT_GPG_ID GIT_GPG_SE
 do
     if [ -z "${!ENV_VAR}" ]
     then
-        echo "> Environment variable \$$ENV_VAR is set, all ok!"
-    else
         echo "[!] Missing environment variable \$$ENV_VAR."
         OK=0
+    else
+        echo "> Environment variable \$$ENV_VAR is set, all ok!"
     fi
 
     echo
