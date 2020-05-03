@@ -54,7 +54,7 @@ SUFFIX)
     jq2 -er '.Suffix // empty' "$jsonFile"
     ;;
 AUTO_DEPLOY_DRY_RUN)
-    jq2 -er '.AutoDeployDryRun == true' "$jsonFile"
+    jq2 -r '.AutoDeployDryRun' "$jsonFile"
     ;;
 *)
     error "Error: Unknown output type '$output'
