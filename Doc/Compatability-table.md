@@ -99,7 +99,6 @@
     therefore has been left out. Possible to solve by using reflection tricks
     but this has been down prioritized.
 
-
 ## Legend
 
 - **Module**: Most converters are created by referencing the GitHub repository
