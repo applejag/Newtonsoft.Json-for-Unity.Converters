@@ -53,9 +53,12 @@ UPM_NO_SUFFIX)
 SUFFIX)
     jq2 -er '.Suffix // empty' "$jsonFile"
     ;;
+AUTO_DEPLOY_DRY_RUN)
+    jq2 -er '.AutoDeployDryRun // true' "$jsonFile"
+    ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: UPM, UPM_NO_SUFFIX, SUFFIX"
+    Possible values: UPM, UPM_NO_SUFFIX, SUFFIX, AUTO_DEPLOY_DRY_RUN"
     exit 3
     ;;
 esac

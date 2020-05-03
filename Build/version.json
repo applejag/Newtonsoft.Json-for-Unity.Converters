@@ -2,5 +2,7 @@
   "Major": 1,
   "Minor": 0,
   "Patch": 0,
-  "Suffix": "preview.1"
+  "Suffix": "preview.1",
+
+  "AutoDeployDryRun": false
 }

@@ -61,6 +61,14 @@ Build #$CIRCLE_BUILD_NUM
 $CIRCLE_BUILD_URL"
 
 echo "Created tag '$(git tag -l $VERSION_UPM -n1)'"
-git push --follow-tags
+
+if [ "${VERSION_AUTO_DEPLOY_DRY_RUN:-}" == "false" ]
+then
+    git push --follow-tags
+else
+    echo "RUNNING GIT PUSH DRY-RUN"
+    git push --follow-tags --dry-run
+    echo "RUNNING GIT PUSH DRY-RUN"
+fi
 echo
 echo "Successfully pushed"
