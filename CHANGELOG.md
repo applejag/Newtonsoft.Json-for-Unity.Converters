@@ -52,7 +52,7 @@
   - [x] (Scripting) UnityEngine.LayerMask
   - [x] (Scripting) UnityEngine.RangeInt
 
-- Added tests for following types (Known to work, but no custom converter needed):
+- Known to work, but no custom converter needed:
   - [x] (AI/NavMesh) UnityEngine.AI.NavMeshHit
   - [x] (AI/NavMesh) UnityEngine.AI.NavMeshLinkData
   - [x] (Animation) UnityEngine.Keyframe
