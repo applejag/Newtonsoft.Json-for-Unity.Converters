@@ -37,7 +37,7 @@ class DockerBuild {
     [DockerBuild] IsLatest() {
         $this.Latest = $true
         return $this
-}
+    }
 }
 
 function Start-DockerBuild  {
@@ -72,7 +72,7 @@ function Start-DockerBuild  {
                 @ImageTagArgs `
                 @ExtraArgs `
                 $PSScriptRoot
-            
+
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to build with args $ExtraArgs";
             }
@@ -83,6 +83,14 @@ function Start-DockerBuild  {
 }
 
 $Builds = [DockerBuild[]] @(
+    , [DockerBuild]::new('package-deploy-npm', 'v3').
+        IsLatest().
+        WithExtraArg('--build-arg', 'IMAGE_VERSION=v3')
+
+    , [DockerBuild]::new('package-deploy-github', 'v4').
+        IsLatest().
+        WithExtraArg('--build-arg', 'IMAGE_VERSION=v4')
+
     , [DockerBuild]::new('package-unity-tester', 'v1-2018.4.14f1').
         WithExtraArg('--build-arg', 'UNITY_VERSION=2018.4.14f1')
 
@@ -90,6 +98,7 @@ $Builds = [DockerBuild[]] @(
         WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
 
     , [DockerBuild]::new('package-unity-tester', 'v1-2020.1.0b6-linux-il2cpp').
+        IsLatest().
         WithExtraArg('--build-arg', 'UNITY_VERSION=2020.1.0b6-linux-il2cpp')
 )
 
