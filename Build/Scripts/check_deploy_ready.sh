@@ -18,6 +18,8 @@ then
 else
     echo "[!] Missing branch 'upm'."
     echo "[!] Make sure to create that branch in advance"
+    echo "[!] Branches found:"
+    git show-ref
     OK=0
 fi
 
