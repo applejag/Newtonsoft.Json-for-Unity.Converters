@@ -22,23 +22,6 @@ Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki for installation
 - [Installation via <abbr title="OpenUPM: A very popular open source Unity package registry for UPM packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)][wiki-Install-Converters-via-OpenUPM]
 - [Installation via <abbr title="Git: Git is a free and open source distributed version control system.">Git</abbr> in UPM][wiki-Install-Converters-via-Git-in-UPM]
 
-## Versioning format
-
-**Not using semantic versioning.** As Unity does not support assembly binding
-redirects, this repo was forced to have multiple releases one for each version
-of Newtonsoft.Json.
-
-As Newtonsoft.Json assemblies only have major version defined
-(ex: 12.0.1, 12.0.2, and 12.0.3 all technically have assembly version 12.0.0.0)
-then we are able to abuse that and only having to re-publish this package once
-for every major Json .NET version.
-
-Therefore, the major version is reserved to mimic the Newtonsoft.Json major
-version. As such, we're masking out the major in our versions.
-
-- The first release of Newtonsoft.Json-for-Unity.Converters is `x.1.0`.
-- To use together with Newtonsoft.Json 12.0.3, use the UPM version `12.1.0`
-
 ## Contributing
 
 Thankful that you're even reading this :)
