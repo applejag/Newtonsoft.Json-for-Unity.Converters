@@ -8,6 +8,8 @@ set -o pipefail
 : ${VERSION_UPM:?}
 : ${VERSION_UPM_NO_SUFFIX:?}
 : ${VERSION_SUFFIX:?}
+: ${REPO_FOLDER:?}
+: ${PACKAGE_FOLDER:?}
 
 if git tag --list | egrep -q "^$VERSION_UPM$"
 then
@@ -17,6 +19,7 @@ fi
 
 echo ">> Backing up package at /package"
 mkdir -pv /package
+cp -fv $REPO_FOLDER/CHANGELOG.md $PACKAGE_FOLDER/.
 cp -r $PACKAGE_FOLDER/. /package/.
 echo
 

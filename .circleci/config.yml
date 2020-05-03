@@ -228,13 +228,15 @@ jobs:
           command: $SCRIPTS/check_deploy_ready.sh
 
   deploy-cloudsmith:
-    working_directory: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
+    working_directory: /root/repo
 
     docker:
       - image: applejag/newtonsoft.json-for-unity.converters.package-deploy-npm:v3
 
     environment:
       SCRIPTS: /root/repo/Build/Scripts
+      REPO_FOLDER: /root/repo
+      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
@@ -260,6 +262,10 @@ jobs:
           command: |
             if [ -z "$(npm view jillejr.newtonsoft.json-for-unity.converters@$VERSION_UPM versions)" ]
             then
+              cp -fv $REPO_FOLDER/CHANGELOG.md $PACKAGE_FOLDER/.
+              echo
+
+              cd $PACKAGE_FOLDER
               npm publish --dry-run
             else
               echo "Package version $VERSION_UPM already existed. Skipping the publish"
