@@ -3,19 +3,19 @@ version: 2.1
 preset-filter-test: &WORKFLOW_TEST_FILTER
   only:
     - develop
-    - /^feature.*/
+    # - /^feature.*/
     - /^hotfix.*/
-    # - /^release.*/
+    - /^release.*/
 
 preset-filter-deploy: &WORKFLOW_TEST_DEPLOY_FILTER
   only:
     - master
-    - /^release.*/
+    - /^feature.*/
 
 preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
     - /^hotfix.*/
-    # - /^release.*/
+    - /^release.*/
 
 jobs:
   test-unity-2018-4-14f1:
