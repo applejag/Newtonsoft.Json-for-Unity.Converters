@@ -1,7 +1,10 @@
 using namespace System.Collections.Generic
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
-Param ()
+Param (
+    [switch]
+    $Force
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -58,13 +61,15 @@ function Start-DockerBuild  {
             $ImageTags += "latest"
         }
 
-        $ImageTagArgs = $ImageTags | ForEach-Object -WhatIf:$false "-t ${ImageName}:$_"
+        $ImageTagArgs = $ImageTags | ForEach-Object { "-t${ImageName}:$_" } -Confirm:$false -WhatIf:$false
+        $ImageTagsJoined = $ImageTags -join ", "
 
-        if ($PSCmdlet.ShouldProcess("${ImageName}, $($ImageTags.Length) tag(s): $ImageTags")) {
-            Write-Host "`n>> Building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGreen
+        if ($Force -or $PSCmdlet.ShouldProcess("${ImageName}, $($ImageTags.Length) tag(s): $ImageTagsJoined")) {
+            Write-Host "`n>> Building ${ImageName} " -ForegroundColor DarkGreen
             if ($ExtraArgs.Count -gt 0) {
-                Write-Host "Extra args:`n$ExtraArgs" -ForegroundColor Yellow
+                Write-Host "Extra args ($($ExtraArgs.Count)): $ExtraArgs" -ForegroundColor Yellow
             }
+            Write-Host "Image tags ($($ImageTagArgs.Length)): $ImageTagsJoined" -ForegroundColor Yellow
             Write-Host ""
             docker build `
                 -f $DockerFile `
@@ -73,11 +78,11 @@ function Start-DockerBuild  {
                 @ExtraArgs `
                 $PSScriptRoot
 
-            if ($LASTEXITCODE -ne 0) {
+            if (-not $?) {
                 throw "Failed to build with args $ExtraArgs";
             }
         } else {
-            Write-Host "`n>> Skipping building $ImageName, $($ImageTags.Length) tag(s): $ImageTags `n" -ForegroundColor DarkGray
+            Write-Host "`n>> Skipping building $ImageName, $($ImageTags.Length) tag(s): $ImageTagsJoined `n" -ForegroundColor DarkGray
         }
     }
 }
