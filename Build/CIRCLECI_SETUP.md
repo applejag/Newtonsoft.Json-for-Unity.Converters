@@ -14,7 +14,7 @@ Repeat the following steps for the following versions:
 - 2020.1.0b6-linux-il2cpp
 
 1. Run `Build/local_docker_run.ps1` in PowerShell with `-UnityVersion` parameter
-   being set to Unity version, ex:
+    being set to Unity version, ex:
 
     ```powershell
     # Assuming working directory is at repo root
@@ -61,8 +61,8 @@ Repeat the following steps for the following versions:
 ### Add licenses to CircleCI environment variables
 
 1. Get the base-64 formatted content of the license files `.ulf`. Tip to save
-   these as `*.b64` so you then can copy paste the content of the files into
-   CircleCI.
+    these as `*.b64` so you then can copy paste the content of the files into
+    CircleCI.
    
     For example, in bash:
     ```bash
@@ -80,7 +80,7 @@ Repeat the following steps for the following versions:
     ```
 
 2. Copy the content of these `.ulf.b64` files and add them as variables inside
-   the CircleCI settings.
+    the CircleCI settings.
     
     >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
     ><https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/environment-variables>
@@ -108,10 +108,10 @@ new package version.
 1. Go to Cloudsmith API settings <https://cloudsmith.io/user/settings/api/>
 
 2. If using a different NPM registry, update the `deploy-cloudsmith` job 
-   inside the `.circleci/config.yml` file to use the appropriate URLS.
+    inside the `.circleci/config.yml` file to use the appropriate URLS.
 
 3. Copy the content of your Cloudsmith API token and add it as variable
-   `NPM_AUTH_TOKEN` inside the CircleCI settings.
+    `NPM_AUTH_TOKEN` inside the CircleCI settings.
 
     >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
     ><https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/environment-variables>
@@ -134,8 +134,8 @@ Ensure you have a branch called `upm`
 ### Git SSH key
 
 1. Generate a new SSH key, replacing `your_email@example.com` with
-   the email address of the GitHub account that will be used for the auto
-   deployment.
+    the email address of the GitHub account that will be used for the auto
+    deployment.
 
     ```sh
     $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
@@ -147,9 +147,9 @@ Ensure you have a branch called `upm`
     - At the prompt, **enter no passphrase**.
 
 2. Copy the content of the public key file
-   (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa.pub`)
-   into the GitHub project as a deploy key, naming it something like
-   "Newtonsoft.Json-for-Unity.Converters UPM branch deployment key"
+    (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa.pub`)
+    into the GitHub project as a deploy key, naming it something like
+    "Newtonsoft.Json-for-Unity.Converters UPM branch deployment key"
 
     >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
     ><https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/settings/keys/new>
@@ -157,9 +157,9 @@ Ensure you have a branch called `upm`
     - Make sure to check the "Allow write access" checkbox.
 
 3. Copy the content of the private key file
-   (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa`)
-   into the "Add SSH Key" dialog in CircleCI, specifying hostname as
-   "github.com"
+    (ex: `/home/your_user/.ssh/newtonsoft.json-for-unity.converters_rsa`)
+    into the "Add SSH Key" dialog in CircleCI, specifying hostname as
+    "github.com"
     
     >For jilleJr/Newtonsoft.Json-for-Unity.Converters, that page is found at
     ><https://app.circleci.com/settings/project/github/jilleJr/Newtonsoft.Json-for-Unity.Converters/ssh>
@@ -167,8 +167,8 @@ Ensure you have a branch called `upm`
 4. Copy the fingerprint of the new deploy key shown in CircleCIs UI
 
 5. Update the `deploy-github` job 
-   inside the `.circleci/config.yml` file to use the correct SSH key
-   fingerprint.
+    inside the `.circleci/config.yml` file to use the correct SSH key
+    fingerprint.
 
     Example, where using the fingerprint
     `d7:ed:05:51:bd:95:3d:5b:dc:1f:97:00:6a:e5:b0:3c`:
@@ -187,7 +187,7 @@ This is used when creating commits and tags. Just basic user info is needed.
    in CircleCI
 
 2. Add the user name (display name) of user that deploys as variable
-   `GIT_USER_NAME` in CircleCI
+    `GIT_USER_NAME` in CircleCI
 
 ### Git GPG key
 
@@ -207,7 +207,7 @@ This is used when creating commits and tags. Just basic user info is needed.
     - comment: /ex: Json.NET Unity Converters auto deployment to GitHub/
 
 2. Find the newly generated key ID and paste it as variable `GIT_GPG_ID` in
-   CircleCI. This key is referenced as `$KEY_ID` in the steps below.
+    CircleCI. This key is referenced as `$KEY_ID` in the steps below.
 
     ```sh
     $ gpg --list-keys --keyid-format LONG
@@ -220,7 +220,7 @@ This is used when creating commits and tags. Just basic user info is needed.
     ```
 
 4. Add GPG private key formatted base-64 formatted as variable
-   `GIT_GPG_SEC_B64` in CircleCI.
+    `GIT_GPG_SEC_B64` in CircleCI.
 
     ```sh
     $ gpg --armor --export-secret-keys $KEY_ID | base64 -w0
