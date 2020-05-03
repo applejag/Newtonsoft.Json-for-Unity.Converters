@@ -337,7 +337,7 @@ workflows:
       - check-deploy-ready:
           filters:
             branches:
-              <<: *WORKFLOW_CHECK_DEPLOY_READY_FILTER
+              <<: *WORKFLOW_TEST_DEPLOY_FILTER
       - deploy-cloudsmith:
           requires:
             - check_deploy_ready
