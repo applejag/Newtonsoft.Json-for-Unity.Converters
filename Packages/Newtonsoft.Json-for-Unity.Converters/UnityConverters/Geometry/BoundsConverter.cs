@@ -26,7 +26,8 @@ namespace Newtonsoft.Json.UnityConverters.Geometry
         /// Prevent the properties from being stripped.
         /// </summary>
         [Preserve]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members",
+            Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
         private static void PreserveProperties()
         {
             var dummy = new Bounds();
