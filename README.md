@@ -20,6 +20,7 @@ Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki for installation
 
 - [Installation via <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>][wiki-Install-Converters-via-UPM]
 - [Installation via <abbr title="OpenUPM: A very popular open source Unity package registry for UPM packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)][wiki-Install-Converters-via-OpenUPM]
+- [Installation via <abbr title="Git: Git is a free and open source distributed version control system.">Git</abbr> in UPM][wiki-Install-Converters-via-Git-in-UPM]
 
 ## Versioning format
 
@@ -77,6 +78,7 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [license.md]: /LICENSE.md
 [changelog.md]: /CHANGELOG.md
 [jillejr.newtonsoft.json-for-unity]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
+[wiki-Install-Converters-via-Git-in-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
 [wiki-Install-Converters-via-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
 [wiki-Install-Converters-via-OpenUPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
 [wiki-Converters-compatability-table]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Converters-compatability-table
