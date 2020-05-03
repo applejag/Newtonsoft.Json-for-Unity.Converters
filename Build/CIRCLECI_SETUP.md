@@ -199,7 +199,7 @@ This is used when creating commits and tags. Just basic user info is needed.
    `GIT_GPG_SEC_B64` in CircleCI.
 
     ```sh
-    $ gpg --armor --export-secret-keys $KEY_ID | base64
+    $ gpg --armor --export-secret-keys $KEY_ID | base64 -w0
     ```
 
 5. All done!
