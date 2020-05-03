@@ -4,10 +4,24 @@
 
 - ✨ Initial release
 
-- Ensured to work in Unity version:
+- ❤ Big love from these authors allowing me to take inspiration from their
+  converters packages:
+
+  - ParentElement <https://github.com/ianmacgillivray/Json-NET-for-Unity>
+  - Wanzyee Studio <http://wanzyeestudio.blogspot.com/2017/03/jsonnet-converters.html>
+
+- UnityConverterInitializer that registers converters on load
+
+- Ensured via tests to work in Unity version:
   - 2018.4
   - 2019.2
   - 2020.1
+
+- Ensured via tests to work with API compatibility:
+  - .NET Standard 2.0
+
+- Ensured via tests to work with Newtonsoft.Json version:
+  - 12.0.3
 
 - Added custom converters for following types:
   - [x] (AI/NavMesh) UnityEngine.AI.NavMeshQueryFilter
