@@ -28,8 +28,11 @@ git checkout upm --force
 echo
 
 echo ">> Replacing package"
-git rm -r $REPO_FOLDER/*
-mv /package/{*,.*} $REPO_FOLDER/.
+shopt -s dotglob
+GLOBIGNORE='.git' git rm \* -rf --ignore-unmatch
+git clean -dfx
+mv /package/* $REPO_FOLDER/.
+shopt -u dotglob
 git add .
 echo
 
