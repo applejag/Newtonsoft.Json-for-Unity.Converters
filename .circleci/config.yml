@@ -341,13 +341,13 @@ workflows:
               <<: *WORKFLOW_TEST_DEPLOY_FILTER
       - deploy-cloudsmith:
           requires:
-            - check_deploy_ready
+            - check-deploy-ready
             - test-unity-2018-4-14f1
             - test-unity-2019-2-11f1
             - test-unity-2020-1-0b6
       - deploy-github:
           requires:
-            - check_deploy_ready
+            - check-deploy-ready
             - test-unity-2018-4-14f1
             - test-unity-2019-2-11f1
             - test-unity-2020-1-0b6
