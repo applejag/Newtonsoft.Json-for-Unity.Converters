@@ -135,7 +135,7 @@ All types with green check-mark ✔ are proven to work via the suite of tests
 found in this repository. The tests prove the types work in many obscure
 scenarios in all of the following configurations:
 
-| OS    | Unity       | Scripting runtime | API compatability mode |
+| OS    | Unity       | Scripting runtime | API compatibility mode |
 | ----- | ----------- | ----------------- | ---------------------- |
 | Linux | 2020.1.0b6  | Mono              | .NET Standard 2.0      |
 | Linux | 2019.2.11f1 | Mono              | .NET Standard 2.0      |
