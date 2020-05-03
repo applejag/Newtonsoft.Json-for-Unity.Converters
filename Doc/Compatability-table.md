@@ -83,26 +83,26 @@ https://beautifuldingbats.com/superscript-generator/
 | SpriteShape    | _UnityEngine.U2D_.**SpriteShapeMetaData**                       | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
 
 1. ✖<a name="note-1"></a> Does not need a custom converter. Works out of the
-    box as-is.
+  box as-is.
 
 2. ❌<a name="note-2"></a> Contains ID or reference to _UnityEngine_.**Object** and
-    will therefore never be deserializable.
+  will therefore never be deserializable.
 
 3. ❓<a name="note-3"></a> Serializing this type is discouraged. Serializing
-    this type will highly likely result in errors such as self referencing loops
-    or infinite recursions.
+  this type will highly likely result in errors such as self referencing loops
+  or infinite recursions.
 
 4. ❌<a name="note-4"></a> Type directly or indirectly contains reference to
-    the NativeArray or NativeSlice types. Deserializing these types will cause
-    imminent memory leaks and so deserializing (writing JSON) using these types
-    are therefore highly discouraged.
+  the NativeArray or NativeSlice types. Deserializing these types will cause
+  imminent memory leaks and so deserializing (writing JSON) using these types
+  are therefore highly discouraged.
 
 5. ❔<a name="note-5"></a> Serializing this type has not been tested nor
-    proven to work. It is fully possible they work alright, but be wary.
-    
+  proven to work. It is fully possible they work alright, but be wary.
+
 6. ❌<a name="note-6"></a> Type contains fields marked as `readonly` and
-    therefore has been left out. Possible to solve by using reflection tricks
-    but this has been down prioritized.
+  therefore has been left out. Possible to solve by using reflection tricks
+  but this has been down prioritized.
 
 ## Legend
 
