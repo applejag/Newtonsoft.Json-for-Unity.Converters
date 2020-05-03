@@ -2,4 +2,4 @@ engines:
   duplication:
     enabled: true
     exclude_paths:
-      - Src/Newtonsoft.Json.UnityConverters.Tests/ConvertingUnityTypes/**
+      - Assets/Newtonsoft.Json.UnityConverters.Tests/**
