@@ -5,83 +5,48 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg?style=flat-square)](/CODE_OF_CONDUCT.md)
 
 This package contains converters to and from common Unity types. Types such as
-Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
+**Vector2, Vector3, Matrix4x4, Quaternions, Color,** _and many, many more._
+(See the [full compatibility table of all +50 supported Unity types][doc-compatability-table])
 
-The perfect complement to the [jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
+The perfect complement to the
+[jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
 
-# ❌ NOT RELEASED YET ❌
+## ⭐ JUST BEEN RELEASED! ⭐
 
-Click the "Watch" button at the top to get an email when we release.
+This package is new! Check the section below on installation guide.
 
-## Prerequisites
-
-The Newtonsoft.Json library of the correct Major version added to your project.
-
-Recommended to use the [jillejr.newtonsoft.json-for-unity][jillejr.newtonsoft.json-for-unity] package.
+Click the "Watch" button at the top to get an email when we have new releases.
 
 ## Installation via Unity Package Manager
 
-### If you already have the jilleJr/Newtonsoft.Json-for-Unity scoped registry configured
+Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki for installation
 
-> If you have the jillejr.newtonsoft.json-for-unity package installed, then
-> most probably yes, you have the scoped registry configured.
+- [Installation via <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>][wiki-install-converters-via-upm]
+- [Installation via <abbr title="OpenUPM: A very popular open source Unity package registry for UPM packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)][wiki-install-converters-via-openupm]
+- [Installation via <abbr title="Git: Git is a free and open source distributed version control system.">Git</abbr> in UPM][wiki-install-converters-via-git-in-upm]
 
-1. Open the Package Manager UI `Window > Package Manager`
+## Contributing
 
-    ![preview of where window button is](https://i.imgur.com/0FvA5W6.png)
+Thankful that you're even reading this :)
 
-2. Make sure you're viewing "All packages" and not just "In Project"
+If you want to contribute, here's what you can do:
 
-3. Search for `json`
+- **Spread the word!** ❤ More users &rarr; more feedback &rarr; I get more
+  will-power to work on this project. This is the best way to contribute!
 
-4. Click the "Json .NET Converters of Unity types" package
+- [Open an issue][issue-create]. Could be a feature request for a new converter,
+  or maybe you've found a bug?
 
-    ![showing search results](https://i.imgur.com/1d7yoVE.png)
+- [Tackle one of the unassigned issues][issue-list-unassigned]. If it looks like
+  a fun task to solve and no one is assigned, then just comment on it and say
+  that you would like to try it out.
 
-5. Click "Install"
+- Open a PR with some new feature or issue solved. Remember to ask before
+  starting to work on anything, so no two are working on the same thing.
 
-    ![install button down at bottom right](https://i.imgur.com/uGZn64c.png)
-
-### If you don't have the jilleJr/Newtonsoft.Json-for-Unity scoped registry configured
-
-Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the
-package in the list of dependencies.
-
-À la:
-
-```json
-{
-  "scopedRegistries": [
-    {
-      "name": "Packages from jillejr",
-      "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/",
-      "scopes": ["jillejr"]
-    }
-  ],
-  "dependencies": {
-    "jillejr.newtonsoft.json-for-unity": "12.0.101",
-    "jillejr.newtonsoft.json-for-unity.converters": "1.0.0",
-
-    //...
-  }
-}
-```
-
-Done!
-
-## Updating the package
-
-### Updating via the UI
-
-Open the Package Manager UI `Window > Package Manager`
-
-![where to open package manager window](https://i.imgur.com/0FvA5W6.png)
-
-Followed by pressing the "Update to x.x.x" button down at the lower right while
-having the `jillejr.newtonsoft.json-for-unity.converters` package selected.
-
-![outdated package in package list](https://i.imgur.com/plejYzI.png)
-![update button](https://i.imgur.com/iJsGyFy.png)
+  Having a feature request or issue pop up and having the submitter suggesting
+  themselves to later add a PR for a solution is the absolute greatest gift
+  a repository maintainer could ever receive. 🎁
 
 ## Changelog
 
@@ -98,5 +63,10 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 
 [license.md]: /LICENSE.md
 [changelog.md]: /CHANGELOG.md
-[version-explanation.png]: /Doc/version-explanation.png
 [jillejr.newtonsoft.json-for-unity]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
+[wiki-install-converters-via-git-in-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
+[wiki-install-converters-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
+[wiki-install-converters-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
+[doc-compatability-table]: Doc/Compatability-table.md
+[issue-create]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/new/choose
+[issue-list-unassigned]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee
