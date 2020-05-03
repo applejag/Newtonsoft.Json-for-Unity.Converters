@@ -12,11 +12,21 @@ OK=1
 
 echo
 
+if git show-ref --verify --quiet refs/heads/upm
+then
+    echo "> Branch 'upm' exists, all ok!"
+else
+    echo "[!] Missing branch 'upm'."
+    echo "[!] Make sure to create that branch in advance"
+    OK=0
+fi
+
+echo
+
 if egrep -q "^## ${VERSION_UPM_NO_SUFFIX//\./\\.}$" CHANGELOG.md
 then
     echo "> Changelog has been updated, all ok!"
 else
-    echo
     echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION_UPM_NO_SUFFIX'."
     echo "[!] Make sure to update the CHANGELOG.md"
     OK=0
@@ -30,11 +40,11 @@ do
     then
         echo "> Environment variable \$$ENV_VAR is set, all ok!"
     else
-        echo
         echo "[!] Missing environment variable \$$ENV_VAR."
         OK=0
     fi
 
+    echo
 done
 
 echo
