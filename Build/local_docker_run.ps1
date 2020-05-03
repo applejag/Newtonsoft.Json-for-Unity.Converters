@@ -15,9 +15,9 @@ param(
     $UnityLicenseOverride,
 
     [string]
-    $DockerImage = "applejag/newtonsoft.json-for-unity.converters.package-builder",
+    $DockerImage = "applejag/newtonsoft.json-for-unity.converters.package-unity-tester",
 
-    [ValidateSet("2018.4.14f1", "2019.2.11f1")]
+    [ValidateSet("2018.4.14f1", "2019.2.11f1", "2020.1.0b6-linux-il2cpp")]
     [string]
     $UnityVersion = "2019.2.11f1",
 
@@ -87,6 +87,7 @@ else
         /opt/Unity/Editor/Unity \
         -logFile /dev/stdout \
         -batchmode \
+        -nographics \
         -username '$UnityUserName' -password '$UnityPassword'
     echo 
 "@

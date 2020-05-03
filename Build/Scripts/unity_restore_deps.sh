@@ -44,6 +44,7 @@ ${UNITY_EXECUTABLE:-xvfb-run -as '-screen 0 640x480x24' /opt/Unity/Editor/Unity}
         -buildTarget Linux64 \
         -batchmode \
         -quit \
+        -nographics \
         -logfile /dev/stdout
 
 EXIT_STATUS=$?
