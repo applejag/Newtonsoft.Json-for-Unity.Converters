@@ -88,5 +88,4 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/LICENSE.md
 [changelog.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/CHANGELOG.md
-[version-explanation.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/raw/4c7677aad7c816a7df24f6cae573803b23fdfc2a/Doc/version-explanation.png
 [jillejr.newtonsoft.json-for-unity]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
