@@ -6,9 +6,10 @@
 
 This package contains converters to and from common Unity types. Types such as
 Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
-(See the [full compatibility table of all +50 supported Unity types][wiki-Converters-compatability-table])
+(See the [full compatibility table of all +50 supported Unity types][Doc-Compatability-table])
 
-The perfect complement to the [jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
+The perfect complement to the
+[jilleJr/Newtonsoft.Json-for-Unity][jillejr.newtonsoft.json-for-unity] repo.
 
 # ❌ NOT RELEASED YET ❌
 
@@ -64,6 +65,6 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [wiki-Install-Converters-via-Git-in-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
 [wiki-Install-Converters-via-UPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-UPM
 [wiki-Install-Converters-via-OpenUPM]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-OpenUPM
-[wiki-Converters-compatability-table]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Converters-compatability-table
+[Doc-Compatability-table]: Doc/Compatability-table.md
 [issue-create]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/new/choose
 [issue-list-unassigned]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee
