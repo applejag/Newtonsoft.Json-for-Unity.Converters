@@ -45,7 +45,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.NativeArray
             );
 
             // Assert
-            StringAssert.StartsWith("Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
+            StringAssert.StartsWith(
+                "Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.",
+                ex.Message,
+                ex.ToString()
+            );
         }
 
 
@@ -81,7 +85,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.NativeArray
             );
 
             // Assert
-            StringAssert.StartsWith("Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.", ex.Message, ex.ToString());
+            StringAssert.StartsWith(
+                "Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead.",
+                ex.Message,
+                ex.ToString()
+            );
         }
     }
 }
