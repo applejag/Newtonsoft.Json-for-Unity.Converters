@@ -12,7 +12,7 @@ OK=1
 
 echo
 
-if git rev-parse --verify --quiet upm
+if git show-ref --verify --quiet refs/remotes/origin/upm
 then
     echo "> Branch 'upm' exists, all ok!"
 else
