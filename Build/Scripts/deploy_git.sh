@@ -11,8 +11,7 @@ set -o pipefail
 : ${REPO_FOLDER:?}
 : ${PACKAGE_FOLDER:?}
 
-TAG_UPM="upm/$VERSION_UPM"
-TAG_MASTER="$VERSION_UPM"
+TAG_UPM="$VERSION_UPM"
 
 tag_and_push() {
     local tagName="$1"
@@ -33,19 +32,6 @@ tag_and_push() {
     echo
     echo "Successfully pushed"
 }
-
-#-------------------------------------------------------------------------------
-
-if git tag --list | egrep -q "^$TAG_MASTER$"
-then
-    echo "Tag $TAG_MASTER already existed. Skipping the tagging on master branch"
-else
-    tag_and_push $TAG_MASTER "Json.NET Unity Converters $VERSION_UPM
-
-Created by CircleCI job
-Build #$CIRCLE_BUILD_NUM
-$CIRCLE_BUILD_URL"
-fi
 
 #-------------------------------------------------------------------------------
 
