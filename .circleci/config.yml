@@ -265,7 +265,10 @@ jobs:
           command: |
             if [ -z "$(npm view jillejr.newtonsoft.json-for-unity.converters@$VERSION_UPM versions)" ]
             then
-              cp -fv $REPO_FOLDER/CHANGELOG.md $PACKAGE_FOLDER/.
+              cp -fv \
+                  $REPO_FOLDER/CHANGELOG.md \
+                  $REPO_FOLDER/THIRD-PARTY-NOTICES.md \
+                  $PACKAGE_FOLDER/.
               echo
 
               cd $PACKAGE_FOLDER

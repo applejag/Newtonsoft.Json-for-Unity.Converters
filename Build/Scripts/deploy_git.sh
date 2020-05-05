@@ -19,7 +19,11 @@ fi
 
 echo ">> Backing up package at /package"
 mkdir -pv /package
-cp -fv $REPO_FOLDER/CHANGELOG.md $PACKAGE_FOLDER/.
+cp -fv \
+    $REPO_FOLDER/CHANGELOG.md \
+    $REPO_FOLDER/THIRD-PARTY-NOTICES.md \
+    $PACKAGE_FOLDER/.
+
 cp -r $PACKAGE_FOLDER/. /package/.
 echo
 
