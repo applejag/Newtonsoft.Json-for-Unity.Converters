@@ -33,7 +33,7 @@ Copyright (c) 2019 Kalle Jillheden (jilleJr)
 See full copyrights in [LICENSE.md][package-license] inside repository
 
 [main-repo]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
-[repo-compatability-table]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/Doc/Compatability-table.md
+[repo-compatability-table]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/Doc/Compatability-table.md
 [package-changelog]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/CHANGELOG.md
 [package-license]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/LICENSE.md
 [wiki-install-converters-via-git-in-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-Converters-via-Git-in-UPM
