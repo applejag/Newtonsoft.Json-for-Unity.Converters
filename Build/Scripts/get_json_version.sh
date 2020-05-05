@@ -38,7 +38,7 @@ jq2() {
 case "$output" in
 UPM)
     VERSION="$(jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile")"
-    SUFFIX="$(jq2 -er '.Suffix // empty' "$jsonFile")"
+    SUFFIX="$(jq -er '.Suffix // empty' "$jsonFile")"
 
     if [ -z "$SUFFIX" ]
     then
