@@ -33,6 +33,9 @@ This package is licensed under The MIT License (MIT)
 Copyright © 2019 Kalle Jillheden (jilleJr)
 https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters
 
+Copyright © 2020 Wanzyee Studio
+http://wanzyeestudio.blogspot.com/2017/03/jsonnet-converters.html
+
 Copyright © 2007 ParentElement
 https://github.com/ianmacgillivray/Json-NET-for-Unity
 
