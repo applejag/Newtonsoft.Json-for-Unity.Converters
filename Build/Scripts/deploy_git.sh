@@ -7,7 +7,6 @@ set -o pipefail
 
 : ${VERSION_UPM:?}
 : ${VERSION_UPM_NO_SUFFIX:?}
-: ${VERSION_SUFFIX:?}
 : ${REPO_FOLDER:?}
 : ${PACKAGE_FOLDER:?}
 
