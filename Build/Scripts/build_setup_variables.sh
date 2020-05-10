@@ -15,14 +15,14 @@ echo ">>> OBTAINING VERSION FROM $(pwd)/Build/version.json"
 env VERSION_UPM "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM)"
 env VERSION_UPM_NO_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json UPM_NO_SUFFIX)"
 env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./Build/version.json SUFFIX)"
-env VERSION_AUTO_DEPLOY_DRY_RUN "$($SCRIPTS/get_json_version.sh ./Build/version.json AUTO_DEPLOY_DRY_RUN)"
+env VERSION_AUTO_DEPLOY_LIVE_RUN "$($SCRIPTS/get_json_version.sh ./Build/version.json AUTO_DEPLOY_LIVE_RUN)"
 echo
 
 # Example output of variables:
 # VERSION_UPM='12.0.1-preview.1'
 # VERSION_UPM_NO_SUFFIX='12.0.1'
 # VERSION_SUFFIX='preview.1'
-# VERSION_AUTO_DEPLOY_DRY_RUN='false'
+# VERSION_AUTO_DEPLOY_LIVE_RUN='false'
 
 DESCRIPTION="This package contains converters to and from common Unity types for Newtonsoft.Json. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
 
