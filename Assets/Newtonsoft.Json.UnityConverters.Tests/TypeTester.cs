@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
@@ -46,7 +47,14 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         [return: MaybeNull]
         protected static object Deserialize(string json, JsonSerializer serializer)
         {
-            return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
+            try
+            {
+                return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
+            }
+            catch (JsonSerializationException e)
+            {
+                throw new AssertionException($"Failed to deserialize anonymous type.\nJson to deserialize: {json}\nError: {e}", e);
+            }
         }
 
         [return: MaybeNull]
@@ -58,7 +66,14 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         [return: MaybeNull]
         protected static T Deserialize<T>(string json, JsonSerializer serializer)
         {
-            return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
+            try
+            {
+                return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
+            }
+            catch (JsonSerializationException e)
+            {
+                throw new AssertionException($"Failed to deserialize type {typeof(T).FullName}\nJson to deserialize: {json}\nError: {e}", e);
+            }
         }
     }
 
@@ -91,7 +106,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         [Test]
         [TestCaseSource("representations")]
-        public void SerializesAsExpected((T input, object anonymous) representation)
+        public virtual void SerializesAsExpected((T input, object anonymous) representation)
         {
             // Arrange
             string expected = Serialize(representation.anonymous);
@@ -105,7 +120,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         [Test]
         [TestCaseSource("representations")]
-        public void DeserializesAsExpected((T expected, object anonymous) representation)
+        public virtual void DeserializesAsExpected((T expected, object anonymous) representation)
         {
             // Arrange
             string input = Serialize(representation.anonymous);
@@ -119,7 +134,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         [Test]
         [TestCaseSource("representations")]
-        public void SerializesArrayAsExpected((T input, object anonymous) representation)
+        public virtual void SerializesArrayAsExpected((T input, object anonymous) representation)
         {
             // Arrange
             string expected = Serialize(new[] { representation.anonymous });
@@ -134,7 +149,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         [Test]
         [TestCaseSource("representations")]
-        public void DeserializesArrayAsExpected((T expected, object anonymous) representation)
+        public virtual void DeserializesArrayAsExpected((T expected, object anonymous) representation)
         {
             // Arrange
             string input = Serialize(new[] { representation.anonymous });
