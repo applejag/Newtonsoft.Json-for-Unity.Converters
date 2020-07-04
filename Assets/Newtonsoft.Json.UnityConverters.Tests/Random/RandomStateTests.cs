@@ -78,6 +78,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Random
             Assert.AreEqual(newValue, field.GetValue(boxed));
         }
 
+#if !ENABLE_IL2CPP
         [Test]
         public void CanSetStateViaReference()
         {
@@ -97,5 +98,6 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Random
             // Assert
             Assert.AreEqual(newValue, field.GetValue(value));
         }
+#endif
     }
 }
