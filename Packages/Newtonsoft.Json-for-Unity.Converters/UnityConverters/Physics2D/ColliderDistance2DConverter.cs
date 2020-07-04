@@ -31,12 +31,21 @@ namespace Newtonsoft.Json.UnityConverters.Physics2D
                 throw new JsonException("Failed to set value for 'm_Normal' field on UnityEngine.ColliderDistance2D type.");
             }
 
-            TypedReference reference = __makeref(instance);
             Vector2 normal = values.GetAsTypeOrDefault<Vector2>(2);
+
+#if ENABLE_IL2CPP
+            object boxed = instance;
+
+            _normalField.SetValue(boxed, normal);
+
+            return (ColliderDistance2D)boxed;
+#else
+            TypedReference reference = __makeref(instance);
 
             _normalField.SetValueDirect(reference, normal);
 
             return instance;
+#endif
         }
 
         protected override object[] ReadInstanceValues(ColliderDistance2D instance)

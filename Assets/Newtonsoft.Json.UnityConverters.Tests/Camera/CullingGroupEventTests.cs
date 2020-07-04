@@ -80,14 +80,13 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Camera
             byte prevStateByte = (byte)prevState;
             byte thisStateByte = (byte)thisState;
 
-            var instance = new CullingGroupEvent();
-            TypedReference reference = __makeref(instance);
-            
-            _indexField.SetValueDirect(reference, index);
-            _prevStateField.SetValueDirect(reference, prevStateByte);
-            _thisStateField.SetValueDirect(reference, thisStateByte);
+            object boxed = new CullingGroupEvent();
 
-            return instance;
+            _indexField.SetValue(boxed, index);
+            _prevStateField.SetValue(boxed, prevStateByte);
+            _thisStateField.SetValue(boxed, thisStateByte);
+
+            return (CullingGroupEvent)boxed;
         }
 
         private static byte AsVisibility(bool isVisible)

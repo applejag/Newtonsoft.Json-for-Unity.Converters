@@ -74,6 +74,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
             Assert.AreNotEqual(normal, new Vector2());
         }
 
+#if !ENABLE_IL2CPP
         [Test]
         public void CanSetNormalViaReference()
         {
@@ -95,5 +96,6 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
             Assert.AreEqual(normal, value.normal);
             Assert.AreNotEqual(normal, new Vector2());
         }
+#endif
     }
 }
