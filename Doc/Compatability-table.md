@@ -78,6 +78,7 @@ https://beautifuldingbats.com/superscript-generator/
 | RenderPipeline | _UnityEngine.Rendering_.**VisibleLight**                        | ❌[⁽²⁾](#note-2) | ❓[⁽³⁾](#note-3) | ❌[⁽²⁾](#note-2)  |
 | Scripting      | _UnityEngine_.**LayerMask**                                     | ✔               | ✔               | ✔                |
 | Scripting      | _UnityEngine_.**RangeInt**                                      | ✔               | ✔               | ✔                |
+| Scripting      | _UnityEngine_.**ScriptableObject**                              | ✔               | ✔               | ✔                |
 | SpriteShape    | _UnityEngine.U2D_.**AngleRangeInfo**                            | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
 | SpriteShape    | _UnityEngine.U2D_.**ShapeControlPoint**                         | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
 | SpriteShape    | _UnityEngine.U2D_.**SpriteShapeMetaData**                       | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
