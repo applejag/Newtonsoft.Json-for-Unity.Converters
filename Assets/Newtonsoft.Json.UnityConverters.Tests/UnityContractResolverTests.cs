@@ -36,8 +36,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
             return a.name == b.name
                 && a.hideFlags == b.hideFlags
-                && a.float1 == b.float1
-                && a.GetFloat2() == b.GetFloat2();
+                && Mathf.Approximately(a.float1, b.float1)
+                && Mathf.Approximately(a.GetFloat2(), b.GetFloat2());
         }
 
         private static MockScriptableObject CreateMockInstance(string name, HideFlags hideFlags, float float1, float float2)
@@ -52,7 +52,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
             return instance;
         }
 
-        private struct ExpectedSignature
+        private class ExpectedSignature
         {
             public float float1;
 
@@ -63,7 +63,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests
             public float float2;
         }
 
+#pragma warning disable S1104 // Make this field 'private' and encapsulate it in a 'public' property.
+#pragma warning disable S1144 // Unused private types or members should be removed
+#pragma warning disable CA1034 // Nested types should not be visible
         public class MockScriptableObject : ScriptableObject
+#pragma warning restore CA1034 // Nested types should not be visible
         {
             public float float1;
 
@@ -91,6 +95,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests
                 return $"{nameof(MockScriptableObject)}{{name: \"{name}\", hideFlags: \"{hideFlags}\", float1: {float1}, float2: {float2}}}";
             }
         }
+#pragma warning restore S1104 // Make this field 'private' and encapsulate it in a 'public' property.
+#pragma warning restore S1144 // Unused private types or members should be removed
 
     }
 }

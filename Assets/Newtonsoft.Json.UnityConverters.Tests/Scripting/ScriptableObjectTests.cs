@@ -126,7 +126,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             return instance;
         }
 
-        private struct ExpectedSignature
+        private class ExpectedSignature
         {
             public string name;
 

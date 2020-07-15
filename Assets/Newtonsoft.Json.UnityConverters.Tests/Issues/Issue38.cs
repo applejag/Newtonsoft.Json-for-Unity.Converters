@@ -38,10 +38,14 @@ namespace Newtonsoft.Json.UnityConverters.Tests
             Assert.IsInstanceOf<Boat>(vehicles[1], "vehicles[1]");
         }
 
-        public class Data : ScriptableObject
+#pragma warning disable S1144 // Unused private types or members should be removed
+#pragma warning disable S1104 // Make this field 'private' and encapsulate it in a 'public' property.
+        private class Data : ScriptableObject
         {
             [SerializeField]
+#pragma warning disable IDE1006 // Naming Styles
             private List<Vehicle> vehicles;
+#pragma warning restore IDE1006 // Naming Styles
 
             public List<Vehicle> GetVehicles()
             {
@@ -49,19 +53,21 @@ namespace Newtonsoft.Json.UnityConverters.Tests
             }
         }
 
-        public abstract class Vehicle : ScriptableObject
+        private abstract class Vehicle : ScriptableObject
         {
             public string id;
         }
 
-        public class Car : Vehicle
+        private class Car : Vehicle
         {
             public string model;
         }
 
-        public class Boat : Vehicle
+        private class Boat : Vehicle
         {
             public float lengthMeters;
         }
+#pragma warning restore S1104 // Make this field 'private' and encapsulate it in a 'public' property.
+#pragma warning restore S1144 // Unused private types or members should be removed
     }
 }
