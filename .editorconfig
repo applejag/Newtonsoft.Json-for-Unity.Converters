@@ -6,7 +6,7 @@ root = true
 [*]
 
 # EditorGuidelines https://github.com/pharring/EditorGuidelines
-guidelines = 80
+guidelines = 80, 199, 200
 
 indent_style = space
 indent_size = 4
@@ -23,7 +23,7 @@ indent_size = 2
 # === C# files ===
 [*.cs]
 
-guidelines = 80, 120, 121
+guidelines = 80, 120, 121, 199, 200
 
 indent_style = space
 indent_size = 4
@@ -219,15 +219,6 @@ dotnet_naming_symbols.constant_symbols.required_modifiers = const
 dotnet_naming_rule.constants_must_be_uppercase.style = upper_style
 dotnet_naming_rule.constants_must_be_uppercase.symbols = constant_symbols
 dotnet_naming_rule.constants_must_be_uppercase.severity = warning
-
-# private static readonly : UPPER_CASE
-dotnet_naming_symbols.static_readonly_symbols.applicable_kinds = property,field
-dotnet_naming_symbols.static_readonly_symbols.applicable_accessibilities = private,protected,protected_internal,internal,private_protected
-dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readonly
-
-dotnet_naming_rule.private_static_readonly_must_be_uppercase.style = upper_style
-dotnet_naming_rule.private_static_readonly_must_be_uppercase.symbols = static_readonly_symbols
-dotnet_naming_rule.private_static_readonly_must_be_uppercase.severity = warning
 
 # S101: Types should be named in PascalCase
 dotnet_diagnostic.S101.severity = silent
