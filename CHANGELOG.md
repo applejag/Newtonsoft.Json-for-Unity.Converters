@@ -1,5 +1,21 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.1.0
+
+- Added custom contract resolver to look for the
+  `UnityEngine.SerializeFieldAttribute` and include attributed fields and
+  properties appropriately. ([#38](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/38))
+
+- Added `UnityEngine.ScriptableObject` deserialization support by using the
+  `ScriptableObject.Create(Type type)` method when reading the JSON.
+  ([#33](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/33),
+  [#38](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/38))
+
+- Fixed IL2CPP builds failing due to usage of `__makeref` in
+  `CullingGroupEventConverter`, `ColliderDistance2DConverter`, and
+  `RandomStateConverter`
+  ([#34](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/34))
+
 ## 1.0.0
 
 - ✨ Initial release

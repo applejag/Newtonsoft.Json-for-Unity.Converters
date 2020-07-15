@@ -46,9 +46,18 @@ namespace Newtonsoft.Json.UnityConverters.Camera
             byte currentDistance = values.GetAsTypeOrDefault<byte>(3);
             byte previousDistance = values.GetAsTypeOrDefault<byte>(4);
 
-            int thisStateByte = (byte)(isVisibleByte | (currentDistance & DISTANCE_MASK));
-            int prevStateByte = (byte)(wasVisibleByte | (previousDistance & DISTANCE_MASK));
+            byte thisStateByte = (byte)(isVisibleByte | (currentDistance & DISTANCE_MASK));
+            byte prevStateByte = (byte)(wasVisibleByte | (previousDistance & DISTANCE_MASK));
 
+#if ENABLE_IL2CPP
+            object boxed = new CullingGroupEvent();
+
+            _indexField.SetValue(boxed, index);
+            _prevStateField.SetValue(boxed, prevStateByte);
+            _thisStateField.SetValue(boxed, thisStateByte);
+
+            return (CullingGroupEvent)boxed;
+#else
             var instance = new CullingGroupEvent();
             TypedReference reference = __makeref(instance);
 
@@ -57,6 +66,7 @@ namespace Newtonsoft.Json.UnityConverters.Camera
             _thisStateField.SetValueDirect(reference, thisStateByte);
 
             return instance;
+#endif
         }
 
         protected override object[] ReadInstanceValues(CullingGroupEvent instance)

@@ -24,13 +24,21 @@ namespace Newtonsoft.Json.UnityConverters.Random
         {
             var state = new RandomState();
 
+#if ENABLE_IL2CPP
+            object boxed = state;
+            _s0Field.SetValue(boxed, values[0]);
+            _s1Field.SetValue(boxed, values[1]);
+            _s2Field.SetValue(boxed, values[2]);
+            _s3Field.SetValue(boxed, values[3]);
+            return (RandomState)boxed;
+#else
             TypedReference reference = __makeref(state);
             _s0Field.SetValueDirect(reference, values[0]);
             _s1Field.SetValueDirect(reference, values[1]);
             _s2Field.SetValueDirect(reference, values[2]);
             _s3Field.SetValueDirect(reference, values[3]);
-
             return state;
+#endif
         }
 
         protected override int[] ReadInstanceValues(RandomState instance)
