@@ -40,6 +40,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
 #pragma warning disable S1144 // Unused private types or members should be removed
 #pragma warning disable S1104 // Make this field 'private' and encapsulate it in a 'public' property.
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value null
         private class Data : ScriptableObject
         {
             [SerializeField]
@@ -67,6 +68,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         {
             public float lengthMeters;
         }
+#pragma warning restore CS0649 // Field is never assigned to, and will always have its default value null
 #pragma warning restore S1104 // Make this field 'private' and encapsulate it in a 'public' property.
 #pragma warning restore S1144 // Unused private types or members should be removed
     }

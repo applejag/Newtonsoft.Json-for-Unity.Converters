@@ -9,8 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -177641626, guid: f626d9c9f8019704286030bb00d5b705, type: 3}
+  m_Script: {fileID: 11500000, guid: ce56e4dbb13e1644aa983b6dd170e4a7, type: 3}
   m_Name: JsonSerializerConfig
   m_EditorClassIdentifier: 
-  someBool1: 0
-  someBool2: 1
+  useUnityContractResolver: 1
+  useAllOutsideConverters: 1
+  outsideConverters: []
+  useAllUnityConverters: 1
+  unityConverters: []
+  useAllJsonNetConverters: 0
+  jsonNetConverters:
+  - converter: Newtonsoft.Json.Converters.StringEnumConverter, Newtonsoft.Json
+    settings: []
+  - converter: Newtonsoft.Json.Converters.VersionConverter, Newtonsoft.Json
+    settings: []
