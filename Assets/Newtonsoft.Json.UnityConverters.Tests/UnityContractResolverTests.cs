@@ -65,6 +65,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
 #pragma warning disable S1104 // Make this field 'private' and encapsulate it in a 'public' property.
 #pragma warning disable S1144 // Unused private types or members should be removed
+#pragma warning disable S2357 // Fields should be private
 #pragma warning disable CA1034 // Nested types should not be visible
         public class MockScriptableObject : ScriptableObject
 #pragma warning restore CA1034 // Nested types should not be visible
@@ -95,6 +96,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
                 return $"{nameof(MockScriptableObject)}{{name: \"{name}\", hideFlags: \"{hideFlags}\", float1: {float1}, float2: {float2}}}";
             }
         }
+#pragma warning restore S2357 // Fields should be private
 #pragma warning restore S1104 // Make this field 'private' and encapsulate it in a 'public' property.
 #pragma warning restore S1144 // Unused private types or members should be removed
 
