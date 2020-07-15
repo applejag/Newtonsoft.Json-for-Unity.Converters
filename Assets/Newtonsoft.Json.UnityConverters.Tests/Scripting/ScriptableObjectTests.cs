@@ -116,19 +116,6 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
                 && a.hideFlags == b.hideFlags;
         }
 
-        private static string GetTypeNameWithAssembly(Type type)
-        {
-            string assemblyName = type.Assembly.FullName;
-            int assemblyNameSeparator = assemblyName.IndexOf(',');
-            if (assemblyNameSeparator != -1)
-            {
-                assemblyName = assemblyName.Substring(0, assemblyNameSeparator);
-            }
-
-
-            return $"{type.FullName}, {assemblyName}";
-        }
-
         private static MockScriptableObject CreateMockInstance(string name, HideFlags hideFlags)
         {
             MockScriptableObject instance = ScriptableObject.CreateInstance<MockScriptableObject>();

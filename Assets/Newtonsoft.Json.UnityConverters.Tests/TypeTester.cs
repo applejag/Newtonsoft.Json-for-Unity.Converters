@@ -61,6 +61,19 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         {
             return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
         }
+
+        public static string GetTypeNameWithAssembly(Type type)
+        {
+            string assemblyName = type.Assembly.FullName;
+            int assemblyNameSeparator = assemblyName.IndexOf(',');
+            if (assemblyNameSeparator != -1)
+            {
+                assemblyName = assemblyName.Substring(0, assemblyNameSeparator);
+            }
+
+
+            return $"{type.FullName}, {assemblyName}";
+        }
     }
 
     public abstract class TypeTester<T> : TypeTesterBase
