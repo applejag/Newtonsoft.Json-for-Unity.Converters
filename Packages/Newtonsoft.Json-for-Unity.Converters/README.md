@@ -1,8 +1,10 @@
 # Unity Converters for Newtonsoft.Json
 
 This package contains converters to and from common Unity types. Types such as
-**Vector2, Vector3, Matrix4x4, Quaternions, Color,** _and many, many more._
-(See the [full compatibility table of all +50 supported Unity types][repo-compatability-table])
+**Vector2, Vector3, Matrix4x4, Quaternions, Color, even ScriptableObject,**
+_and many, many more._
+(See the [full compatibility table of all +50 supported Unity types][
+doc-compatability-table])
 
 ## Prerequisites
 
