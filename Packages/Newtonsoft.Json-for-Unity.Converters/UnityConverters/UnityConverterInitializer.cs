@@ -53,7 +53,8 @@ namespace Newtonsoft.Json.UnityConverters
         /// 	4. <see cref="VersionConverter"/>.
         /// </remarks>
         public static JsonSerializerSettings DefaultUnityConvertersSettings { get; set; } = new JsonSerializerSettings {
-            Converters = CreateConverters()
+            Converters = CreateConverters(),
+            ContractResolver = new UnityTypeContractResolver()
         };
 
         /// <summary>
