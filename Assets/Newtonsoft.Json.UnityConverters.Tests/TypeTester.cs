@@ -47,14 +47,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         [return: MaybeNull]
         protected static object Deserialize(string json, JsonSerializer serializer)
         {
-            try
-            {
-                return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
-            }
-            catch (JsonSerializationException e)
-            {
-                throw new AssertionException($"Failed to deserialize anonymous type.\nJson to deserialize: {json}\nError: {e}", e);
-            }
+            return serializer.Deserialize(new JsonTextReader(new StringReader(json)));
         }
 
         [return: MaybeNull]
@@ -66,14 +59,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         [return: MaybeNull]
         protected static T Deserialize<T>(string json, JsonSerializer serializer)
         {
-            try
-            {
-                return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
-            }
-            catch (JsonSerializationException e)
-            {
-                throw new AssertionException($"Failed to deserialize type {typeof(T).FullName}\nJson to deserialize: {json}\nError: {e}", e);
-            }
+            return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
         }
     }
 

@@ -12,14 +12,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
         public static readonly IReadOnlyCollection<(MockScriptableObject deserialized, object anonymous)> representations = new (MockScriptableObject, object)[] {
             (ScriptableObject.CreateInstance<MockScriptableObject>(), new ExpectedSignature {
                 name = string.Empty,
-                float1 = 0f,
-                float2 = 0f,
                 hideFlags = HideFlags.None,
             }),
-            (CreateMockInstance("myObject", HideFlags.DontSaveInBuild | HideFlags.HideInHierarchy, 1, 2), new ExpectedSignature {
+            (CreateMockInstance("myObject", HideFlags.DontSaveInBuild | HideFlags.HideInHierarchy), new ExpectedSignature {
                 name = "myObject",
-                float1 = 1,
-                float2 = 2,
                 hideFlags = HideFlags.DontSaveInBuild | HideFlags.HideInHierarchy,
             }),
         };
@@ -33,7 +29,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             string typeName = SerializeWithTypeNameHandling(typeNameHandling);
 
             // Assert
-            Assert.AreEqual(typeof(MockScriptableObject).FullName, typeName);
+            Assert.AreEqual(GetTypeNameWithAssembly(typeof(MockScriptableObject)), typeName);
         }
 
         [Test]
@@ -71,6 +67,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
         [Test]
         [TestCase(TypeNameHandling.All)]
         [TestCase(TypeNameHandling.Objects)]
+        [TestCase(TypeNameHandling.Arrays)]
         [TestCase(TypeNameHandling.Auto)]
         public void DeserializeGivenTypeFromProperty(TypeNameHandling typeNameHandling)
         {
@@ -81,9 +78,8 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
         }
 
         [Test]
-        [TestCase(TypeNameHandling.Arrays)]
         [TestCase(TypeNameHandling.None)]
-        public void DeserializesGivenTypeFromTypeOption(TypeNameHandling typeNameHandling)
+        public void DeserializesGivenTypeFromSignature(TypeNameHandling typeNameHandling)
         {
             ScriptableObject result = DeserializeWithTypeNameHandling(typeNameHandling);
 
@@ -97,7 +93,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             var serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
             serializer.TypeNameHandling = typeNameHandling;
 
-            string input = $@"{{""$type"":{typeof(MockScriptableObject).FullName}}}";
+            string input = $@"{{""$type"":""{GetTypeNameWithAssembly(typeof(MockScriptableObject))}""}}";
 
             // Act
             ScriptableObject result = Deserialize<ScriptableObject>(input, serializer);
@@ -117,19 +113,28 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             }
 
             return a.name == b.name
-                && a.hideFlags == b.hideFlags
-                && a.float1 == b.float1
-                && a.GetFloat2() == b.GetFloat2();
+                && a.hideFlags == b.hideFlags;
         }
 
-        private static MockScriptableObject CreateMockInstance(string name, HideFlags hideFlags, float float1, float float2)
+        private static string GetTypeNameWithAssembly(Type type)
+        {
+            string assemblyName = type.Assembly.FullName;
+            int assemblyNameSeparator = assemblyName.IndexOf(',');
+            if (assemblyNameSeparator != -1)
+            {
+                assemblyName = assemblyName.Substring(0, assemblyNameSeparator);
+            }
+
+
+            return $"{type.FullName}, {assemblyName}";
+        }
+
+        private static MockScriptableObject CreateMockInstance(string name, HideFlags hideFlags)
         {
             MockScriptableObject instance = ScriptableObject.CreateInstance<MockScriptableObject>();
 
             instance.name = name;
             instance.hideFlags = hideFlags;
-            instance.float1 = float1;
-            instance.SetFloat2(float2);
 
             return instance;
         }
@@ -139,38 +144,13 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             public string name;
 
             public HideFlags hideFlags;
-
-            public float float1;
-
-            public float float2;
         }
 
         public class MockScriptableObject : ScriptableObject
         {
-            public float float1;
-
-#pragma warning disable IDE1006 // Naming Styles
-            [SerializeField]
-            private float float2;
-#pragma warning restore IDE1006 // Naming Styles
-
-            // This field should be ignored
-            [NonSerialized]
-            public float float3;
-
-            public void SetFloat2(float value)
-            {
-                float2 = value;
-            }
-
-            public float GetFloat2()
-            {
-                return float2;
-            }
-
             public override string ToString()
             {
-                return $"{nameof(MockScriptableObject)}{{name: \"{name}\", hideFlags: \"{hideFlags}\", float1: {float1}, float2: {float2}}}";
+                return $"{nameof(MockScriptableObject)}{{name: \"{name}\", hideFlags: \"{hideFlags}\"}}";
             }
         }
 
