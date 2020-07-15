@@ -11,6 +11,11 @@
   ([#33](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/33),
   [#38](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/38))
 
+- Fixed IL2CPP builds failing due to usage of `__makeref` in
+  `CullingGroupEventConverter`, `ColliderDistance2DConverter`, and
+  `RandomStateConverter`
+  ([#34](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/34))
+
 ## 1.0.0
 
 - ✨ Initial release
