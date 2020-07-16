@@ -1,8 +1,6 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Tests",
     "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
         "Newtonsoft.Json.UnityConverters"
     ],
     "includePlatforms": [],
@@ -10,12 +8,13 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll",
         "Newtonsoft.Json.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
-    "versionDefines": []
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
 }

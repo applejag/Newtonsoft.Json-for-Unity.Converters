@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Utilities;
 using NUnit.Framework;
 
 namespace Newtonsoft.Json.UnityConverters.Tests
@@ -12,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         protected TypeTesterBase()
         {
-            _serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+            _serializer = JsonSerializer.Create(UnityConverterInitializer.defaultUnityConvertersSettings);
         }
 
         [OneTimeSetUp]
@@ -71,13 +72,17 @@ namespace Newtonsoft.Json.UnityConverters.Tests
                 assemblyName = assemblyName.Substring(0, assemblyNameSeparator);
             }
 
-
             return $"{type.FullName}, {assemblyName}";
         }
     }
 
     public abstract class TypeTester<T> : TypeTesterBase
     {
+        protected TypeTester()
+        {
+            AotHelper.EnsureList<T>();
+        }
+
         protected virtual bool AreEqual([AllowNull] T a, [AllowNull] T b)
         {
             return Equals(a, b);

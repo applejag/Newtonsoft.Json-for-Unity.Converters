@@ -47,7 +47,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
         private static string SerializeWithTypeNameHandling(TypeNameHandling typeNameHandling)
         {
             // Arrange
-            var serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+            var serializer = JsonSerializer.Create(UnityConverterInitializer.defaultUnityConvertersSettings);
             serializer.TypeNameHandling = typeNameHandling;
 
             MockScriptableObject instance = ScriptableObject.CreateInstance<MockScriptableObject>();
@@ -90,7 +90,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
         private static ScriptableObject DeserializeWithTypeNameHandling(TypeNameHandling typeNameHandling)
         {
             // Arrange
-            var serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+            var serializer = JsonSerializer.Create(UnityConverterInitializer.defaultUnityConvertersSettings);
             serializer.TypeNameHandling = typeNameHandling;
 
             string input = $@"{{""$type"":""{GetTypeNameWithAssembly(typeof(MockScriptableObject))}""}}";

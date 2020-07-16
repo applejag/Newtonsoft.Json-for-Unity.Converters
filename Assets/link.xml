@@ -1,0 +1,6 @@
+<linker>
+  <assembly fullname="UnityEngine">
+    <type fullname="UnityEngine.Ray2D" />
+    <type fullname="UnityEngine.Keyframe" />
+  </assembly>
+</linker>
