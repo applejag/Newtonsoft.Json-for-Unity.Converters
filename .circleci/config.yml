@@ -53,17 +53,6 @@ jobs:
             UNITY_LICENSE_CONTENT_B64="$UNITY_2018_4_14f1_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
 
       - run:
-          name: Downgrade Unity project to 2018.x
-          command: |
-            echo "Moving $TEST_PROJECT/Packages/manifest.json file"
-            mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
-            mv -v "$TEST_PROJECT/Packages/manifest_2018.4.14f1.json" "$TEST_PROJECT/Packages/manifest.json"
-            echo
-            find "$ASSETS_FOLDER" -name '.*.asmdef.old' -exec rm -v {} +
-            echo
-            find "$ASSETS_FOLDER" -name '*.asmdef' -exec $SCRIPTS/unity_downgrade_asmdef.sh --backup "{}" \;
-
-      - run:
           name: Run tests
           command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
 
@@ -122,6 +111,13 @@ jobs:
             UNITY_LICENSE_CONTENT_B64="$UNITY_2019_2_11f1_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
 
       - run:
+          name: Upgrade Unity project to 2019.x
+          command: |
+            echo "Moving $TEST_PROJECT/Packages/manifest.json file"
+            mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
+            mv -v "$TEST_PROJECT/Packages/manifest_2019.2.11f1.json" "$TEST_PROJECT/Packages/manifest.json"
+
+      - run:
           name: Run tests
           command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
 
@@ -178,6 +174,13 @@ jobs:
           command: |
             # Requires UNITY_2020_1_0b6_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
             UNITY_LICENSE_CONTENT_B64="$UNITY_2020_1_0b6_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
+
+      - run:
+        name: Upgrade Unity project to 2019.x
+        command: |
+          echo "Moving $TEST_PROJECT/Packages/manifest.json file"
+          mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
+          mv -v "$TEST_PROJECT/Packages/manifest_2019.2.11f1.json" "$TEST_PROJECT/Packages/manifest.json"
 
       - run:
           name: Run tests
