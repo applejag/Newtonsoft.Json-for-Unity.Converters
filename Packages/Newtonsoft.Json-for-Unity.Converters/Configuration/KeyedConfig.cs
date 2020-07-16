@@ -8,17 +8,17 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
     [Serializable]
     public struct KeyedConfig : IEquatable<KeyedConfig>
     {
-        public string key { get; set; }
+        public string key;
 
-        public ConfigType type { get; set; }
+        public ConfigType type;
 
-        public bool boolean { get; set; }
+        public bool boolean;
 
-        public int integer { get; set; }
+        public int integer;
 
-        public float number { get; set; }
+        public float number;
 
-        public string text { get; set; }
+        public string text;
 
         public override bool Equals(object obj)
         {

@@ -12,19 +12,19 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
         internal const string PATH = "Assets/Resources/Newtonsoft.Json-for-Unity.Converters.asset";
         internal const string PATH_FOR_RESOURCES_LOAD = "Newtonsoft.Json-for-Unity.Converters";
 
-        public bool useUnityContractResolver { get; set; } = true;
+        public bool useUnityContractResolver = true;
 
-        public bool useAllOutsideConverters { get; set; } = true;
+        public bool useAllOutsideConverters = true;
 
-        public List<ConverterConfig> outsideConverters { get; set; } = new List<ConverterConfig>();
+        public List<ConverterConfig> outsideConverters = new List<ConverterConfig>();
 
-        public bool useAllUnityConverters { get; set; } = true;
+        public bool useAllUnityConverters = true;
 
-        public List<ConverterConfig> unityConverters { get; set; } = new List<ConverterConfig>();
+        public List<ConverterConfig> unityConverters = new List<ConverterConfig>();
 
-        public bool useAllJsonNetConverters { get; set; }
+        public bool useAllJsonNetConverters;
 
-        public List<ConverterConfig> jsonNetConverters { get; set; } = new List<ConverterConfig> {
+        public List<ConverterConfig> jsonNetConverters = new List<ConverterConfig> {
             new ConverterConfig { converterName = typeof(StringEnumConverter).AssemblyQualifiedName },
             new ConverterConfig { converterName = typeof(VersionConverter).AssemblyQualifiedName },
         };

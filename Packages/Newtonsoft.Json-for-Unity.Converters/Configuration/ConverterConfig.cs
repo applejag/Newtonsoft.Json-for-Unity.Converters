@@ -8,11 +8,11 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
     [System.Diagnostics.DebuggerDisplay("{converterName}, enabled={enabled}")]
     public struct ConverterConfig : IEquatable<ConverterConfig>
     {
-        public bool enabled { get; set; }
+        public bool enabled;
 
-        public string converterName { get; set; }
+        public string converterName;
 
-        public List<KeyedConfig> settings { get; set; }
+        public List<KeyedConfig> settings;
 
         public override bool Equals(object obj)
         {
