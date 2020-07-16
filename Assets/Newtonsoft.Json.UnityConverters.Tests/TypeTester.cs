@@ -71,7 +71,6 @@ namespace Newtonsoft.Json.UnityConverters.Tests
                 assemblyName = assemblyName.Substring(0, assemblyNameSeparator);
             }
 
-
             return $"{type.FullName}, {assemblyName}";
         }
     }

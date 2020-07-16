@@ -123,7 +123,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// Find all the valid converter types outside of Newtonsoft.Json namespaces.
         /// </summary>
         /// <returns>The types.</returns>
-        private static IEnumerable<Type> FindCustomConverters()
+        internal static IEnumerable<Type> FindCustomConverters()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Select(dll => dll.GetLoadableTypes()
@@ -134,16 +134,16 @@ namespace Newtonsoft.Json.UnityConverters
                         && type.GetConstructor(Array.Empty<Type>()) != null
                         && type.Namespace?.StartsWith("Newtonsoft.Json") != true
                     )
-                    .OrderBy(type => type.Name)
                 )
-                .SelectMany(types => types);
+                .SelectMany(types => types)
+                .OrderBy(type => type.FullName);
         }
 
         /// <summary>
         /// Find all the valid converter types inside this assembly, <c>Newtonsoft.Json.UnityConverters</c>
         /// </summary>
         /// <returns>The types.</returns>
-        private static IEnumerable<Type> FindUnityConverters()
+        internal static IEnumerable<Type> FindUnityConverters()
         {
             return typeof(UnityConverterInitializer).Assembly.GetTypes()
                 .Where(type
@@ -152,7 +152,19 @@ namespace Newtonsoft.Json.UnityConverters
                     && !type.IsAbstract && !type.IsGenericTypeDefinition
                     && type.GetConstructor(Array.Empty<Type>()) != null
                 )
-                .OrderBy(type => type.Name);
+                .OrderBy(type => type.FullName);
+        }
+
+        internal static IEnumerable<Type> FindJsonNetConverters()
+        {
+            return typeof(JsonConverter).Assembly.GetTypes()
+                .Where(type
+                    => typeof(JsonConverter).IsAssignableFrom(type)
+
+                    && !type.IsAbstract && !type.IsGenericTypeDefinition
+                    && type.GetConstructor(Array.Empty<Type>()) != null
+                )
+                .OrderBy(type => type.FullName);
         }
 
         /// <summary>
