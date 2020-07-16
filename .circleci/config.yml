@@ -180,7 +180,7 @@ jobs:
           command: |
             echo "Moving $TEST_PROJECT/Packages/manifest.json file"
             mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
-            mv -v "$TEST_PROJECT/Packages/manifest_2019.2.11f1.json" "$TEST_PROJECT/Packages/manifest.json"
+            mv -v "$TEST_PROJECT/Packages/manifest_2020.1.0b6.json" "$TEST_PROJECT/Packages/manifest.json"
 
       - run:
           name: Run tests
