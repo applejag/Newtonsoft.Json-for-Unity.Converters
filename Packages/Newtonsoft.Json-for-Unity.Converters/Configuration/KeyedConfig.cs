@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
@@ -26,12 +27,25 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public bool Equals(KeyedConfig other)
         {
-            return key == other.key &&
-                   type == other.type &&
-                   boolean == other.boolean &&
-                   integer == other.integer &&
-                   number == other.number &&
-                   text == other.text;
+            if (type != other.type)
+            {
+                return false;
+            }
+
+            switch (type)
+            {
+            case ConfigType.Boolean:
+                return boolean == other.boolean;
+            case ConfigType.Integer:
+                return integer == other.integer;
+            case ConfigType.Number:
+                return Mathf.Approximately(number, other.number);
+            case ConfigType.Text:
+                return text == other.text;
+
+            default:
+                return false;
+            }
         }
 
 #pragma warning disable S2328 // "GetHashCode" should not reference mutable fields
