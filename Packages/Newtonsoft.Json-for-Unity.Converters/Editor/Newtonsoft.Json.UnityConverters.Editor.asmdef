@@ -1,18 +1,20 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Editor",
     "references": [
-        "GUID:c55d28459d9c4444ebb4788be912e1f1"
+        "Newtonsoft.Json.UnityConverters"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
     ],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
+    "overrideReferences": true,
     "precompiledReferences": [
         "Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": []
+    "defineConstraints": []
 }
