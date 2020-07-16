@@ -13,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
         protected TypeTesterBase()
         {
-            _serializer = JsonSerializer.Create(UnityConverterInitializer.DefaultUnityConvertersSettings);
+            _serializer = JsonSerializer.Create(UnityConverterInitializer.defaultUnityConvertersSettings);
         }
 
         [OneTimeSetUp]
