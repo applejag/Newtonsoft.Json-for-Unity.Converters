@@ -4,7 +4,9 @@ using System.Linq;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
+#pragma warning disable CA2235 // Mark all non-serializable fields
     [Serializable]
+    [System.Diagnostics.DebuggerDisplay("{converterName}, enabled={enabled}")]
     public struct ConverterConfig
     {
         public bool enabled;
@@ -16,7 +18,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
         public ConverterConfig(Type converter, IEnumerable<KeyedConfig> settings = null)
         {
             enabled = true;
-            converterName = converter?.FullName;
+            converterName = converter?.AssemblyQualifiedName;
             this.settings = settings?.ToList() ?? new List<KeyedConfig>();
         }
 
@@ -27,4 +29,5 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
             this.settings = settings?.ToList() ?? new List<KeyedConfig>();
         }
     }
+#pragma warning restore CA2235 // Mark all non-serializable fields
 }

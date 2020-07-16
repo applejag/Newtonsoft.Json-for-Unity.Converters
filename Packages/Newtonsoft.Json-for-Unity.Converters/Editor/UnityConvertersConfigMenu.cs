@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.UnityConverters.Configuration;
+﻿using System.IO;
+using Newtonsoft.Json.UnityConverters.Configuration;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private static UnityConvertersConfig GetOrCreateConfig()
         {
-            var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH);
+            var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD);
 
             if (config)
             {
@@ -29,6 +30,12 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             }
 
             config = ScriptableObject.CreateInstance<UnityConvertersConfig>();
+
+            string directory = Path.GetDirectoryName(UnityConvertersConfig.PATH);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
 
             AssetDatabase.CreateAsset(config, UnityConvertersConfig.PATH);
             AssetDatabase.SaveAssets();

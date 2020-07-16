@@ -21,10 +21,10 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private SerializedProperty _useAllJsonNetConverters;
         private SerializedProperty _jsonNetConverters;
 
-        private static readonly IList<Type> _outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
-        private static readonly IList<Type> _unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
-        private static readonly IList<Type> _jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
-
+        private IList<Type> _outsideConverterTypes;
+        private IList<Type> _unityConverterTypes;
+        private IList<Type> _jsonNetConverterTypes;
+                
         private AnimBool _outsideConvertersShow;
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
@@ -35,8 +35,14 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
 
+        private bool _isDirty;
+
         private void OnEnable()
         {
+            _outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
+            _unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
+            _jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
+
             // Hack around the "SerializedObjectNotCreatableException: Object at index 0 is null"
             // error message
             try
@@ -75,6 +81,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         public override void OnInspectorGUI()
         {
+            _isDirty = false;
             EditorGUILayout.LabelField("Settings for the converters of", _headerStyle);
             EditorGUILayout.LabelField("Newtonsoft.Json-for-Unity.Converters", _boldHeaderStyle);
 
@@ -106,12 +113,16 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             EditorGUILayout.Space();
 
             serializedObject.ApplyModifiedProperties();
+
+            if (_isDirty)
+            {
+                UnityConverterInitializer.RefreshSettingsFromConfig();
+            }
         }
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
         {
-            Debug.Log($"{arrayProperty.propertyPath}: {newAreEnabledByDefault}");
-            var converterTypesByName = converterTypes.ToDictionary(o => o.FullName);
+            var converterTypesByName = converterTypes.ToDictionary(o => o.AssemblyQualifiedName);
 
             AddMissingConverters(arrayProperty, converterTypesByName.Keys, newAreEnabledByDefault);
             SetupConvertersIntoDictionary(arrayProperty, converterTypesByName);
@@ -220,7 +231,18 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                         SerializedProperty enabledProp = configWithType.serializedProperty.FindPropertyRelative(nameof(ConverterConfig.enabled));
                         if (configWithType.type != null)
                         {
-                            enabledProp.boolValue = EditorGUILayout.ToggleLeft(configWithType.type.Name, enabledProp.boolValue);
+                            var toggleContent = new GUIContent {
+                                text = configWithType.type.Name,
+                                tooltip = configWithType.type.AssemblyQualifiedName,
+                            };
+
+                            bool oldValue = enabledProp.boolValue;
+                            enabledProp.boolValue = EditorGUILayout.ToggleLeft(toggleContent, enabledProp.boolValue);
+
+                            if (oldValue != enabledProp.boolValue)
+                            {
+                                _isDirty = true;
+                            }
                         }
                         else
                         {

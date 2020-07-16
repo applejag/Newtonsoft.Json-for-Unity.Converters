@@ -20,8 +20,10 @@ MonoBehaviour:
   useAllJsonNetConverters: 0
   jsonNetConverters:
   - enabled: 1
-    converterName: Newtonsoft.Json.Converters.StringEnumConverter
+    converterName: Newtonsoft.Json.Converters.StringEnumConverter, Newtonsoft.Json,
+      Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
     settings: []
   - enabled: 1
-    converterName: Newtonsoft.Json.Converters.VersionConverter
+    converterName: Newtonsoft.Json.Converters.VersionConverter, Newtonsoft.Json, Version=12.0.0.0,
+      Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
     settings: []
