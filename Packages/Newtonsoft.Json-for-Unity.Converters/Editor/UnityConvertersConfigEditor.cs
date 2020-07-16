@@ -21,10 +21,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private SerializedProperty _useAllJsonNetConverters;
         private SerializedProperty _jsonNetConverters;
 
-        private IList<Type> _outsideConverterTypes;
-        private IList<Type> _unityConverterTypes;
-        private IList<Type> _jsonNetConverterTypes;
-                
         private AnimBool _outsideConvertersShow;
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
@@ -39,9 +35,9 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void OnEnable()
         {
-            _outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
-            _unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
-            _jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
+            var outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
+            var unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
+            var jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
 
             // Hack around the "SerializedObjectNotCreatableException: Object at index 0 is null"
             // error message
@@ -73,9 +69,9 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true };
 
             serializedObject.Update();
-            AddAndSetupConverters(_outsideConverters, _outsideConverterTypes, _useAllOutsideConverters.boolValue);
-            AddAndSetupConverters(_unityConverters, _unityConverterTypes, _useAllUnityConverters.boolValue);
-            AddAndSetupConverters(_jsonNetConverters, _jsonNetConverterTypes, _useAllJsonNetConverters.boolValue);
+            AddAndSetupConverters(_outsideConverters, outsideConverterTypes, _useAllOutsideConverters.boolValue);
+            AddAndSetupConverters(_unityConverters, unityConverterTypes, _useAllUnityConverters.boolValue);
+            AddAndSetupConverters(_jsonNetConverters, jsonNetConverterTypes, _useAllJsonNetConverters.boolValue);
             serializedObject.ApplyModifiedProperties();
         }
 
