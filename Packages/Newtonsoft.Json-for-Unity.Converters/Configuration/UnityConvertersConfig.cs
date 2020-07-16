@@ -22,7 +22,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public List<ConverterConfig> unityConverters { get; set; } = new List<ConverterConfig>();
 
-        public bool useAllJsonNetConverters { get; set; } = false;
+        public bool useAllJsonNetConverters { get; set; }
 
         public List<ConverterConfig> jsonNetConverters { get; set; } = new List<ConverterConfig> {
             new ConverterConfig { converterName = typeof(StringEnumConverter).AssemblyQualifiedName },
