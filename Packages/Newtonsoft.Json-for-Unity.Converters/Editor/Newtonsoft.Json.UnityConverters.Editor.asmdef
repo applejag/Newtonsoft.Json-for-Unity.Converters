@@ -3,9 +3,6 @@
     "references": [
         "Newtonsoft.Json.UnityConverters"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
     "includePlatforms": [
         "Editor"
     ],
@@ -15,6 +12,5 @@
     "precompiledReferences": [
         "Newtonsoft.Json.dll"
     ],
-    "autoReferenced": true,
-    "defineConstraints": []
+    "autoReferenced": false
 }

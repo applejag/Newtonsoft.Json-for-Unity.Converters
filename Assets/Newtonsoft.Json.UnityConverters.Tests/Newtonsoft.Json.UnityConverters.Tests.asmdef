@@ -1,18 +1,16 @@
 {
-  "name": "Newtonsoft.Json.UnityConverters.Tests",
-  "references": [
-    "Newtonsoft.Json.UnityConverters"
-  ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [
-    "UNITY_INCLUDE_TESTS"
-  ],
-  "optionalUnityReferences": [
-    "TestAssemblies"
-  ]
+    "name": "Newtonsoft.Json.UnityConverters.Tests",
+    "references": [
+        "Newtonsoft.Json.UnityConverters"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
 }
