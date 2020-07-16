@@ -24,7 +24,7 @@ echo
 # VERSION_SUFFIX='preview.1'
 # VERSION_AUTO_DEPLOY_LIVE_RUN='false'
 
-DESCRIPTION="This package contains converters to and from common Unity types for Newtonsoft.Json. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, and more.
+DESCRIPTION="This package contains converters to and from common Unity types for Newtonsoft.Json. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, even ScriptableObject, and more.
 
 Goes hand in hand with the jillejr.newtonsoft.json-for-unity package.
 
