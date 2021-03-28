@@ -21,6 +21,9 @@
   `RandomStateConverter`
   ([#35](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/35))
 
+- Added support for populating using `JsonConvert.PopulateObject` when using
+  any of the custom converters. ([#49](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/49))
+
 - Removed the array passing and reflection in the PartialConverter and removed
   all partial converters except `PartialConverter.cs`, simplifying the code a
   lot. This should lead to a minor performance boost as well.
