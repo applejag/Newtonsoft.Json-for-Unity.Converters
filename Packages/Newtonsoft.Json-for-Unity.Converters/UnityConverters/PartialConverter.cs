@@ -28,6 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.UnityConverters.Helpers;
+using Unity.Collections;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -53,10 +54,10 @@ namespace Newtonsoft.Json.UnityConverters
     /// }
     /// </code>
     /// 
-    public abstract class PartialConverter<T, TInner> : JsonConverter
+    public abstract class PartialConverter<T, TValues> : JsonConverter
     {
-        private readonly Dictionary<string, int> _namesIndices;
-        private readonly string[] _namesArray;
+        protected readonly Dictionary<string, int> _namesIndices;
+        protected readonly string[] _namesArray;
 
         /// <summary>
         /// Initializes this converter with the set of fields/properties to
@@ -75,37 +76,18 @@ namespace Newtonsoft.Json.UnityConverters
             }
         }
 
+        protected abstract T ReadJsonProperties(JsonReader reader, JsonSerializer serializer);
+
+        protected abstract void WriteJsonProperties(JsonWriter writer, T value, JsonSerializer serializer);
+
         /// <summary>
         /// Create the instance with the given values.
         /// </summary>
         /// <param name="values">The values read from the object. Known to have the same size as number of elements fed through the constructor of this PartialConverter.</param>
         /// <returns>The instance.</returns>
-        protected abstract T CreateInstanceFromValues(ValuesArray<TInner> values);
+        protected abstract T CreateInstanceFromValues(TValues values);
 
-        /// <summary>
-        /// Read the values off from the given instance.
-        /// The returned list must have the same number of elements as elements fed through the constructor.
-        /// </summary>
-        /// <param name="instance">The instance to read the values off.</param>
-        /// <returns>The values.</returns>
-        protected abstract TInner[] ReadInstanceValues(T instance);
-
-        /// <summary>
-        /// Writes a value directly to the JSON writer. Meant to implement the appropriate WriteValue
-        /// <see cref="JsonWriter.WriteValue(object)"/>
-        /// for the generic type.
-        /// </summary>
-        /// <param name="writer">The JSON writer</param>
-        /// <param name="value">The value to write</param>
-        protected abstract void WriteValue(JsonWriter writer, TInner value, JsonSerializer serializer);
-
-        /// <summary>
-        /// Read a value directly from the JSON reader. Meant to implement the appropriate ReadAsX,
-        /// (ex: <see cref="JsonReader.ReadAsInt32()"/>)
-        /// for the generic type.
-        /// </summary>
-        /// <param name="reader">The JSON reader</param>
-        protected abstract TInner ReadValue(JsonReader reader, int index, JsonSerializer serializer);
+        protected abstract T CreateEmptyInstance();
 
         /// <summary>
         /// Determine if the object type is <typeparamref name="T"/>
@@ -157,31 +139,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             reader.Read();
 
-            var values = new ValuesArray<TInner>(_namesArray.Length);
-            int previousIndex = -1;
-
-            while (reader.TokenType == JsonToken.PropertyName)
-            {
-                if (reader.Value is string name
-                    && _namesIndices.TryGetValue(name, out int index))
-                {
-                    if (index == previousIndex)
-                    {
-                        throw reader.CreateSerializationException($"Failed to read type '{typeof(T).Name}'. Possible loop when reading property '{name}'");
-                    }
-
-                    previousIndex = index;
-                    values[index] = ReadValue(reader, index, serializer);
-                }
-                else
-                {
-                    reader.Skip();
-                }
-
-                reader.Read();
-            }
-
-            return CreateInstanceFromValues(values);
+            return ReadJsonProperties(reader, serializer);
         }
 
         [return: MaybeNull]
@@ -193,8 +151,7 @@ namespace Newtonsoft.Json.UnityConverters
             }
             else
             {
-                var values = new ValuesArray<TInner>(_namesArray.Length);
-                return CreateInstanceFromValues(values);
+                return CreateEmptyInstance();
             }
         }
 
@@ -215,25 +172,7 @@ namespace Newtonsoft.Json.UnityConverters
             writer.WriteStartObject();
 
             var typed = (T)value;
-
-            TInner[] values = ReadInstanceValues(typed);
-
-            if (values?.Length != _namesArray.Length)
-            {
-                throw writer.CreateWriterException(string.Format("Expected {0}() to return {1} values, matching [{2}]. Got {3}",
-                    nameof(ReadInstanceValues),
-                    _namesArray.Length,
-                    string.Join(", ", _namesArray),
-                    values?.Length.ToString() ?? "null")
-                );
-            }
-
-            for (int i = 0; i < _namesArray.Length; i++)
-            {
-                string name = _namesArray[i];
-                writer.WritePropertyName(name);
-                WriteValue(writer, values[i], serializer);
-            }
+            WriteJsonProperties(writer, typed, serializer);
 
             writer.WriteEndObject();
         }

@@ -6,7 +6,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for a type containing only Unitys Vector3 type <see cref="Vector3"/>,
     /// </summary>
-    public abstract class PartialVector3Converter<T> : PartialConverter<T, Vector3>
+    public abstract class PartialVector3Converter<T> : PartialArrayConverter<T, Vector3>
     {
         protected PartialVector3Converter(string[] propertyNames) : base(propertyNames)
         {

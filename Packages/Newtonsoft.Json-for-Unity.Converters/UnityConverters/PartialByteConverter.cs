@@ -5,7 +5,7 @@ namespace Newtonsoft.Json.UnityConverters
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector2 type <see cref="Vector2"/>.
     /// </summary>
-    public abstract class PartialByteConverter<T> : PartialConverter<T, byte>
+    public abstract class PartialByteConverter<T> : PartialArrayConverter<T, byte>
     {
         protected PartialByteConverter(string[] propertyNames)
             : base(propertyNames)
