@@ -1,32 +1,34 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json.UnityConverters.Helpers;
+using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Physics
 {
-    public class SoftJointLimitConverter : PartialFloatConverter<SoftJointLimit>
+    public class SoftJointLimitConverter : PartialConverter<SoftJointLimit>
     {
-        private static readonly string[] _memberNames = { "limit", "bounciness", "contactDistance" };
-
-        public SoftJointLimitConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref SoftJointLimit value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.limit):
+                    value.limit = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.bounciness):
+                    value.bounciness = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.contactDistance):
+                    value.contactDistance = reader.ReadAsFloat() ?? 0f;
+                    break;
+            }
         }
 
-        protected override SoftJointLimit CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, SoftJointLimit value, JsonSerializer serializer)
         {
-            return new SoftJointLimit {
-                limit = values[0],
-                bounciness = values[1],
-                contactDistance = values[2],
-            };
-        }
-
-        protected override float[] ReadInstanceValues(SoftJointLimit instance)
-        {
-            return new[] {
-                instance.limit,
-                instance.bounciness,
-                instance.contactDistance,
-            };
+            writer.WritePropertyName(nameof(value.limit));
+            writer.WriteValue(value.limit);
+            writer.WritePropertyName(nameof(value.bounciness));
+            writer.WriteValue(value.bounciness);
+            writer.WritePropertyName(nameof(value.contactDistance));
+            writer.WriteValue(value.contactDistance);
         }
     }
 }

@@ -1,70 +1,68 @@
-﻿using UnityEngine.Rendering;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json.UnityConverters.Helpers;
+using UnityEngine.Rendering;
 
 namespace Newtonsoft.Json.UnityConverters.Math
 {
-    public class SphericalHarmonicsL2Converter : PartialFloatConverter<SphericalHarmonicsL2>
+    public class SphericalHarmonicsL2Converter : PartialConverter<SphericalHarmonicsL2>
     {
         // Magic numbers taken from /Runtime/Export/Math/SphericalHarmonicsL2.bindings.cs
         // inside Unitys open source repo
         // https://github.com/Unity-Technologies/UnityCsReference/blob/2019.2/Runtime/Export/Math/SphericalHarmonicsL2.bindings.cs#L59
         private const int COEFFICIENT_COUNT = 9;
         private const int ARRAY_SIZE = 3 * COEFFICIENT_COUNT;
-        private static readonly string[] _memberNames = GetMemberNames();
+        private static readonly (string name, int rgb, int coefficient)[] _indices = GetMemberNames();
+        private static readonly Dictionary<string, (int color, int coefficient)> _nameToIndex = GetNamesToIndexDictionary(_indices);
 
-        public SphericalHarmonicsL2Converter() : base(_memberNames)
+        private static (string name, int rgb, int coefficient)[] GetMemberNames()
         {
-        }
+            var array = new (string name, int rgb, int coefficient)[ARRAY_SIZE];
 
-        protected override SphericalHarmonicsL2 CreateInstanceFromValues(ValuesArray<float> values)
-        {
-            var instance = new SphericalHarmonicsL2();
-
-            for (int rgb = 0; rgb < 3; rgb++)
+            for (int i = 0; i < COEFFICIENT_COUNT; i++)
             {
-                for (int coefficient = 0; coefficient < COEFFICIENT_COUNT; coefficient++)
-                {
-                    instance[rgb, coefficient] = values[rgb * COEFFICIENT_COUNT + coefficient];
-                }
+                array[i] = ('r' + i.ToString(), 0, i);
             }
 
-            return instance;
-        }
-
-        protected override float[] ReadInstanceValues(SphericalHarmonicsL2 instance)
-        {
-            float[] array = new float[ARRAY_SIZE];
-
-            for (int rgb = 0; rgb < 3; rgb++)
+            for (int i = 0; i < COEFFICIENT_COUNT; i++)
             {
-                for (int coefficient = 0; coefficient < COEFFICIENT_COUNT; coefficient++)
-                {
-                    array[rgb * COEFFICIENT_COUNT + coefficient] = instance[rgb, coefficient];
-                }
+                array[COEFFICIENT_COUNT + i] = ('g' + i.ToString(), 1, i);
+            }
+
+            for (int i = 0; i < COEFFICIENT_COUNT; i++)
+            {
+                array[COEFFICIENT_COUNT + COEFFICIENT_COUNT + i] = ('b' + i.ToString(), 2, i);
             }
 
             return array;
         }
 
-        private static string[] GetMemberNames()
+        // Reusing the same strings here instead of creating new ones. Tiny bit lower memory footprint
+        private static Dictionary<string, (int color, int coefficient)> GetNamesToIndexDictionary((string name, int rgb, int coefficient)[] indices)
         {
-            string[] array = new string[ARRAY_SIZE];
-
-            for (int i = 0; i < COEFFICIENT_COUNT; i++)
+            var dict = new Dictionary<string, (int color, int coefficient)>();
+            for (int i = 0; i < indices.Length; i++)
             {
-                array[i] = 'r' + i.ToString();
+                dict[indices[i].name] = (i/COEFFICIENT_COUNT, i / 3);
             }
+            return dict;
+        }
 
-            for (int i = 0; i < COEFFICIENT_COUNT; i++)
+        protected override void ReadValue(ref SphericalHarmonicsL2 value, string name, JsonReader reader, JsonSerializer serializer)
+        {
+            if (_nameToIndex.TryGetValue(name, out var index))
             {
-                array[COEFFICIENT_COUNT + i] = 'g' + i.ToString();
+                value[index.color, index.coefficient] = reader.ReadAsFloat() ?? 0f;
             }
+        }
 
-            for (int i = 0; i < COEFFICIENT_COUNT; i++)
+        protected override void WriteJsonProperties(JsonWriter writer, SphericalHarmonicsL2 value, JsonSerializer serializer)
+        {
+            foreach (var (name, rgb, coefficient) in _indices) 
             {
-                array[COEFFICIENT_COUNT + COEFFICIENT_COUNT + i] = 'b' + i.ToString();
+                writer.WritePropertyName(name);
+                writer.WriteValue(value[rgb, coefficient]);
             }
-
-            return array;
         }
     }
 }

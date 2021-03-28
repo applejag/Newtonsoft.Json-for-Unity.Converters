@@ -29,23 +29,37 @@ namespace Newtonsoft.Json.UnityConverters.Geometry
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectInt type <see cref="RectInt"/>.
     /// </summary>
-    public class RectIntConverter : PartialIntConverter<RectInt>
+    public class RectIntConverter : PartialConverter<RectInt>
     {
-        internal static readonly string[] _memberNames = { "x", "y", "width", "height" };
-
-        public RectIntConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref RectInt value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.x):
+                    value.x = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.y):
+                    value.y = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.width):
+                    value.width = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.height):
+                    value.height = reader.ReadAsInt32() ?? 0;
+                    break;
+            }
         }
 
-        protected override RectInt CreateInstanceFromValues(ValuesArray<int> values)
+        protected override void WriteJsonProperties(JsonWriter writer, RectInt value, JsonSerializer serializer)
         {
-            return new RectInt(values[0], values[1], values[2], values[3]);
-        }
-
-        protected override int[] ReadInstanceValues(RectInt instance)
-        {
-            return new[] { instance.x, instance.y, instance.width, instance.height };
+            writer.WritePropertyName(nameof(value.x));
+            writer.WriteValue(value.x);
+            writer.WritePropertyName(nameof(value.y));
+            writer.WriteValue(value.y);
+            writer.WritePropertyName(nameof(value.width));
+            writer.WriteValue(value.width);
+            writer.WritePropertyName(nameof(value.height));
+            writer.WriteValue(value.height);
         }
     }
 }

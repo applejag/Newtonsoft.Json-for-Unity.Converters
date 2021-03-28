@@ -22,6 +22,7 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Math
@@ -29,23 +30,32 @@ namespace Newtonsoft.Json.UnityConverters.Math
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Color type <see cref="Color"/>.
     /// </summary>
-    public class ColorConverter : PartialFloatConverter<Color>
+    public class ColorConverter : PartialConverter<Color>
     {
-        internal static readonly string[] _memberNames = { "r", "g", "b", "a" };
-
-        public ColorConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref Color value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.r):
+                    value.r = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.g):
+                    value.g = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.b):
+                    value.b = reader.ReadAsFloat() ?? 0f;
+                    break;
+            }
         }
 
-        protected override Color CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, Color value, JsonSerializer serializer)
         {
-            return new Color(values[0], values[1], values[2], values[3]);
-        }
-
-        protected override float[] ReadInstanceValues(Color instance)
-        {
-            return new[] { instance.r, instance.g, instance.b, instance.a };
+            writer.WritePropertyName(nameof(value.r));
+            writer.WriteValue(value.r);
+            writer.WritePropertyName(nameof(value.g));
+            writer.WriteValue(value.g);
+            writer.WritePropertyName(nameof(value.b));
+            writer.WriteValue(value.b);
         }
     }
 }

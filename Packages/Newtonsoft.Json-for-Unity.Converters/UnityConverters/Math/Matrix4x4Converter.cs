@@ -22,7 +22,9 @@
 // SOFTWARE.
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Math
@@ -30,13 +32,10 @@ namespace Newtonsoft.Json.UnityConverters.Math
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Matrix4x4 type <see cref="Matrix4x4"/>.
     /// </summary>
-    public class Matrix4x4Converter : PartialFloatConverter<Matrix4x4>
+    public class Matrix4x4Converter : PartialConverter<Matrix4x4>
     {
-        private static readonly string[] _memberNames = GetMemberNames();
-
-        public Matrix4x4Converter() : base(_memberNames)
-        {
-        }
+        private static readonly string[] _names = GetMemberNames();
+        private static readonly Dictionary<string, int> _namesToIndex = GetNamesToIndex(_names);
 
         /// <summary>
         /// Get the property names include from <c>m00</c> to <c>m33</c>.
@@ -48,36 +47,32 @@ namespace Newtonsoft.Json.UnityConverters.Math
             return indexes.SelectMany((row) => indexes.Select((column) => "m" + row + column)).ToArray();
         }
 
-        protected override Matrix4x4 CreateInstanceFromValues(ValuesArray<float> values)
+        // Reusing the same strings here instead of creating new ones. Tiny bit lower memory footprint
+        private static Dictionary<string, int> GetNamesToIndex(string[] names)
         {
-            return new Matrix4x4 {
-                m00 = values[0],
-                m01 = values[1],
-                m02 = values[2],
-                m03 = values[3],
-                m10 = values[4],
-                m11 = values[5],
-                m12 = values[6],
-                m13 = values[7],
-                m20 = values[8],
-                m21 = values[9],
-                m22 = values[10],
-                m23 = values[11],
-                m30 = values[12],
-                m31 = values[13],
-                m32 = values[14],
-                m33 = values[15],
-            };
+            var dict = new Dictionary<string, int>();
+            for (int i = 0; i < names.Length; i++)
+            {
+                dict[names[i]] = i;
+            }
+            return dict;
         }
 
-        protected override float[] ReadInstanceValues(Matrix4x4 instance)
+        protected override void ReadValue(ref Matrix4x4 value, string name, JsonReader reader, JsonSerializer serializer)
         {
-            return new[] {
-                instance.m00, instance.m01, instance.m02, instance.m03,
-                instance.m10, instance.m11, instance.m12, instance.m13,
-                instance.m20, instance.m21, instance.m22, instance.m23,
-                instance.m30, instance.m31, instance.m32, instance.m33,
-            };
+            if (_namesToIndex.TryGetValue(name, out var index))
+            {
+                value[index] = reader.ReadAsFloat() ?? 0;
+            }
+        }
+
+        protected override void WriteJsonProperties(JsonWriter writer, Matrix4x4 value, JsonSerializer serializer)
+        {
+            for (int i = 0; i < _names.Length; i++)
+            {
+                writer.WritePropertyName(_names[i]);
+                writer.WriteValue(value[i]);
+            }
         }
     }
 }

@@ -6,133 +6,58 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Camera
 {
-    public class CullingGroupEventConverter : PartialConverter<CullingGroupEvent, object>
+    public class CullingGroupEventConverter : PartialConverter<CullingGroupEvent>
     {
         private const byte DISTANCE_MASK = (1 << 7) - 1;
 
         [MaybeNull]
-        private static readonly FieldInfo _indexField = typeof(CullingGroupEvent).GetField("m_Index", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo _indexField = typeof(CullingGroupEvent).GetFieldInfoOrThrow("m_Index");
         [MaybeNull]
-        private static readonly FieldInfo _prevStateField = typeof(CullingGroupEvent).GetField("m_PrevState", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo _prevStateField = typeof(CullingGroupEvent).GetFieldInfoOrThrow("m_PrevState");
         [MaybeNull]
-        private static readonly FieldInfo _thisStateField = typeof(CullingGroupEvent).GetField("m_ThisState", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo _thisStateField = typeof(CullingGroupEvent).GetFieldInfoOrThrow("m_ThisState");
 
-        private static readonly string[] _memberNames = { "index", "isVisible", "wasVisible", "currentDistance", "previousDistance" };
-
-        public CullingGroupEventConverter() : base(_memberNames)
+        protected override void ReadValue(ref CullingGroupEvent value, string name, JsonReader reader, JsonSerializer serializer)
         {
-        }
-
-        protected override CullingGroupEvent CreateInstanceFromValues(ValuesArray<object> values)
-        {
-            if (_indexField is null)
+            switch (name)
             {
-                throw new InvalidOperationException($"Was unable to find index field from the {typeof(CullingGroupEvent).FullName} type.");
-            }
-
-            if (_prevStateField is null)
-            {
-                throw new InvalidOperationException($"Was unable to find prevState field from the {typeof(CullingGroupEvent).FullName} type.");
-            }
-
-            if (_thisStateField is null)
-            {
-                throw new InvalidOperationException($"Was unable to find thisState field from the {typeof(CullingGroupEvent).FullName} type.");
-            }
-
-            int index = values.GetAsTypeOrDefault<int>(0);
-            byte isVisibleByte = values.GetAsTypeOrDefault<bool>(1) ? (byte)0x80 : (byte)0;
-            byte wasVisibleByte = values.GetAsTypeOrDefault<bool>(2) ? (byte)0x80 : (byte)0;
-            byte currentDistance = values.GetAsTypeOrDefault<byte>(3);
-            byte previousDistance = values.GetAsTypeOrDefault<byte>(4);
-
-            byte thisStateByte = (byte)(isVisibleByte | (currentDistance & DISTANCE_MASK));
-            byte prevStateByte = (byte)(wasVisibleByte | (previousDistance & DISTANCE_MASK));
-
-#if ENABLE_IL2CPP
-            object boxed = new CullingGroupEvent();
-
-            _indexField.SetValue(boxed, index);
-            _prevStateField.SetValue(boxed, prevStateByte);
-            _thisStateField.SetValue(boxed, thisStateByte);
-
-            return (CullingGroupEvent)boxed;
-#else
-            var instance = new CullingGroupEvent();
-            TypedReference reference = __makeref(instance);
-
-            _indexField.SetValueDirect(reference, index);
-            _prevStateField.SetValueDirect(reference, prevStateByte);
-            _thisStateField.SetValueDirect(reference, thisStateByte);
-
-            return instance;
-#endif
-        }
-
-        protected override object[] ReadInstanceValues(CullingGroupEvent instance)
-        {
-            return new object[] {
-                instance.index,
-                instance.isVisible,
-                instance.wasVisible,
-                instance.currentDistance,
-                instance.previousDistance,
-            };
-        }
-
-        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
-        {
-            switch (index)
-            {
-            case 0:
-                return reader.ReadAsInt32() ?? 0;
-
-            case 1:
-            case 2:
-                return reader.ReadAsBoolean() ?? false;
-
-            case 3:
-            case 4:
-                return ReadDistance(reader);
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4");
+                case nameof(value.index):
+                    _indexField.SetValueDirectRef(ref value, reader.ReadAsInt32() ?? 0);
+                    break;
+                case nameof(value.isVisible):
+                    SetStateField(_thisStateField, ref value, value.currentDistance, reader.ReadAsBoolean() ?? false);
+                    break;
+                case nameof(value.wasVisible):
+                    SetStateField(_prevStateField, ref value, value.previousDistance, reader.ReadAsBoolean() ?? false);
+                    break;
+                case nameof(value.currentDistance):
+                    SetStateField(_thisStateField, ref value, reader.ReadAsInt32() ?? 0, value.isVisible);
+                    break;
+                case nameof(value.previousDistance):
+                    SetStateField(_prevStateField, ref value, reader.ReadAsInt32() ?? 0, value.wasVisible);
+                    break;
             }
         }
 
-        private static byte ReadDistance(JsonReader reader)
+        private static void SetStateField(FieldInfo field, ref CullingGroupEvent value, int distance, bool isVisible)
         {
-            int value = reader.ReadAsInt32() ?? 0;
-            if (value >= 0x80 || value < 0)
-            {
-                throw reader.CreateSerializationException($"Overflow in {typeof(CullingGroupEvent).FullName} distance value. Distance must be between 0..127 (inclusive), got {value}");
-            }
-            return (byte)value;
+            byte isVisibleByte = isVisible ? (byte)0x80 : (byte)0;
+            byte stateByte = (byte)(isVisibleByte | (distance & DISTANCE_MASK));
+            field.SetValueDirectRef(ref value, stateByte);
         }
 
-        protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
+        protected override void WriteJsonProperties(JsonWriter writer, CullingGroupEvent value, JsonSerializer serializer)
         {
-            switch (value)
-            {
-            case null:
-                writer.WriteNull();
-                break;
-
-            case byte distance:
-                writer.WriteValue(distance);
-                break;
-
-            case int index:
-                writer.WriteValue(index);
-                break;
-
-            case bool isVisible:
-                writer.WriteValue(isVisible);
-                break;
-
-            default:
-                throw writer.CreateWriterException($"Unexpected type '{value.GetType().Name}' when serializing {typeof(CullingGroupEvent).FullName}");
-            }
+            writer.WritePropertyName(nameof(value.index));
+            writer.WriteValue(value.index);
+            writer.WritePropertyName(nameof(value.isVisible));
+            writer.WriteValue(value.isVisible);
+            writer.WritePropertyName(nameof(value.wasVisible));
+            writer.WriteValue(value.wasVisible);
+            writer.WritePropertyName(nameof(value.currentDistance));
+            writer.WriteValue(value.currentDistance);
+            writer.WritePropertyName(nameof(value.previousDistance));
+            writer.WriteValue(value.previousDistance);
         }
     }
 }

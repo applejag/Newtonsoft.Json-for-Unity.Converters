@@ -4,108 +4,74 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Physics2D
 {
-    public class ContactFilter2DConverter : PartialConverter<ContactFilter2D, object>
+    public class ContactFilter2DConverter : PartialConverter<ContactFilter2D>
     {
-        private static readonly string[] _memberNames = {
-            "useTriggers",
-            "useLayerMask",
-            "useDepth",
-            "useOutsideDepth",
-            "useNormalAngle",
-            "useOutsideNormalAngle",
-            "layerMask",
-            "minDepth",
-            "maxDepth",
-            "minNormalAngle",
-            "maxNormalAngle"
-        };
-
-        public ContactFilter2DConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref ContactFilter2D value, string name, JsonReader reader, JsonSerializer serializer)
         {
-        }
-
-        protected override ContactFilter2D CreateInstanceFromValues(ValuesArray<object> values)
-        {
-            return new ContactFilter2D {
-                useTriggers = values.GetAsTypeOrDefault<bool>(0),
-                useLayerMask = values.GetAsTypeOrDefault<bool>(1),
-                useDepth = values.GetAsTypeOrDefault<bool>(2),
-                useOutsideDepth = values.GetAsTypeOrDefault<bool>(3),
-                useNormalAngle = values.GetAsTypeOrDefault<bool>(4),
-                useOutsideNormalAngle = values.GetAsTypeOrDefault<bool>(5),
-
-                layerMask = values.GetAsTypeOrDefault<LayerMask>(6),
-
-                minDepth = values.GetAsTypeOrDefault<float>(7),
-                maxDepth = values.GetAsTypeOrDefault<float>(8),
-                minNormalAngle = values.GetAsTypeOrDefault<float>(9),
-                maxNormalAngle = values.GetAsTypeOrDefault<float>(10),
-            };
-        }
-
-        protected override object[] ReadInstanceValues(ContactFilter2D instance)
-        {
-            return new object[] {
-                instance.useTriggers,
-                instance.useLayerMask,
-                instance.useDepth,
-                instance.useOutsideDepth,
-                instance.useNormalAngle,
-                instance.useOutsideNormalAngle,
-                instance.layerMask,
-                instance.minDepth,
-                instance.maxDepth,
-                instance.minNormalAngle,
-                instance.maxNormalAngle,
-            };
-        }
-
-        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
-        {
-            switch (index)
+            switch (name)
             {
-            case 0: // useTriggers
-            case 1: // useLayerMask
-            case 2: // useDepth
-            case 3: // useOutsideDepth
-            case 4: // useNormalAngle
-            case 5: // useOutsideNormalAngle
-                return reader.ReadAsBoolean() ?? false;
+            case nameof(value.useTriggers):
+                value.useTriggers = reader.ReadAsBoolean() ?? false;
+                break;
+            case nameof(value.useLayerMask):
+                value.useLayerMask = reader.ReadAsBoolean() ?? false;
+                break;
+            case nameof(value.useDepth):
+                value.useDepth = reader.ReadAsBoolean() ?? false;
+                break;
+            case nameof(value.useOutsideDepth):
+                value.useOutsideDepth = reader.ReadAsBoolean() ?? false;
+                break;
+            case nameof(value.useNormalAngle):
+                value.useNormalAngle = reader.ReadAsBoolean() ?? false;
+                break;
+            case nameof(value.useOutsideNormalAngle):
+                value.useOutsideNormalAngle = reader.ReadAsBoolean() ?? false;
+                break;
 
-            case 6: // layerMask
-                return reader.ReadViaSerializer<LayerMask>(serializer);
+            case nameof(value.layerMask):
+                value.layerMask = reader.ReadViaSerializer<LayerMask>(serializer);
+                break;
 
-            case 7: // minDepth
-            case 8: // maxDepth
-            case 9: // minNormalAngle
-            case 10: // maxNormalAngle
-                return (float)(reader.ReadAsDouble() ?? 0);
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..4");
+            case nameof(value.minDepth):
+                value.minDepth = reader.ReadAsFloat() ?? 0f;
+                break;
+            case nameof(value.maxDepth):
+                value.maxDepth = reader.ReadAsFloat() ?? 0f;
+                break;
+            case nameof(value.minNormalAngle):
+                value.minNormalAngle = reader.ReadAsFloat() ?? 0f;
+                break;
+            case nameof(value.maxNormalAngle):
+                value.maxNormalAngle = reader.ReadAsFloat() ?? 0f;
+                break;
             }
         }
 
-        protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
+        protected override void WriteJsonProperties(JsonWriter writer, ContactFilter2D value, JsonSerializer serializer)
         {
-            switch (value)
-            {
-            case LayerMask _:
-                serializer.Serialize(writer, value, typeof(LayerMask));
-                break;
-
-            case float num:
-                writer.WriteValue(num);
-                break;
-
-            case bool boolean:
-                writer.WriteValue(boolean);
-                break;
-
-            default:
-                throw writer.CreateWriterException($"Unexpected type '{value?.GetType().Name ?? "null"}' when serializing {typeof(ContactFilter2D).FullName}.");
-            }
+            writer.WritePropertyName(nameof(value.useTriggers));
+            writer.WriteValue(value.useTriggers);
+            writer.WritePropertyName(nameof(value.useLayerMask));
+            writer.WriteValue(value.useLayerMask);
+            writer.WritePropertyName(nameof(value.useDepth));
+            writer.WriteValue(value.useDepth);
+            writer.WritePropertyName(nameof(value.useOutsideDepth));
+            writer.WriteValue(value.useOutsideDepth);
+            writer.WritePropertyName(nameof(value.useNormalAngle));
+            writer.WriteValue(value.useNormalAngle);
+            writer.WritePropertyName(nameof(value.useOutsideNormalAngle));
+            writer.WriteValue(value.useOutsideNormalAngle);
+            writer.WritePropertyName(nameof(value.layerMask));
+            serializer.Serialize(writer, value.layerMask, typeof(LayerMask));
+            writer.WritePropertyName(nameof(value.minDepth));
+            writer.WriteValue(value.minDepth);
+            writer.WritePropertyName(nameof(value.maxDepth));
+            writer.WriteValue(value.maxDepth);
+            writer.WritePropertyName(nameof(value.minNormalAngle));
+            writer.WriteValue(value.minNormalAngle);
+            writer.WritePropertyName(nameof(value.maxNormalAngle));
+            writer.WriteValue(value.maxNormalAngle);
         }
     }
 }
