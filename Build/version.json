@@ -4,5 +4,5 @@
   "Patch": 0,
   "Suffix": "preview.2",
 
-  "AutoDeployLiveRun": true
+  "AutoDeployLiveRun": false
 }
