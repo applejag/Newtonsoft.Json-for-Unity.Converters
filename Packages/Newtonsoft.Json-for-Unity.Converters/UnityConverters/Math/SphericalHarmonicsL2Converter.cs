@@ -43,7 +43,8 @@ namespace Newtonsoft.Json.UnityConverters.Math
             var dict = new Dictionary<string, (int color, int coefficient)>();
             for (int i = 0; i < indices.Length; i++)
             {
-                dict[indices[i].name] = (i/COEFFICIENT_COUNT, i / 3);
+                (string name, int rgb, int coefficient) = indices[i];
+                dict[name] = (rgb, coefficient);
             }
             return dict;
         }

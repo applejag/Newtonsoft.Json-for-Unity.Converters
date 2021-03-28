@@ -66,17 +66,20 @@ namespace Newtonsoft.Json.UnityConverters
             [AllowNull] object existingValue,
             JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+            {
+                bool isNullableStruct = objectType.IsGenericType
+                    && objectType.GetGenericTypeDefinition() == typeof(Nullable<>);
+
+                return isNullableStruct ? null : (object)default(T);
+            }
+
             return InternalReadJson(reader, serializer);
         }
 
         [return: MaybeNull]
         private T InternalReadJson(JsonReader reader, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-            {
-                return default(T);
-            }
-
             if (reader.TokenType != JsonToken.StartObject)
             {
                 throw reader.CreateSerializationException($"Failed to read type '{typeof(T).Name}'. Expected object start, got '{reader.TokenType}' <{reader.Value}>");

@@ -26,11 +26,23 @@ namespace Newtonsoft.Json.UnityConverters.Scripting
             if (reader.TokenType == JsonToken.Integer)
             {
                 return new LayerMask {
-                    value = reader.ReadAsInt32() ?? 0
+                    value = GetInt(reader.Value)
                 };
             }
 
             throw reader.CreateSerializationException($"Unexpected token when reading LayerMask. Expected 'null' or 'integer', got '{reader.TokenType}'.");
+        }
+
+        private static int GetInt(object value)
+        {
+            switch (value)
+            {
+            case int i: return i;
+            case uint ui: return checked((int)ui);
+            case long l: return checked((int)l);
+            case ulong ul: return checked((int)ul);
+            default: return 0;
+            }
         }
 
         public override void WriteJson(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)

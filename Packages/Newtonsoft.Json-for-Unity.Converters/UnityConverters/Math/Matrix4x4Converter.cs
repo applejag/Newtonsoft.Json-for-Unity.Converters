@@ -34,6 +34,7 @@ namespace Newtonsoft.Json.UnityConverters.Math
     /// </summary>
     public class Matrix4x4Converter : PartialConverter<Matrix4x4>
     {
+        // https://github.com/Unity-Technologies/UnityCsReference/blob/2019.2/Runtime/Export/Math/Matrix4x4.cs#L21-L29
         private static readonly string[] _names = GetMemberNames();
         private static readonly Dictionary<string, int> _namesToIndex = GetNamesToIndex(_names);
 
@@ -44,7 +45,7 @@ namespace Newtonsoft.Json.UnityConverters.Math
         private static string[] GetMemberNames()
         {
             string[] indexes = new[] { "0", "1", "2", "3" };
-            return indexes.SelectMany((row) => indexes.Select((column) => "m" + row + column)).ToArray();
+            return indexes.SelectMany((row) => indexes.Select((column) => "m" + column + row)).ToArray();
         }
 
         // Reusing the same strings here instead of creating new ones. Tiny bit lower memory footprint

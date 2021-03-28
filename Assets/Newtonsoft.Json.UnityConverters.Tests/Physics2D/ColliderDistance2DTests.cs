@@ -97,5 +97,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
             Assert.AreNotEqual(normal, new Vector2());
         }
 #endif
+
+        protected override string ToString([AllowNull] ColliderDistance2D value)
+        {
+            return $"pointA: {value.pointA}, pointB: {value.pointB}, normal: {value.normal}, distance: {value.distance}, isValid: {value.isValid}, isOverlapped: {value.isOverlapped}";
+        }
     }
 }

@@ -42,12 +42,12 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
                 ?? throw new MissingMemberException(type.FullName, name);
         }
 
-        public static void SetValueDirectRef<T>(this FieldInfo field, ref T state, int value)
+        public static void SetValueDirectRef<T1, T2>(this FieldInfo field, ref T1 state, T2 value)
         {
 #if ENABLE_IL2CPP
             object boxed = state;
             field.SetValue(boxed, value);
-            state = (T)boxed;
+            state = (T1)boxed;
 #else
             TypedReference reference = __makeref(state);
             field.SetValueDirect(reference, value);

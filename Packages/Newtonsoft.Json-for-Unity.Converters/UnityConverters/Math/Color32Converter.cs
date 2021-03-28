@@ -45,6 +45,9 @@ namespace Newtonsoft.Json.UnityConverters.Math
                 case nameof(value.b):
                     value.b = reader.ReadAsInt8() ?? 0;
                     break;
+                case nameof(value.a):
+                    value.a = reader.ReadAsInt8() ?? 0;
+                    break;
             }
         }
 
@@ -56,6 +59,8 @@ namespace Newtonsoft.Json.UnityConverters.Math
             writer.WriteValue(value.g);
             writer.WritePropertyName(nameof(value.b));
             writer.WriteValue(value.b);
+            writer.WritePropertyName(nameof(value.a));
+            writer.WriteValue(value.a);
         }
     }
 }
