@@ -27,22 +27,29 @@ using UnityEngine;
 namespace Newtonsoft.Json.UnityConverters.Math
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector2Int type <see cref="Vector2Int"/>.
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity integer Vector2 type <see cref="Vector2Int"/>.
     /// </summary>
-    public class Vector2IntConverter : PartialIntConverter<Vector2Int>
+    public class Vector2IntConverter : PartialConverter<Vector2Int>
     {
-        public Vector2IntConverter() : base(Vector2Converter._memberNames)
+        protected override void ReadValue(ref Vector2Int value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.x):
+                    value.x = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.y):
+                    value.y = reader.ReadAsInt32() ?? 0;
+                    break;
+            }
         }
 
-        protected override Vector2Int CreateInstanceFromValues(ValuesArray<int> values)
+        protected override void WriteJsonProperties(JsonWriter writer, Vector2Int value, JsonSerializer serializer)
         {
-            return new Vector2Int(values[0], values[1]);
-        }
-
-        protected override int[] ReadInstanceValues(Vector2Int instance)
-        {
-            return new int[] { instance.x, instance.y };
+            writer.WritePropertyName(nameof(value.x));
+            writer.WriteValue(value.x);
+            writer.WritePropertyName(nameof(value.y));
+            writer.WriteValue(value.y);
         }
     }
 }

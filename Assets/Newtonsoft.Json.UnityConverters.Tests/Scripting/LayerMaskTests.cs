@@ -11,18 +11,5 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Scripting
             (new LayerMask { value = 123 }, 123),
             (new LayerMask { value = -123 }, -123),
         };
-
-        [Test]
-        public void DeserializesObjectFine()
-        {
-            // Arrange
-            string input = @"{ ""value"": 5 }";
-
-            // Act
-            LayerMask result = Deserialize<LayerMask>(input);
-
-            // Assert
-            Assert.AreEqual(5, result.value);
-        }
     }
 }

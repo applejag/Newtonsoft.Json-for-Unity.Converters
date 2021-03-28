@@ -1,23 +1,29 @@
-﻿using UnityEngine;
+﻿using Unity.Collections;
+using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Scripting
 {
-    public class RangeIntConverter : PartialIntConverter<RangeInt>
+    public class RangeIntConverter : PartialConverter<RangeInt>
     {
-        private static readonly string[] _memberNames = { "start", "length" };
-
-        public RangeIntConverter() : base(_memberNames)
+        protected override void ReadValue(ref RangeInt value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name) {
+                case nameof(value.start):
+                    value.start = reader.ReadAsInt32() ?? 0;
+                    break;
+
+                case nameof(value.length):
+                    value.length = reader.ReadAsInt32() ?? 0;
+                    break;
+            }
         }
 
-        protected override RangeInt CreateInstanceFromValues(ValuesArray<int> values)
+        protected override void WriteJsonProperties(JsonWriter writer, RangeInt value, JsonSerializer serializer)
         {
-            return new RangeInt(values[0], values[1]);
-        }
-
-        protected override int[] ReadInstanceValues(RangeInt instance)
-        {
-            return new[] { instance.start, instance.length };
+            writer.WritePropertyName(nameof(value.start));
+            writer.WriteValue(value.start);
+            writer.WritePropertyName(nameof(value.length));
+            writer.WriteValue(value.length);
         }
     }
 }

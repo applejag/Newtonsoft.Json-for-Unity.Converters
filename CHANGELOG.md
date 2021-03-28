@@ -21,6 +21,11 @@
   `RandomStateConverter`
   ([#35](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/35))
 
+- Removed the array passing and reflection in the PartialConverter and removed
+  all partial converters except `PartialConverter.cs`, simplifying the code a
+  lot. This should lead to a minor performance boost as well.
+  ([#48](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/48))
+
 ## 1.0.0
 
 - ✨ Initial release

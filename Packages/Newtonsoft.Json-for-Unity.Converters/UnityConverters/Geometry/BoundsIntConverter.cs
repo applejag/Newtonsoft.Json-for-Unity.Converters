@@ -22,45 +22,37 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Newtonsoft.Json.UnityConverters.Geometry
 {
     /// <summary>
-    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
+
+    /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity integer Bounds type <see cref="BoundsInt"/>.
     /// </summary>
-    public class BoundsIntConverter : PartialVector3IntConverter<BoundsInt>
+    public class BoundsIntConverter : PartialConverter<BoundsInt>
     {
-        private static readonly string[] _memberNames = { "position", "size" };
-
-        public BoundsIntConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref BoundsInt value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.position):
+                    value.position = reader.ReadViaSerializer<Vector3Int>(serializer);
+                    break;
+                case nameof(value.size):
+                    value.size = reader.ReadViaSerializer<Vector3Int>(serializer);
+                    break;
+            }
         }
 
-        /// <summary>
-        /// Prevent the properties from being stripped.
-        /// </summary>
-        [Preserve]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members",
-            Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
-        private static void PreserveProperties()
+        protected override void WriteJsonProperties(JsonWriter writer, BoundsInt value, JsonSerializer serializer)
         {
-            var dummy = new BoundsInt();
-
-            _ = dummy.position;
-            _ = dummy.size;
-        }
-
-        protected override BoundsInt CreateInstanceFromValues(ValuesArray<Vector3Int> values)
-        {
-            return new BoundsInt(values[0], values[1]);
-        }
-
-        protected override Vector3Int[] ReadInstanceValues(BoundsInt instance)
-        {
-            return new[] { instance.position, instance.size };
+            writer.WritePropertyName(nameof(value.position));
+            serializer.Serialize(writer, value.position, typeof(Vector3Int));
+            writer.WritePropertyName(nameof(value.size));
+            serializer.Serialize(writer, value.size, typeof(Vector3Int));
         }
     }
 }

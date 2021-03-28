@@ -1,54 +1,47 @@
 ﻿using System;
 using System.Reflection;
 using RandomState = UnityEngine.Random.State;
+using Newtonsoft.Json.UnityConverters.Helpers;
 
 namespace Newtonsoft.Json.UnityConverters.Random
 {
-    public class RandomStateConverter : PartialIntConverter<RandomState>
+    public class RandomStateConverter : PartialConverter<RandomState>
     {
-        private static readonly string[] _memberNames = { "s0", "s1", "s2", "s3" };
-
         // If field does not exist it should invalidate the converter for
         // the entirety of the programs lifetime. Which is fine in this case.
-        private static readonly FieldInfo _s0Field = GetFieldInfoOrThrow("s0");
-        private static readonly FieldInfo _s1Field = GetFieldInfoOrThrow("s1");
-        private static readonly FieldInfo _s2Field = GetFieldInfoOrThrow("s2");
-        private static readonly FieldInfo _s3Field = GetFieldInfoOrThrow("s3");
+        private static readonly FieldInfo _s0Field = typeof(RandomState).GetFieldInfoOrThrow("s0");
+        private static readonly FieldInfo _s1Field = typeof(RandomState).GetFieldInfoOrThrow("s1");
+        private static readonly FieldInfo _s2Field = typeof(RandomState).GetFieldInfoOrThrow("s2");
+        private static readonly FieldInfo _s3Field = typeof(RandomState).GetFieldInfoOrThrow("s3");
 
-        public RandomStateConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref RandomState value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name) {
+                case "s0":
+                    _s0Field.SetValueDirectRef(ref value, reader.ReadAsInt32() ?? 0);
+                    break;
+                case "s1":
+                    _s1Field.SetValueDirectRef(ref value, reader.ReadAsInt32() ?? 0);
+                    break;
+                case "s2":
+                    _s2Field.SetValueDirectRef(ref value, reader.ReadAsInt32() ?? 0);
+                    break;
+                case "s3":
+                    _s3Field.SetValueDirectRef(ref value, reader.ReadAsInt32() ?? 0);
+                    break;
+            }
         }
 
-        protected override RandomState CreateInstanceFromValues(ValuesArray<int> values)
+        protected override void WriteJsonProperties(JsonWriter writer, RandomState value, JsonSerializer serializer)
         {
-            var state = new RandomState();
-
-#if ENABLE_IL2CPP
-            object boxed = state;
-            _s0Field.SetValue(boxed, values[0]);
-            _s1Field.SetValue(boxed, values[1]);
-            _s2Field.SetValue(boxed, values[2]);
-            _s3Field.SetValue(boxed, values[3]);
-            return (RandomState)boxed;
-#else
-            TypedReference reference = __makeref(state);
-            _s0Field.SetValueDirect(reference, values[0]);
-            _s1Field.SetValueDirect(reference, values[1]);
-            _s2Field.SetValueDirect(reference, values[2]);
-            _s3Field.SetValueDirect(reference, values[3]);
-            return state;
-#endif
-        }
-
-        protected override int[] ReadInstanceValues(RandomState instance)
-        {
-            return new[] {
-                (int)(_s0Field.GetValue(instance) ?? 0),
-                (int)(_s1Field.GetValue(instance) ?? 0),
-                (int)(_s2Field.GetValue(instance) ?? 0),
-                (int)(_s3Field.GetValue(instance) ?? 0),
-            };
+            writer.WritePropertyName("s0");
+            writer.WriteValue(_s0Field.GetValue(value));
+            writer.WritePropertyName("s1");
+            writer.WriteValue(_s1Field.GetValue(value));
+            writer.WritePropertyName("s2");
+            writer.WriteValue(_s2Field.GetValue(value));
+            writer.WritePropertyName("s3");
+            writer.WriteValue(_s3Field.GetValue(value));
         }
     }
 }

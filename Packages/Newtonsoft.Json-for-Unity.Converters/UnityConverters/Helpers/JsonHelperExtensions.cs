@@ -7,7 +7,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class JsonHelperExtensions
     {
-        internal static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, [AllowNull] Exception innerException = null)
+        public static JsonSerializationException CreateSerializationException(this JsonReader reader, string message, [AllowNull] Exception innerException = null)
         {
             StringBuilder builder = CreateStringBuilderWithSpaceAfter(message);
 
@@ -30,7 +30,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
                 message: builder.ToString(), reader.Path, lineNumber, linePosition, innerException);
         }
 
-        internal static JsonWriterException CreateWriterException(this JsonWriter writer, string message, [AllowNull] Exception innerException = null)
+        public static JsonWriterException CreateWriterException(this JsonWriter writer, string message, [AllowNull] Exception innerException = null)
         {
             StringBuilder builder = CreateStringBuilderWithSpaceAfter(message);
 
@@ -57,10 +57,20 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
         }
 
         [return: MaybeNull]
-        internal static T ReadViaSerializer<T>(this JsonReader reader, JsonSerializer serializer)
+        public static T ReadViaSerializer<T>(this JsonReader reader, JsonSerializer serializer)
         {
             reader.Read();
             return serializer.Deserialize<T>(reader);
+        }
+
+        public static float? ReadAsFloat(this JsonReader reader)
+        {
+            return (float?)reader.ReadAsDouble();
+        }
+
+        public static byte? ReadAsInt8(this JsonReader reader)
+        {
+            return checked((byte)(reader.ReadAsInt32() ?? 0));
         }
     }
 }

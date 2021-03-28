@@ -22,6 +22,7 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Math
@@ -29,22 +30,27 @@ namespace Newtonsoft.Json.UnityConverters.Math
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Vector2 type <see cref="Vector2"/>.
     /// </summary>
-    public class Vector2Converter : PartialFloatConverter<Vector2>
+    public class Vector2Converter : PartialConverter<Vector2>
     {
-        internal static readonly string[] _memberNames = { "x", "y" };
-
-        public Vector2Converter() : base(_memberNames)
+        protected override void ReadValue(ref Vector2 value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.x):
+                    value.x = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.y):
+                    value.y = reader.ReadAsFloat() ?? 0f;
+                    break;
+            }
         }
 
-        protected override Vector2 CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, Vector2 value, JsonSerializer serializer)
         {
-            return new Vector2(values[0], values[1]);
-        }
-
-        protected override float[] ReadInstanceValues(Vector2 instance)
-        {
-            return new float[] { instance.x, instance.y };
+            writer.WritePropertyName(nameof(value.x));
+            writer.WriteValue(value.x);
+            writer.WritePropertyName(nameof(value.y));
+            writer.WriteValue(value.y);
         }
     }
 }
