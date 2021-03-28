@@ -74,11 +74,11 @@ namespace Newtonsoft.Json.UnityConverters
                 return isNullableStruct ? null : (object)default(T);
             }
 
-            return InternalReadJson(reader, serializer);
+            return InternalReadJson(reader, serializer, existingValue);
         }
 
         [return: MaybeNull]
-        private T InternalReadJson(JsonReader reader, JsonSerializer serializer)
+        private T InternalReadJson(JsonReader reader, JsonSerializer serializer, [AllowNull] object existingValue)
         {
             if (reader.TokenType != JsonToken.StartObject)
             {
@@ -87,7 +87,11 @@ namespace Newtonsoft.Json.UnityConverters
 
             reader.Read();
 
-            var value = new T();
+            if (!(existingValue is T value))
+            {
+                value = new T();
+            }
+            
             string previousName = null;
             
             while (reader.TokenType == JsonToken.PropertyName)
