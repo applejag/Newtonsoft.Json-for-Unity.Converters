@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.1.0 (WIP)
+## 1.1.0 (2021-04-05)
 
 - Added configurability to enable/disable any converter that was all previously
   inserted automatically. Access the settings via the menu at
