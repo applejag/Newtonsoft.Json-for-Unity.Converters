@@ -35,7 +35,7 @@ commands:
                 command: $SCRIPTS/build_setup_variables.sh
       - run:
           name: Store Unity version to file
-          command: echo "$UNITY_VERSION" > /unity-version.txt
+          command: echo "$UNITY_VERSION" | tee /unity-version.txt
 
 executors:
   unity-2018-4-14f1: &unity-2018-4-14f1-executor
