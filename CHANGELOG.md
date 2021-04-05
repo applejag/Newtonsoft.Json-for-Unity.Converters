@@ -21,6 +21,8 @@
   `RandomStateConverter`
   ([#35](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/35))
 
+- Fixed `float` precision error when reading/prasing. ([#46](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/46))
+
 - Added support for populating using `JsonConvert.PopulateObject` when using
   any of the custom converters. ([#49](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/49))
 
