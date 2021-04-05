@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Script taken from https://github.com/zifro-playground/ui
 # Copyright Zifro © 2019
 
