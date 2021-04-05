@@ -64,6 +64,9 @@ jobs:
     parameters:
       unity-version:
         type: executor
+      json-net-4-unity-version:
+        type: string
+        default: 13.0.102
 
     executor: <<parameters.unity-version>>
     working_directory: ~/repo
@@ -87,6 +90,16 @@ jobs:
             else
               echo "No file at $TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json to replace the manifest.json file with."
             fi
+
+      - run:
+          name: Set package version
+          command: |
+            echo "Newtonsoft.Json-for-Unity version: ${JSON_NET_4_UNITY_VERSION:=<<parameters.json-net-4-unity-version>>}"
+            MANIFEST_FILE="$TEST_PROJECT/Packages/manifest"
+            JQ_PATH='.dependencies["jillejr.newtonsoft.json-for-unity"]'
+            echo "Previous version from manifest.json: $(jq "$JQ_PATH" "$MANIFEST_FILE")"
+            echo "$(jq "$JQ_PATH=\"$JSON_NET_4_UNITY_VERSION\"" "$MANIFEST_FILE")" > "$MANIFEST_FILE"
+            echo "New version from manifest.json: $(jq "$JQ_PATH" "$MANIFEST_FILE")"
 
       - restore_cache:
           keys:
