@@ -7,7 +7,7 @@
 
 This package contains converters to and from common Unity types. Types such as
 **Vector2, Vector3, Matrix4x4, Quaternions, Color, even ScriptableObject,**
-_and many, many more._
+*and many, many more.*
 (See the [full compatibility table of all +50 supported Unity types][
 doc-compatability-table])
 
