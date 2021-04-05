@@ -257,6 +257,15 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             }
             else
             {
+                // Check this assembly, or if it has AssemblyQualifiedName
+                type = Type.GetType(name);
+                if (type != null)
+                {
+                    _converterTypeByName[name] = type;
+                    return type;
+                }
+
+                // Check all the other assemblies, from last imported to first
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Reverse())
                 {
                     type = assembly.GetType(name);
