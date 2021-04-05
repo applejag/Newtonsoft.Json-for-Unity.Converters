@@ -16,7 +16,11 @@ doc-compatability-table])
 ### Newtonsoft.Json packages
 
 This package requires the `Newtonsoft.Json.dll` file to be present in your
-project. This DLL can come from any of the following:
+project. So it **does not have to be used with my
+`jillejr.newtonsoft.json-for-unity` package!** I recognize that there are too
+many Newtonsoft.Json forks and variants out there in the Unity eco-system.
+
+This package can be combined with any of the following:
 
 - My own fork of JamesNK's original Newtonsoft.Json repo:
   [jilleJr/Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
