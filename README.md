@@ -11,6 +11,44 @@ _and many, many more._
 (See the [full compatibility table of all +50 supported Unity types][
 doc-compatability-table])
 
+## Compatability
+
+### Newtonsoft.Json packages
+
+Can be used with any of the following:
+
+- My own fork of JamesNK's original Newtonsoft.Json repo:
+  [jilleJr/Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
+  *(recommended)*
+
+- SaladLab's fork: [SaladLab/Json.Net.Unity3D](https://github.com/SaladLab/Json.Net.Unity3D)
+
+- ParentElement's Assets Store package: <https://www.parentelement.com/assets/json_net_unity>
+
+- Unity's internal Newtonsoft.Json package:
+  [`com.unity.nuget.newtonsoft-json@2.0.1-preview.1`](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@2.0/manual/index.html)
+  
+- *Any other source, such as having the `Newtonsoft.Json.dll` files inside your
+  Assets folder, as long as it declares the base `Newtonsoft.Json` types.*
+
+Personally I recommend my own package as it's the most up-to-date fork, though
+if you're stuck using any of the other alternatives, then adding this package
+should not be with any major hinders.
+
+### Newtonsoft.Json versions
+
+There's no hard linking towards a specific version. The package has been tested
+and works as-is with Newtonsoft.Json 12.0.3 and 13.0.1.
+
+This package has not been tested towards Newtonsoft.Json versions older than
+v12.0.1, though the API has not changed much in a long time so it should be
+fine to use even as old versions as Json .NET v8.0.1 without any troubles.
+
+If you have any troubles with using this package with a specific version of
+Newtonsoft.Json, then don't fray in opening an [issue][issue-create] so we can
+resolve it.
+
+
 ## Installation
 
 ### <abbr title="OpenUPM: A very popular open source Unity package registry for Unity Package Manager (UPM) packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)
@@ -104,43 +142,6 @@ Position as JSON: {"x":201.0,"y":219.5,"z":0.0}
 UnityEngine.Debug:Log(Object)
 Sample:Start() (at Assets/Sample.cs:19)
 ```
-
-## Compatability
-
-### Newtonsoft.Json packages
-
-Can be used with any of the following:
-
-- My own fork of JamesNK's original Newtonsoft.Json repo:
-  [jilleJr/Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
-  *(recommended)*
-
-- SaladLab's fork: [SaladLab/Json.Net.Unity3D](https://github.com/SaladLab/Json.Net.Unity3D)
-
-- ParentElement's Assets Store package: <https://www.parentelement.com/assets/json_net_unity>
-
-- Unity's internal Newtonsoft.Json package:
-  [`com.unity.nuget.newtonsoft-json@2.0.1-preview.1`](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@2.0/manual/index.html)
-  
-- *Any other source, such as having the `Newtonsoft.Json.dll` files inside your
-  Assets folder, as long as it declares the base `Newtonsoft.Json` types.*
-
-Personally I recommend my own package as it's the most up-to-date fork, though
-if you're stuck using any of the other alternatives, then adding this package
-should not be with any major hinders.
-
-### Newtonsoft.Json versions
-
-There's no hard linking towards a specific version. The package has been tested
-and works as-is with Newtonsoft.Json 12.0.3 and 13.0.1.
-
-This package has not been tested towards Newtonsoft.Json versions older than
-v12.0.1, though the API has not changed much in a long time so it should be
-fine to use even as old versions as Json .NET v8.0.1 without any troubles.
-
-If you have any troubles with using this package with a specific version of
-Newtonsoft.Json, then don't fray in opening an [issue][issue-create] so we can
-resolve it.
 
 ## Contributing
 
