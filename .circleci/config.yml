@@ -16,6 +16,27 @@ preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
     - /^hotfix.*/
     - /^release.*/
 
+commands:
+  checkout-and-setup:
+    parameters:
+      setup-variables:
+        type: boolean
+        default: false
+    steps:
+      - checkout
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+      - when:
+          condition: <<parameters.setup-variables>>
+          steps:
+            - run:
+                name: Setup Variables
+                command: $SCRIPTS/build_setup_variables.sh
+      - run:
+          name: Store Unity version to file
+          command: echo "$UNITY_VERSION" > /unity-version.txt
+
 jobs:
   test-unity-2018-4-14f1:
     working_directory: ~/repo
@@ -32,7 +53,7 @@ jobs:
 
     steps:
       # Checkout repo -> ~/repo
-      - checkout
+      - checkout-and-setup
 
       - restore_cache:
           keys:
@@ -41,10 +62,6 @@ jobs:
       - restore_cache:
           keys:
             - test-unity-upm-global-2018
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Setup Unity license
@@ -90,7 +107,7 @@ jobs:
 
     steps:
       # Checkout repo -> ~/repo
-      - checkout
+      - checkout-and-setup
 
       - restore_cache:
           keys:
@@ -99,10 +116,6 @@ jobs:
       - restore_cache:
           keys:
             - test-unity-upm-global-2019
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Setup Unity license
@@ -155,7 +168,7 @@ jobs:
 
     steps:
       # Checkout repo -> ~/repo
-      - checkout
+      - checkout-and-setup
 
       - restore_cache:
           keys:
@@ -164,10 +177,6 @@ jobs:
       - restore_cache:
           keys:
             - test-unity-upm-global-2020
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Setup Unity license
@@ -216,18 +225,11 @@ jobs:
       PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - attach_workspace:
           at: /workspace
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
 
       - run:
           name: Check if release is ready for deploy
@@ -246,15 +248,8 @@ jobs:
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
-      - checkout
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
+      - checkout-and-setup:
+          setup-variables: true
 
       - run:
           name: NPM Login
@@ -299,23 +294,16 @@ jobs:
       - image: applejag/newtonsoft.json-for-unity.converters.package-deploy-github:v4
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - add_ssh_keys:
           fingerprints:
             - "4d:b2:3f:e0:17:3e:3a:bd:7d:16:5b:ca:b7:6e:fb:c0"
 
       - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
           name: Git Login
           command: $SCRIPTS/git_login.sh
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
 
       - run:
           name: Deploy
