@@ -11,11 +11,12 @@ _and many, many more._
 (See the [full compatibility table of all +50 supported Unity types][
 doc-compatability-table])
 
-## Compatability
+## Dependencies
 
 ### Newtonsoft.Json packages
 
-Can be used with any of the following:
+This package requires the `Newtonsoft.Json.dll` file to be present in your
+project. This DLL can come from any of the following:
 
 - My own fork of JamesNK's original Newtonsoft.Json repo:
   [jilleJr/Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
