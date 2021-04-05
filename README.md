@@ -43,10 +43,10 @@ should not be with any major hinders.
 ### Newtonsoft.Json versions
 
 There's no hard linking towards a specific version. The package has been tested
-and works as-is with Newtonsoft.Json 12.0.3 and 13.0.1.
+and works as-is with Newtonsoft.Json 10.0.3, 11.0.2, 12.0.3 and 13.0.1.
 
 This package has not been tested towards Newtonsoft.Json versions older than
-v12.0.1, though the API has not changed much in a long time so it should be
+v10.0.3, though the API has not changed much in a long time so it should be
 fine to use even as old versions as Json .NET v8.0.1 without any troubles.
 
 If you have any troubles with using this package with a specific version of
