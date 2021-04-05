@@ -65,7 +65,22 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
 
         public static float? ReadAsFloat(this JsonReader reader)
         {
-            return (float?)reader.ReadAsDouble();
+            // https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/46
+
+            var str = reader.ReadAsString();
+
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+            else if (float.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out var valueParsed))
+            {
+                return valueParsed;
+            }
+            else
+            {
+                return 0f;
+            }
         }
 
         public static byte? ReadAsInt8(this JsonReader reader)
