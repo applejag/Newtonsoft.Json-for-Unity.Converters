@@ -263,14 +263,11 @@ workflows:
               unity-version: [ unity-2018-4-14f1, unity-2019-2-11f1, unity-2020-1-0b6 ]
               json-net-4-unity-version: [ 13.0.102, 12.0.302, 11.0.202, 10.0.302 ]
       - check-deploy-ready:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_DEPLOY_FILTER
+          requires:
+            - test
       - deploy-cloudsmith:
           requires:
             - check-deploy-ready
-            - test
       - deploy-github:
           requires:
             - check-deploy-ready
-            - test
