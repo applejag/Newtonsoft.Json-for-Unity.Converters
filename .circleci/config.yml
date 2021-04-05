@@ -82,10 +82,10 @@ jobs:
       - run:
           name: Switch manifest.json (if avail.)
           command: |
-            if [[ -f "$TEST_PROJECT/Package/manifest_$UNITY_VERSION.json" ]]; then
-              mv -v "$TEST_PROJECT/Package/manifest_$UNITY_VERSION.json" "$TEST_PROJECT/Packages/manifest.json"
+            if [[ -f "$TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json" ]]; then
+              mv -v "$TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json" "$TEST_PROJECT/Packages/manifest.json"
             else
-              echo "No file at $TEST_PROJECT/Package/manifest_$UNITY_VERSION.json to replace the manifest.json file with."
+              echo "No file at $TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json to replace the manifest.json file with."
             fi
 
       - restore_cache:
