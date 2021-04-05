@@ -95,7 +95,7 @@ jobs:
           name: Set package version
           command: |
             echo "Newtonsoft.Json-for-Unity version: ${JSON_NET_4_UNITY_VERSION:=<<parameters.json-net-4-unity-version>>}"
-            MANIFEST_FILE="$TEST_PROJECT/Packages/manifest"
+            MANIFEST_FILE="$TEST_PROJECT/Packages/manifest.json"
             JQ_PATH='.dependencies["jillejr.newtonsoft.json-for-unity"]'
             echo "Previous version from manifest.json: $(jq "$JQ_PATH" "$MANIFEST_FILE")"
             echo "$(jq "$JQ_PATH=\"$JSON_NET_4_UNITY_VERSION\"" "$MANIFEST_FILE")" > "$MANIFEST_FILE"
