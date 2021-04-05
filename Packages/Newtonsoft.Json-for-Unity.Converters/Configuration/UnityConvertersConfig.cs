@@ -25,8 +25,8 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
         public bool useAllJsonNetConverters;
 
         public List<ConverterConfig> jsonNetConverters = new List<ConverterConfig> {
-            new ConverterConfig { converterName = typeof(StringEnumConverter).AssemblyQualifiedName },
-            new ConverterConfig { converterName = typeof(VersionConverter).AssemblyQualifiedName },
+            new ConverterConfig { converterName = typeof(StringEnumConverter).FullName, enabled = true },
+            new ConverterConfig { converterName = typeof(VersionConverter).FullName, enabled = true },
         };
     }
 #pragma warning restore CA2235 // Mark all non-serializable fields
