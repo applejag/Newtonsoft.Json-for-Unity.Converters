@@ -162,6 +162,72 @@ UnityEngine.Debug:Log(Object)
 Sample:Start() (at Assets/Sample.cs:19)
 ```
 
+## Configuring converters
+
+This package automatically adds all its converters to the
+[`JsonConvert.DefaultSettings`](https://www.newtonsoft.com/json/help/html/DefaultSettings.htm)
+if that value has been left untouched.
+
+If you want to only use a certain subset of the converters, or perhaps add in
+some of your own custom converters, then you have some options that will be
+explored just below here.
+
+### Default settings
+
+- Use the custom Unity contract resolver that looks for `[SerializeField]`
+  attributes.
+
+- Use only some of the Newtonsoft.Json converters, namely:
+
+  - [StringEnumConverter](https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Converters_StringEnumConverter.htm)
+  - [VersionConverter](https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Converters_VersionConverter.htm)
+
+- Use all converters from this package.
+
+- Use all other converters defined outside the `Newtonsoft.Json` namespace.
+
+### Custom settings through code
+
+You can override these defaults mentioned above in your code whenever you're
+serializing/deserializing. For example:
+
+```cs
+using Newtonsoft.Json;
+using Newtonsoft.Json.UnityConverters;
+using Newtonsoft.Json.UnityConverters.Math;
+
+var settings = new JsonSerializerSettings {
+    Converters = new [] {
+        new Vector3Converter(),
+        new StringEnumConverter(),
+    },
+    ContractResolver = new UnityTypeContractResolver(),
+};
+
+var myObjectINeedToSerialize = new Vector3(1, 2, 3);
+
+var json = JsonConvert.SerializeObject(myObjectINeedToSerialize, settings);
+```
+
+### Custom settings through config file
+
+Since v1.1.0 of this package, you can configure and override these defaults
+through a ScriptableObject that is saved at
+`Assets/Resources/Newtonsoft.Json-for-Unity.Converters.asset`.
+
+To open the settings, click **"Edit"** in the top menu bar and select
+**"Json<i></i>.NET converters settings..."**
+
+![Configuring ScriptableObject config](Doc/images/configure-scriptableobject.png)
+
+Within this settings page, you can enable or disable any of the converters you
+wish to include or omit by default.
+
+These settings are only applied when you're using the default
+JsonSerializerSettings that this package has overridden. If you're setting the
+JsonSerializerSettings manually through code, as shown in the example above,
+then all of these settings will be ignored.
+
 ## Contributing
 
 Thankful that you're even reading this :)
