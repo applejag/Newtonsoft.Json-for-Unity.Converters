@@ -136,8 +136,17 @@ All types with green check-mark ✔ are proven to work via the suite of tests
 found in this repository. The tests prove the types work in many obscure
 scenarios in all of the following configurations:
 
-| OS    | Unity       | Scripting runtime | API compatibility mode |
-| ----- | ----------- | ----------------- | ---------------------- |
-| Linux | 2020.1.0b6  | Mono              | .NET Standard 2.0      |
-| Linux | 2019.2.11f1 | Mono              | .NET Standard 2.0      |
-| Linux | 2018.4.14f1 | Mono              | .NET Standard 2.0      |
+| OS    | Unity       | Json .NET for Unity version |
+| ----- | ----------- | --------------------------- |
+| Linux | 2020.1.0b6  | 13.0.102                    |
+| -     | -           | 12.0.302                    |
+| -     | -           | 11.0.202                    |
+| -     | -           | 10.0.302                    |
+| -     | 2019.2.11f1 | 13.0.102                    |
+| -     | -           | 12.0.302                    |
+| -     | -           | 11.0.202                    |
+| -     | -           | 10.0.302                    |
+| -     | 2018.4.14f1 | 13.0.102                    |
+| -     | -           | 12.0.302                    |
+| -     | -           | 11.0.202                    |
+| -     | -           | 10.0.302                    |
