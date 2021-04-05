@@ -107,12 +107,10 @@ writing:
 }
 ```
 
-*and so on, until "recursion" error..*
-      
-But there are also some types such as the `UnityEngine.RandomState` that has its
-state variables hidden.
+*and so on, until "recursion" error..* But there are also some types such as the
+`UnityEngine.RandomState` that has its state variables hidden.
 
-The converters in this package takes care of all this.
+The converters in this package takes care of these issues, as well as many more.
 
 ### Sample error without this package
 
