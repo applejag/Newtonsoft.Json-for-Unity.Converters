@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 # Set error flags
 set -o nounset

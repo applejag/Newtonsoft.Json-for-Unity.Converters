@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 using namespace System.Collections.Generic
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
