@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.1.0
+## 1.1.0 (WIP)
 
 - Added configurability to enable/disable any converter that was all previously
   inserted automatically. Access the settings via the menu at
@@ -32,7 +32,7 @@
   lot. This should lead to a minor performance boost as well.
   ([#48](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/48))
 
-## 1.0.0
+## 1.0.0 (2020-05-10)
 
 - ✨ Initial release
 
