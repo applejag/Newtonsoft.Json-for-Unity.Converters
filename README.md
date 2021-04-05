@@ -53,12 +53,13 @@ If you have any troubles with using this package with a specific version of
 Newtonsoft.Json, then don't fray in opening an [issue][issue-create] so we can
 resolve it.
 
-
 ## Installation
 
-### <abbr title="OpenUPM: A very popular open source Unity package registry for Unity Package Manager (UPM) packages">OpenUPM</abbr> ![OpenUPM icon](Doc/images/openupm-icon-16.png)
+### OpenUPM ![OpenUPM icon](Doc/images/openupm-icon-16.png)
 
-Add the [jillejr.newtonsoft.json-for-unity.converters OpenUPM package](https://openupm.com/packages/jillejr.newtonsoft.json-for-unity.converters/)
+Add the [jillejr.newtonsoft.json-for-unity.converters](https://openupm.com/packages/jillejr.newtonsoft.json-for-unity.converters/)
+<abbr title="OpenUPM: A very popular open source Unity package registry for Unity Package Manager (UPM) packages">OpenUPM</abbr>
+package:
 
 ```sh
 openupm add jillejr.newtonsoft.json-for-unity.converters
@@ -67,31 +68,46 @@ openupm add jillejr.newtonsoft.json-for-unity.converters
 Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki to [read more about
 installing/upgrading via OpenUPM][wiki-install-converters-via-git-in-upm].
 
-### <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>
+### Other
 
 Visit the jilleJr/Newtonsoft.Json-for-Unity/wiki for installation:
 
-- [Installation via UPM][wiki-install-converters-via-upm]
+- [Installation via <abbr title="UPM: Unity Package Manager, included in Unity since 2018.1+">UPM</abbr>][wiki-install-converters-via-upm]
 - [Installation via Git in UPM][wiki-install-converters-via-git-in-upm]
 
 ## What does it solve
 
 A lot of Unity types causes self-referencing loops, such as the Vector3 type.
-While serializing, Newtonsoft.Json will try serialize:
+While serializing the value `new Vector3(0,1,0)`, Newtonsoft.Json will start
+writing:
 
-- Vector3.x
-- Vector3.y
-- Vector3.z
-- Vector3.normalized
-  - Vector3.normalized.x
-  - Vector3.normalized.y
-  - Vector3.normalized.z
-  - Vector3.normalized.normalized
-    - Vector3.normalized.normalized.x
-    - Vector3.normalized.normalized.y
-    - Vector3.normalized.normalized.z
-    - Vector3.normalized.normalized.normalized
-      - *and so on until "recursion" error..*
+```json
+{
+  "x": 0,
+  "y": 1,
+  "z": 0,
+  "normalized": {
+    "x": 0,
+    "y": 1,
+    "z": 0,
+    "normalized": {
+      "x": 0,
+      "y": 1,
+      "z": 0,
+      "normalized": {
+        "x": 0,
+        "y": 1,
+        "z": 0,
+        "normalized": {
+          ...
+        }
+      }
+    }
+  }
+}
+```
+
+*and so on, until "recursion" error..*
       
 But there are also some types such as the `UnityEngine.RandomState` that has its
 state variables hidden.
