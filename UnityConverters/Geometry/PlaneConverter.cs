@@ -3,49 +3,27 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Geometry
 {
-    public class PlaneConverter : PartialConverter<Plane, object>
+    public class PlaneConverter : PartialConverter<Plane>
     {
-        private static readonly string[] _memberNames = { "normal", "distance" };
-
-        public PlaneConverter() : base(_memberNames)
+        protected override void ReadValue(ref Plane value, string name, JsonReader reader, JsonSerializer serializer)
         {
-        }
-
-        protected override Plane CreateInstanceFromValues(ValuesArray<object> values)
-        {
-            return new Plane(
-                values.GetAsTypeOrDefault<Vector3>(0),
-                values.GetAsTypeOrDefault<float>(1)
-            );
-        }
-
-        protected override object[] ReadInstanceValues(Plane instance)
-        {
-            return new object[] { instance.normal, instance.distance };
-        }
-
-        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
-        {
-            if (index == 0)
+            switch (name)
             {
-                return reader.ReadViaSerializer<Vector3>(serializer);
-            }
-            else
-            {
-                return (float)(reader.ReadAsDouble() ?? 0);
+                case nameof(value.normal):
+                    value.normal = reader.ReadViaSerializer<Vector3>(serializer);
+                    break;
+                case nameof(value.distance):
+                    value.distance = reader.ReadAsFloat() ?? 0;
+                    break;
             }
         }
 
-        protected override void WriteValue(JsonWriter writer, object value, JsonSerializer serializer)
+        protected override void WriteJsonProperties(JsonWriter writer, Plane value, JsonSerializer serializer)
         {
-            if (value is float num)
-            {
-                writer.WriteValue(num);
-            }
-            else
-            {
-                serializer.Serialize(writer, value);
-            }
+            writer.WritePropertyName(nameof(value.normal));
+            serializer.Serialize(writer, value.normal, typeof(Vector3));
+            writer.WritePropertyName(nameof(value.distance));
+            writer.WriteValue(value.distance);
         }
     }
 }

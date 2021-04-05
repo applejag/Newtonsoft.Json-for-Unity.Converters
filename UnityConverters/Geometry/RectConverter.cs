@@ -22,6 +22,7 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Geometry
@@ -29,23 +30,37 @@ namespace Newtonsoft.Json.UnityConverters.Geometry
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Rect type <see cref="Rect"/>.
     /// </summary>
-    public class RectConverter : PartialFloatConverter<Rect>
+    public class RectConverter : PartialConverter<Rect>
     {
-        internal static readonly string[] _memberNames = { "x", "y", "width", "height" };
-
-        public RectConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref Rect value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.x):
+                    value.x = reader.ReadAsFloat() ?? 0;
+                    break;
+                case nameof(value.y):
+                    value.y = reader.ReadAsFloat() ?? 0;
+                    break;
+                case nameof(value.width):
+                    value.width = reader.ReadAsFloat() ?? 0;
+                    break;
+                case nameof(value.height):
+                    value.height = reader.ReadAsFloat() ?? 0;
+                    break;
+            }
         }
 
-        protected override Rect CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, Rect value, JsonSerializer serializer)
         {
-            return new Rect(values[0], values[1], values[2], values[3]);
-        }
-
-        protected override float[] ReadInstanceValues(Rect instance)
-        {
-            return new[] { instance.x, instance.y, instance.width, instance.height };
+            writer.WritePropertyName(nameof(value.x));
+            writer.WriteValue(value.x);
+            writer.WritePropertyName(nameof(value.y));
+            writer.WriteValue(value.y);
+            writer.WritePropertyName(nameof(value.width));
+            writer.WriteValue(value.width);
+            writer.WritePropertyName(nameof(value.height));
+            writer.WriteValue(value.height);
         }
     }
 }

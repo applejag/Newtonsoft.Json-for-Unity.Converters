@@ -22,45 +22,35 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace Newtonsoft.Json.UnityConverters.Geometry
 {
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Bounds type <see cref="Bounds"/>.
     /// </summary>
-    public class BoundsConverter : PartialVector3Converter<Bounds>
+    public class BoundsConverter : PartialConverter<Bounds>
     {
-        private static string[] _memberNames = { "center", "size" };
-
-        public BoundsConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref Bounds value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.center):
+                    value.center = reader.ReadViaSerializer<Vector3>(serializer);
+                    break;
+                case nameof(value.size):
+                    value.size = reader.ReadViaSerializer<Vector3>(serializer);
+                    break;
+            }
         }
 
-        /// <summary>
-        /// Prevent the properties from being stripped.
-        /// </summary>
-        [Preserve]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members",
-            Justification = "Ensures the properties are preserved, instead of adding a link.xml file.")]
-        private static void PreserveProperties()
+        protected override void WriteJsonProperties(JsonWriter writer, Bounds value, JsonSerializer serializer)
         {
-            var dummy = new Bounds();
-
-            _ = dummy.center;
-            _ = dummy.size;
-        }
-
-        protected override Bounds CreateInstanceFromValues(ValuesArray<Vector3> values)
-        {
-            return new Bounds(values[0], values[1]);
-        }
-
-        protected override Vector3[] ReadInstanceValues(Bounds instance)
-        {
-            return new[] { instance.center, instance.size };
+            writer.WritePropertyName(nameof(value.center));
+            serializer.Serialize(writer, value.center, typeof(Vector3));
+            writer.WritePropertyName(nameof(value.size));
+            serializer.Serialize(writer, value.size, typeof(Vector3));
         }
     }
 }

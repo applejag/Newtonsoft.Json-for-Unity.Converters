@@ -22,6 +22,7 @@
 // SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Math
@@ -29,25 +30,37 @@ namespace Newtonsoft.Json.UnityConverters.Math
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity Quaternion type <see cref="Quaternion"/>.
     /// </summary>
-    public class QuaternionConverter : PartialFloatConverter<Quaternion>
+    public class QuaternionConverter : PartialConverter<Quaternion>
     {
-        private static readonly string[] _memberNames = { "x", "y", "z", "w" };
-
-        public QuaternionConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref Quaternion value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.x):
+                    value.x = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.y):
+                    value.y = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.z):
+                    value.z = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.w):
+                    value.w = reader.ReadAsFloat() ?? 0f;
+                    break;
+            }
         }
 
-        protected override Quaternion CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, Quaternion value, JsonSerializer serializer)
         {
-            return new Quaternion(values[0], values[1], values[2], values[3]);
-        }
-
-        protected override float[] ReadInstanceValues(Quaternion instance)
-        {
-            return new[] {
-                instance.x, instance.y, instance.z, instance.w
-            };
+            writer.WritePropertyName(nameof(value.x));
+            writer.WriteValue(value.x);
+            writer.WritePropertyName(nameof(value.y));
+            writer.WriteValue(value.y);
+            writer.WritePropertyName(nameof(value.z));
+            writer.WriteValue(value.z);
+            writer.WritePropertyName(nameof(value.w));
+            writer.WriteValue(value.w);
         }
     }
 }

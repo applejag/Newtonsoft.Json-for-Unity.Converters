@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.1.0
+## 1.1.0 (2021-04-05)
 
 - Added configurability to enable/disable any converter that was all previously
   inserted automatically. Access the settings via the menu at
@@ -21,7 +21,18 @@
   `RandomStateConverter`
   ([#35](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/35))
 
-## 1.0.0
+- Fixed `float` precision error when reading/prasing. ([#46](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/46),
+  [#51](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/51))
+
+- Added support for populating using `JsonConvert.PopulateObject` when using
+  any of the custom converters. ([#49](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/49))
+
+- Removed the array passing and reflection in the PartialConverter and removed
+  all partial converters except `PartialConverter.cs`, simplifying the code a
+  lot. This should lead to a minor performance boost as well.
+  ([#48](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/48))
+
+## 1.0.0 (2020-05-10)
 
 - ✨ Initial release
 

@@ -29,23 +29,37 @@ namespace Newtonsoft.Json.UnityConverters.Geometry
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity RectOffset type <see cref="RectOffset"/>.
     /// </summary>
-    public class RectOffsetConverter : PartialIntConverter<RectOffset>
+    public class RectOffsetConverter : PartialConverter<RectOffset>
     {
-        private static readonly string[] _memberNames = { "left", "right", "top", "bottom" };
-
-        public RectOffsetConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref RectOffset value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.left):
+                    value.left = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.right):
+                    value.right = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.top):
+                    value.top = reader.ReadAsInt32() ?? 0;
+                    break;
+                case nameof(value.bottom):
+                    value.bottom = reader.ReadAsInt32() ?? 0;
+                    break;
+            }
         }
 
-        protected override RectOffset CreateInstanceFromValues(ValuesArray<int> values)
+        protected override void WriteJsonProperties(JsonWriter writer, RectOffset value, JsonSerializer serializer)
         {
-            return new RectOffset(values[0], values[1], values[2], values[3]);
-        }
-
-        protected override int[] ReadInstanceValues(RectOffset instance)
-        {
-            return new[] { instance.left, instance.right, instance.top, instance.bottom };
+            writer.WritePropertyName(nameof(value.left));
+            writer.WriteValue(value.left);
+            writer.WritePropertyName(nameof(value.right));
+            writer.WriteValue(value.right);
+            writer.WritePropertyName(nameof(value.top));
+            writer.WriteValue(value.top);
+            writer.WritePropertyName(nameof(value.bottom));
+            writer.WriteValue(value.bottom);
         }
     }
 }
