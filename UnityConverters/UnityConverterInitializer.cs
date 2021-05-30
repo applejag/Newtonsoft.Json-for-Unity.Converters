@@ -29,6 +29,7 @@ using System.Linq;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Configuration;
 using Newtonsoft.Json.UnityConverters.Helpers;
+using Newtonsoft.Json.UnityConverters.Utility;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
@@ -114,7 +115,8 @@ namespace Newtonsoft.Json.UnityConverters
         {
             var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD);
 
-            if (!config) {
+            if (!config)
+            {
                 config = ScriptableObject.CreateInstance<UnityConvertersConfig>();
             }
 
@@ -219,7 +221,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             var typesOfEnabledThroughConfig = configs
                 .Where(o => o.enabled)
-                .Select(o => Type.GetType(o.converterName))
+                .Select(o => TypeCache.FindType(o.converterName))
                 .Where(o => o != null);
 
             var hashMap = new HashSet<Type>(typesOfEnabledThroughConfig);
