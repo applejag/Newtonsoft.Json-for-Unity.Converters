@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.UnityConverters.Configuration;
+using Newtonsoft.Json.UnityConverters.Utility;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -25,9 +26,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
 
-        private readonly Dictionary<string, Type> _converterTypeByName
-            = new Dictionary<string, Type>();
-
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
 
@@ -44,7 +42,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             try
             {
                 _ = serializedObject;
-            } 
+            }
             catch (Exception)
             {
                 return;
@@ -125,7 +123,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         {
             var elements = EnumerateArrayElements(arrayProperty);
             var elementTypes = elements
-                .Select(e => FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
+                .Select(e => TypeCache.FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
                 .ToArray();
             Type[] missingConverters = converterTypes
                 .Where(type => !elementTypes.Contains(type))
@@ -196,7 +194,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 var allConfigsWithType = EnumerateArrayElements(property)
                     .Select(o => (
                         serializedProperty: o,
-                        type: FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
+                        type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
                     ));
 
                 foreach (var namespaceGroup in allConfigsWithType.GroupBy(o => GetTypeNamespace(o.type)))
@@ -249,35 +247,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             EditorGUILayout.EndFadeGroup();
         }
 
-        private Type FindType(string name)
-        {
-            if (_converterTypeByName.TryGetValue(name, out var type))
-            {
-                return type;
-            }
-            else
-            {
-                // Check this assembly, or if it has AssemblyQualifiedName
-                type = Type.GetType(name);
-                if (type != null)
-                {
-                    _converterTypeByName[name] = type;
-                    return type;
-                }
-
-                // Check all the other assemblies, from last imported to first
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Reverse())
-                {
-                    type = assembly.GetType(name);
-                    if (type != null)
-                    {
-                        _converterTypeByName[name] = type;
-                        return type;
-                    }
-                }
-                return null;
-            }
-        }
 
         private static string GetNamespaceHeader(IGrouping<string, (SerializedProperty serializedProperty, Type type)> namespaceGroup)
         {

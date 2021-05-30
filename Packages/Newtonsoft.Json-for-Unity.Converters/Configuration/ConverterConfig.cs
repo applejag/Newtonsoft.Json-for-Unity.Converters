@@ -14,6 +14,11 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public List<KeyedConfig> settings;
 
+        public override string ToString()
+        {
+            return $"{{enabled={enabled}, converterName={converterName}, settings=[{settings?.Count ?? 0}]}}";
+        }
+
         public override bool Equals(object obj)
         {
             return obj is ConverterConfig config && Equals(config);
