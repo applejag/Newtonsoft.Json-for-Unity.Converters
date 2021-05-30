@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.1.1 (WIP)
+## 1.1.1 (2021-05-30)
 
 - Fixed Newtonsoft.Json converters (ex: `StringEnumConverter` &
   `VersionConverter`) not being loaded even if you had then enabled in the
