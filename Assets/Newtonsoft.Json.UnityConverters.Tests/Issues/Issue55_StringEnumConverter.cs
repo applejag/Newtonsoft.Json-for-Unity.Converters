@@ -22,11 +22,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests
 
             // Assert
             JObject jobj = Deserialize<JObject>(result);
-            Assert.IsTrue(jobj.ContainsKey("mySpaceEnum"));
-
             JToken mySpaceEnumToken = jobj["mySpaceEnum"];
+            Assert.IsNotNull(mySpaceEnumToken, "JSON: " + result);
             Assert.AreEqual(JTokenType.String, mySpaceEnumToken.Type, "JSON: " + result);
-            Assert.AreEqual("Self", mySpaceEnumToken.Value<string>());
+            Assert.AreEqual("Self", mySpaceEnumToken.Value<string>(), "JSON: " + result);
         }
 
         [Preserve]
