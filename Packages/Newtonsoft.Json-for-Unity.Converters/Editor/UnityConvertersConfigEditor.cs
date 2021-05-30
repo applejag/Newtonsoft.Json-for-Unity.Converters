@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.UnityConverters.Configuration;
-using Newtonsoft.Json.UnityConverters.Utility;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
+// Unity 2020 also has a type cache: UnityEditor.TypeCache:
+// https://docs.unity3d.com/2019.2/Documentation/ScriptReference/TypeCache.html
+using TypeCache = Newtonsoft.Json.UnityConverters.Utility.TypeCache;
 
 namespace Newtonsoft.Json.UnityConverters.Editor
 {
