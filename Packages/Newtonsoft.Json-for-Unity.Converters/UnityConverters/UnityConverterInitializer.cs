@@ -34,7 +34,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    internal static class UnityConverterInitializer
+    public static class UnityConverterInitializer
     {
         private static bool _shouldAddConvertsToDefaultSettings = true;
 
