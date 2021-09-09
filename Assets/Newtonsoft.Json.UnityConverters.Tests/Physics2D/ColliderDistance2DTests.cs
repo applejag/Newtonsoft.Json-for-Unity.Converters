@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if PHYSICS2D_MODULE
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -104,3 +105,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
         }
     }
 }
+#endif

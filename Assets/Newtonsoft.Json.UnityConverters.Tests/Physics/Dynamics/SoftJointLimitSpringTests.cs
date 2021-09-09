@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if PHYSICS_MODULE
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.Physics.Dynamics
@@ -20,3 +21,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics.Dynamics
         };
     }
 }
+#endif

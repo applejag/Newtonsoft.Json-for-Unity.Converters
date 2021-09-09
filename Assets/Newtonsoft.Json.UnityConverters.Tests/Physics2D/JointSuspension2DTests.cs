@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if PHYSICS2D_MODULE
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
@@ -17,3 +18,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Physics2D
         };
     }
 }
+#endif

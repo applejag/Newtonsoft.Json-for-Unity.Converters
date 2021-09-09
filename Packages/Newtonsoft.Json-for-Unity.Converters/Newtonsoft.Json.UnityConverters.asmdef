@@ -9,5 +9,22 @@
         "Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+	"versionDefines": [
+        {
+            "name": "com.unity.modules.ai",
+            "expression": "",
+            "define": "AI_MODULE"
+        },
+        {
+            "name": "com.unity.modules.physics",
+            "expression": "",
+            "define": "PHYSICS_MODULE"
+        },
+        {
+            "name": "com.unity.modules.physics2d",
+            "expression": "",
+            "define": "PHYSICS2D_MODULE"
+        }
+    ]
 }

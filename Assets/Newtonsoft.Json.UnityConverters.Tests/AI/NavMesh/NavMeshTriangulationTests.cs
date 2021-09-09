@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if AI_MODULE
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
@@ -70,3 +71,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.AI.NavMesh
         }
     }
 }
+#endif

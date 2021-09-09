@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if PHYSICS2D_MODULE
+using System;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
@@ -75,3 +76,4 @@ namespace Newtonsoft.Json.UnityConverters.Physics2D
         }
     }
 }
+#endif
