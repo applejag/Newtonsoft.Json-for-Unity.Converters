@@ -1,5 +1,10 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.2.0 (2021-09-11)
+
+- Changed `UnityConverterInitializer` from `internal` to `public`.
+  ([#58](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/58))
+
 ## 1.1.1 (2021-05-30)
 
 - Fixed Newtonsoft.Json converters (ex: `StringEnumConverter` &
