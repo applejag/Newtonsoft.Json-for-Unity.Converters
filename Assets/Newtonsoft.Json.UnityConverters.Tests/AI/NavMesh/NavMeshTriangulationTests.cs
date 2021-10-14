@@ -1,4 +1,4 @@
-﻿#if AI_MODULE
+﻿#if HAVE_MODULE_AI || !UNITY_2019_1_OR_NEWER
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;

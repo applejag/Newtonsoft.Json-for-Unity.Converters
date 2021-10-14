@@ -1,4 +1,4 @@
-﻿#if PHYSICS2D_MODULE
+﻿#if HAVE_MODULE_PHYSICS2D
 using System;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;

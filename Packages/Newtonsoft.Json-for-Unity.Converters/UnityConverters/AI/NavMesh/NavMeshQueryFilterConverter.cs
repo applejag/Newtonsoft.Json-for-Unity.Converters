@@ -1,4 +1,4 @@
-﻿#if AI_MODULE
+﻿#if HAVE_MODULE_AI
 using System;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;

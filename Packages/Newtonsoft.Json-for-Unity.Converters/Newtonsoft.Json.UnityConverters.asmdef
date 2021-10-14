@@ -1,5 +1,6 @@
 {
     "name": "Newtonsoft.Json.UnityConverters",
+    "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,21 +11,22 @@
     ],
     "autoReferenced": true,
     "defineConstraints": [],
-	"versionDefines": [
+    "versionDefines": [
         {
             "name": "com.unity.modules.ai",
             "expression": "",
-            "define": "AI_MODULE"
+            "define": "HAVE_MODULE_AI"
         },
         {
             "name": "com.unity.modules.physics",
             "expression": "",
-            "define": "PHYSICS_MODULE"
+            "define": "HAVE_MODULE_PHYSICS"
         },
         {
             "name": "com.unity.modules.physics2d",
             "expression": "",
-            "define": "PHYSICS2D_MODULE"
+            "define": "HAVE_MODULE_PHYSICS2D"
         }
-    ]
+    ],
+    "noEngineReferences": false
 }

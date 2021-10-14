@@ -1,4 +1,4 @@
-﻿#if PHYSICS2D_MODULE
+﻿#if HAVE_MODULE_PHYSICS2D || !UNITY_2019_1_OR_NEWER
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.UnityConverters.Physics2D;

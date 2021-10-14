@@ -1,4 +1,4 @@
-﻿#if PHYSICS_MODULE
+﻿#if HAVE_MODULE_PHYSICS || !UNITY_2019_1_OR_NEWER
 using System.Collections.Generic;
 using UnityEngine;
 

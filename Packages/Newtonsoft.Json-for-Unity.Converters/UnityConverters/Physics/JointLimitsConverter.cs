@@ -1,4 +1,4 @@
-﻿#if PHYSICS_MODULE
+﻿#if HAVE_MODULE_PHYSICS
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
