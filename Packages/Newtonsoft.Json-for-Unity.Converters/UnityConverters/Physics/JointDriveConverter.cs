@@ -1,4 +1,4 @@
-﻿#if HAVE_MODULE_PHYSICS
+﻿#if HAVE_MODULE_PHYSICS || !UNITY_2019_1_OR_NEWER
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 

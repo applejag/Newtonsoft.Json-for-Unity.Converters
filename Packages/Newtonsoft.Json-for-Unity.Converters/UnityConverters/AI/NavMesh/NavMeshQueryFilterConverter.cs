@@ -1,4 +1,4 @@
-﻿#if HAVE_MODULE_AI
+﻿#if HAVE_MODULE_AI || !UNITY_2019_1_OR_NEWER
 using System;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
