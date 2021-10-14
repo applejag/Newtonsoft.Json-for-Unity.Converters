@@ -1,22 +1,21 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Tests",
-    "rootNamespace": "",
     "references": [
-        "Newtonsoft.Json.UnityConverters",
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "Newtonsoft.Json.UnityConverters"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Newtonsoft.Json.dll",
-        "nunit.framework.dll"
+        "Newtonsoft.Json.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
     ],
     "versionDefines": [
         {
@@ -34,6 +33,5 @@
             "expression": "",
             "define": "HAVE_MODULE_PHYSICS2D"
         }
-    ],
-    "noEngineReferences": false
+    ]
 }
