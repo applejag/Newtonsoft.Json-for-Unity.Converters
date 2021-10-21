@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.UnityConverters.Helpers;
+﻿#if HAVE_MODULE_PHYSICS || !UNITY_2019_1_OR_NEWER
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Physics
@@ -32,3 +33,4 @@ namespace Newtonsoft.Json.UnityConverters.Physics
         }
     }
 }
+#endif

@@ -16,5 +16,22 @@
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.modules.ai",
+            "expression": "",
+            "define": "HAVE_MODULE_AI"
+        },
+        {
+            "name": "com.unity.modules.physics",
+            "expression": "",
+            "define": "HAVE_MODULE_PHYSICS"
+        },
+        {
+            "name": "com.unity.modules.physics2d",
+            "expression": "",
+            "define": "HAVE_MODULE_PHYSICS2D"
+        }
     ]
 }
