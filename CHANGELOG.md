@@ -1,5 +1,19 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.3.0 (2021-10-21)
+
+- Changed the following modules to be automatically excluded from compilation
+  if they are not used in the project:
+
+  - `com.unity.modules.ai` via new define `HAVE_MODULE_AI`
+  - `com.unity.modules.physics` via new define `HAVE_MODULE_PHYSICS`
+  - `com.unity.modules.physics2d` via new define `HAVE_MODULE_PHYSICS2D`
+
+  This is active starting with Unity 2019.1.x. The regarded modules are always
+  active in prior Unity versions.
+
+  Thanks [@SolidAlloy](https://github.com/SolidAlloy) for the implementation ([#60](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/60))
+
 ## 1.2.0 (2021-09-11)
 
 - Changed `UnityConverterInitializer` from `internal` to `public`.
