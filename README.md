@@ -114,7 +114,7 @@ The converters in this package takes care of these issues, as well as many more.
 
 ### Sample error without this package
 
-Given this peice of code:
+Given this piece of code:
 
 ```csharp
 using UnityEngine;
