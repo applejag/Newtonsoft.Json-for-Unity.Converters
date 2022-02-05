@@ -1,5 +1,17 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.4.0 (WIP)
+
+- Added support for `UnityEngine.AddressableAssets.AssetReference`.
+  The new `AssetReferenceConverter` is only included in the build if your
+  project contains the `com.unity.addressables` package.
+
+  This automatic inclusion relies on AssemblyDefinition version defines, which
+  was introduced in Unity 2019.1.x. To enable the `AssetReferenceConverter` in
+  earlier versions of Unity, please add `HAVE_MODULE_ADDRESSABLES` to your
+  project's "Scripting Define Symbols" found in the
+  "Project Settings" -> "Player" -> "Other Settings" panel.
+
 ## 1.3.0 (2021-10-21)
 
 - Changed the following modules to be automatically excluded from compilation
