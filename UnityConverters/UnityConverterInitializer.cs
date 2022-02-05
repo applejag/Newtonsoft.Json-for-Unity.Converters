@@ -41,7 +41,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
         /// </summary>
-        /// 
+        ///
         /// <remarks>
         /// All its properties stay default, but the <c>Converters</c> includes below:
         /// 	1. Any custom <see cref="JsonConverter"/> has constructor without parameters.
@@ -178,7 +178,13 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns>The types.</returns>
         internal static IEnumerable<Type> FindUnityConverters()
         {
-            return FilterToJsonConvertersAndOrder(typeof(UnityConverterInitializer).Assembly.GetTypes());
+            var typesFromPackageDomains = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(dll => dll.GetLoadableTypes()
+                    .Where(type => type.Namespace?.StartsWith("Newtonsoft.Json.UnityConverters") == true)
+                )
+                .SelectMany(types => types)
+                .OrderBy(type => type.FullName);
+            return FilterToJsonConvertersAndOrder(typesFromPackageDomains);
         }
 
         private static IEnumerable<Type> FindFilteredJsonNetConverters(UnityConvertersConfig config)

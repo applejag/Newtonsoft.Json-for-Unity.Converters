@@ -197,7 +197,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                     .Select(o => (
                         serializedProperty: o,
                         type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
-                    ));
+                    ))
+                    .OrderBy(o => o.type.FullName);
 
                 foreach (var namespaceGroup in allConfigsWithType.GroupBy(o => GetTypeNamespace(o.type)))
                 {
