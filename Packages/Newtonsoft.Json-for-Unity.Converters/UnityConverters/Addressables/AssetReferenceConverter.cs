@@ -25,7 +25,7 @@ namespace Newtonsoft.Json.UnityConverters.Addressables
 
         public override void WriteJson(JsonWriter writer, AssetReference value, JsonSerializer serializer)
         {
-            if (value is null)
+            if (value is null || string.IsNullOrEmpty(value.AssetGUID))
             {
                 writer.WriteNull();
             }
