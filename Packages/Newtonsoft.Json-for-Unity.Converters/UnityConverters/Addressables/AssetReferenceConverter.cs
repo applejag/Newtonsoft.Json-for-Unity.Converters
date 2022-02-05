@@ -1,18 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine.AddressableAssets;
 
 namespace Newtonsoft.Json.UnityConverters.Addressables
 {
-    public class AssetReferenceConverter : PartialConverter<AssetReference>
+    public class AssetReferenceConverter : JsonConverter<AssetReference>
     {
-        protected override void ReadValue(ref AssetReference value, string name, JsonReader reader, JsonSerializer serializer)
+        public override AssetReference ReadJson(JsonReader reader, Type objectType, AssetReference existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            throw new System.NotImplementedException();
+            if (reader.TokenType == JsonToken.Null)
+            {
+                return null;
+            }
+
+            if (reader.TokenType == JsonToken.String && reader.Value is string stringValue)
+            {
+                return new AssetReference(stringValue);
+            }
+            else
+            {
+                throw reader.CreateSerializationException($"Expected string when reading UnityEngine.Addressables.AssetReference type, got '{reader.TokenType}' <{reader.Value}>.");
+            }
         }
 
-        protected override void WriteJsonProperties(JsonWriter writer, AssetReference value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, AssetReference value, JsonSerializer serializer)
         {
-            throw new System.NotImplementedException();
+            if (value is null)
+            {
+                writer.WriteNull();
+            }
+            else
+            {
+                writer.WriteValue(value.AssetGUID);
+            }
         }
     }
 }

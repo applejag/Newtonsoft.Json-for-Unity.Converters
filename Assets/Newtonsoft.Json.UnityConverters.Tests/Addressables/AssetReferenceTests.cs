@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json.UnityConverters.Tests;
+using NUnit.Framework;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Assets.Newtonsoft.Json.UnityConverters.Tests.Addressables
+namespace Newtonsoft.Json.UnityConverters.Tests.Addressables
 {
     public class AssetReferenceTests : TypeTester<AssetReference>
     {
@@ -15,7 +16,16 @@ namespace Assets.Newtonsoft.Json.UnityConverters.Tests.Addressables
 
         protected override bool AreEqual([AllowNull] AssetReference a, [AllowNull] AssetReference b)
         {
-            return a.AssetGUID == b.AssetGUID;
+            return a?.AssetGUID == b?.AssetGUID;
+        }
+
+        [Test]
+        public void LoadsValidAssetTest()
+        {
+            var assetRef = Deserialize<AssetReference>("\"65ee4890b3c2b0f4db332c8305ce62bd\"");
+            Assert.IsNotNull(assetRef);
+            var textAsset = assetRef.LoadAssetAsync<TextAsset>().WaitForCompletion();
+            Assert.AreEqual("Some sample text inside TextFile1.txt", textAsset.text.Trim());
         }
     }
 }

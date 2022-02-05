@@ -3,7 +3,8 @@
     "references": [
         "Newtonsoft.Json.UnityConverters",
         "Newtonsoft.Json.UnityConverters.Addressables",
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
