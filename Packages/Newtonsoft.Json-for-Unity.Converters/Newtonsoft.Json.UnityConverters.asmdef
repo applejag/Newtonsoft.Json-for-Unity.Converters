@@ -12,11 +12,6 @@
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.unity.addressables",
-            "expression": "",
-            "define": "HAVE_MODULE_ADDRESSABLES"
-        },
-        {
             "name": "com.unity.modules.ai",
             "expression": "",
             "define": "HAVE_MODULE_AI"

@@ -1,7 +1,12 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Tests",
     "references": [
-        "Newtonsoft.Json.UnityConverters"
+        "Newtonsoft.Json.UnityConverters",
+        "Newtonsoft.Json.UnityConverters.Addressables",
+        "Unity.Addressables"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,25 +18,5 @@
     "autoReferenced": false,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
-    ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
-    "versionDefines": [
-        {
-            "name": "com.unity.modules.ai",
-            "expression": "",
-            "define": "HAVE_MODULE_AI"
-        },
-        {
-            "name": "com.unity.modules.physics",
-            "expression": "",
-            "define": "HAVE_MODULE_PHYSICS"
-        },
-        {
-            "name": "com.unity.modules.physics2d",
-            "expression": "",
-            "define": "HAVE_MODULE_PHYSICS2D"
-        }
     ]
 }
