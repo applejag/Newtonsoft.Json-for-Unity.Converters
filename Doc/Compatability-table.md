@@ -96,7 +96,7 @@ https://beautifuldingbats.com/superscript-generator/
 
 4. ❌<a name="note-4"></a> Type directly or indirectly contains reference to
   the NativeArray or NativeSlice types. Deserializing these types will cause
-  imminent memory leaks and so deserializing (writing JSON) using these types
+  imminent memory leaks and so deserializing (reading JSON) using these types
   are therefore highly discouraged.
 
 5. ❔<a name="note-5"></a> Serializing this type has not been tested nor
