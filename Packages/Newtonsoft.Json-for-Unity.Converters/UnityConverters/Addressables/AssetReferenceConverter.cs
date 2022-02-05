@@ -4,9 +4,14 @@ using UnityEngine.AddressableAssets;
 
 namespace Newtonsoft.Json.UnityConverters.Addressables
 {
-    public class AssetReferenceConverter : JsonConverter<AssetReference>
+    public class AssetReferenceConverter : JsonConverter
     {
-        public override AssetReference ReadJson(JsonReader reader, Type objectType, AssetReference existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(AssetReference);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {
@@ -23,15 +28,15 @@ namespace Newtonsoft.Json.UnityConverters.Addressables
             }
         }
 
-        public override void WriteJson(JsonWriter writer, AssetReference value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is null || string.IsNullOrEmpty(value.AssetGUID))
+            if (value is null || string.IsNullOrEmpty(((AssetReference)value).AssetGUID))
             {
                 writer.WriteNull();
             }
             else
             {
-                writer.WriteValue(value.AssetGUID);
+                writer.WriteValue(((AssetReference)value).AssetGUID);
             }
         }
     }
