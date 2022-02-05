@@ -117,13 +117,24 @@ jobs:
             UNITY_LICENSE_CONTENT_B64="${!UNITY_LICENSE_CONTENT_B64_ENV}" $SCRIPTS/unity_login.sh
 
       - run:
-          name: Run tests
-          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
+          name: Run tests with addressables
+          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit/with-addr
+
+      - run:
+          name: Run tests without addressables
+          command: |
+            PROJSETTINGS_FILE="$TEST_PROJECT/ProjectSettings/ProjectSettings.asset"
+            sed -i 's/HAVE_MODULE_ADDRESSABLES//' "$PROJSETTINGS_FILE"
+            MANIFEST_FILE="$TEST_PROJECT/Packages/manifest.json"
+            echo "$(jq 'del(.dependencies["com.unity.addressables"])' "$MANIFEST_FILE")" > "$MANIFEST_FILE"
+            $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit/without-addr
 
       - run:
           name: Convert NUnit to JUnit xml
           when: always
-          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
+          command: |
+            $SCRIPTS/nunit2junit.sh ~/tests/nunit/with-addr ~/tests/junit/with-addr/
+            $SCRIPTS/nunit2junit.sh ~/tests/nunit/without-addr ~/tests/junit/without-addr/
 
       - store_test_results:
           name: Store test results -> ~/tests/junit
