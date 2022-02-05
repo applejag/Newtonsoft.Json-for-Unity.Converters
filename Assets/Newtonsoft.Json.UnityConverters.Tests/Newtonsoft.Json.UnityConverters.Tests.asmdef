@@ -1,10 +1,7 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Tests",
     "references": [
-        "Newtonsoft.Json.UnityConverters",
-        "Newtonsoft.Json.UnityConverters.Addressables",
-        "Unity.Addressables",
-        "Unity.ResourceManager"
+        "Newtonsoft.Json.UnityConverters"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
