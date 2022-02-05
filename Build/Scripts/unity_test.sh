@@ -17,6 +17,8 @@ inconclusive=$((0))
 skipped=$((0))
 total=$((0))
 
+mkdir -pv "$TEST_RESULTS_FOLDER"
+
 while read platform
 do
     echo

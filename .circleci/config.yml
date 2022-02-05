@@ -123,10 +123,18 @@ jobs:
       - run:
           name: Run tests without addressables
           command: |
+            PROJSETTINGS_FILE_OLD="$TEST_PROJECT/ProjectSettings/ProjectSettings.asset.backup"
             PROJSETTINGS_FILE="$TEST_PROJECT/ProjectSettings/ProjectSettings.asset"
+            cp -v "$PROJSETTINGS_FILE" "$PROJSETTINGS_FILE_OLD"
             sed -i 's/HAVE_MODULE_ADDRESSABLES//' "$PROJSETTINGS_FILE"
+            diff "$PROJSETTINGS_FILE_OLD" "$PROJSETTINGS_FILE" -u
+
+            MANIFEST_FILE_OLD="$TEST_PROJECT/Packages/manifest.json.backup"
             MANIFEST_FILE="$TEST_PROJECT/Packages/manifest.json"
+            cp -v "$MANIFEST_FILE" "$MANIFEST_FILE_OLD"
             echo "$(jq 'del(.dependencies["com.unity.addressables"])' "$MANIFEST_FILE")" > "$MANIFEST_FILE"
+            diff "$MANIFEST_FILE_OLD" "$MANIFEST_FILE" -u
+
             $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit/without-addr
 
       - run:
