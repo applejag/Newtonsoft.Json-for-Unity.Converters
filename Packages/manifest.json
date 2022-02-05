@@ -9,6 +9,7 @@
     }
   ],
   "dependencies": {
+    "com.unity.addressables": "1.18.19",
     "com.unity.package-manager-ui": "2.0.13",
     "jillejr.newtonsoft.json-for-unity": "13.0.102",
     "com.unity.modules.ai": "1.0.0",

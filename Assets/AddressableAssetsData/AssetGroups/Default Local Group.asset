@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 08f215c2f3850b949ae75b5c99d4bf0f
+  m_SerializeEntries:
+  - m_GUID: 65ee4890b3c2b0f4db332c8305ce62bd
+    m_Address: Assets/Newtonsoft.Json.UnityConverters.Tests/Addressables/TextFile1.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d98cb2b3b659ef94f9169e7fc4a3f7b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f53161fbd7b2bef4992edcc7aff1f6aa, type: 2}
+    - {fileID: 11400000, guid: d04f2694bf182ea4bab08358301dd329, type: 2}
