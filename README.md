@@ -259,7 +259,7 @@ Please see the [CHANGELOG.md][changelog.md] file inside this package.
 
 This package is licensed under The MIT License (MIT)
 
-Copyright (c) 2019 Kalle Jillheden (jilleJr)  
+Copyright (c) 2019 Kalle Fagerberg (jilleJr)  
 <https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters>
 
 See full copyrights in [LICENSE.md][license.md] inside repository

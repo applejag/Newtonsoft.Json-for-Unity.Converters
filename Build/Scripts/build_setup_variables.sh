@@ -30,7 +30,7 @@ Goes hand in hand with the jillejr.newtonsoft.json-for-unity package.
 
 This package is licensed under The MIT License (MIT)
 
-Copyright © 2019 Kalle Jillheden (jilleJr)
+Copyright © 2019 Kalle Fagerberg (jilleJr)
 https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters
 
 Copyright © 2020 Wanzyee Studio
