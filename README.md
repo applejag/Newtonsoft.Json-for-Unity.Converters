@@ -36,9 +36,9 @@ This package can be combined with any of the following:
 - *Any other source, such as having the `Newtonsoft.Json.dll` files inside your
   Assets folder, as long as it declares the base `Newtonsoft.Json` types.*
 
-Personally I recommend my own package as it's the most up-to-date fork, though
-if you're stuck using any of the other alternatives, then adding this package
-should not be with any major hinders.
+Since v3.0.1 of Unity's fork (of my fork) of Newtonsoft.Json, they are now
+promising a maintained version with official support by Unity's own dev
+team. See installation instructions here: [Install official UPM package](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-official-via-UPM)
 
 ### Newtonsoft.Json versions
 
