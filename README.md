@@ -22,16 +22,16 @@ many Newtonsoft.Json forks and variants out there in the Unity eco-system.
 
 This package can be combined with any of the following:
 
+- Unity's fork of my fork Newtonsoft.Json package:
+  [`com.unity.nuget.newtonsoft-json@3.0.1`](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@3.0/manual/index.html) 
+  *(recommended)*
+
 - My own fork of JamesNK's original Newtonsoft.Json repo:
   [jilleJr/Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
-  *(recommended)*
 
 - SaladLab's fork: [SaladLab/Json.Net.Unity3D](https://github.com/SaladLab/Json.Net.Unity3D)
 
 - ParentElement's Assets Store package: <https://www.parentelement.com/assets/json_net_unity>
-
-- Unity's internal Newtonsoft.Json package:
-  [`com.unity.nuget.newtonsoft-json@2.0.1-preview.1`](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@2.0/manual/index.html)
   
 - *Any other source, such as having the `Newtonsoft.Json.dll` files inside your
   Assets folder, as long as it declares the base `Newtonsoft.Json` types.*
