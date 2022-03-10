@@ -41,6 +41,7 @@ https://beautifuldingbats.com/superscript-generator/
 | Math           | *UnityEngine*.**Vector3**                                       | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector3Int**                                    | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector4**                                       | ✔               | ✔               | ✔                |
+| Math           | *UnityEngine*.**Matrix4x4**                                     | ✔               | ✔               | ✔                |
 | NativeArray    | *Unity.Collections*.**NativeArray&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | NativeArray    | *Unity.Collections*.**NativeSlice&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | ParticleSystem | *UnityEngine.ParticleSystemJobs*.**ParticleSystemJobData**      | ❌[⁽⁴⁾](#note-4) | ❔[⁽⁵⁾](#note-5) | ❌[⁽⁴⁾](#note-4)  |
