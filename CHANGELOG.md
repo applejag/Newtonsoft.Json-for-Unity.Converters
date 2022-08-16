@@ -1,5 +1,13 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.5.0 (2022-08-16)
+
+- Added support for `UnityEngine.AddressableAssets.AssetReferenceT<T>`, in
+  addition to the existing support for the non-generic `AssetReference` version
+  introduced in v1.4.0.
+
+  Thanks [@kyverr](https://github.com/kyverr) for the implementation ([#71](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/71))
+
 ## 1.4.0 (2022-02-05)
 
 - Added support for `UnityEngine.AddressableAssets.AssetReference`.

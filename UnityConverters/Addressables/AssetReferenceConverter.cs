@@ -8,7 +8,7 @@ namespace Newtonsoft.Json.UnityConverters.Addressables
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(AssetReference);
+            return objectType == typeof(AssetReference) || (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(AssetReferenceT<>));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -20,7 +20,13 @@ namespace Newtonsoft.Json.UnityConverters.Addressables
 
             if (reader.TokenType == JsonToken.String && reader.Value is string stringValue)
             {
-                return new AssetReference(stringValue);
+                if (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(AssetReferenceT<>))
+                {
+                    return Activator.CreateInstance(objectType, stringValue);
+                } else
+                {
+                    return new AssetReference(stringValue);
+                }
             }
             else
             {
