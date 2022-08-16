@@ -4,6 +4,7 @@ preset-filter-test: &WORKFLOW_TEST_FILTER
   only:
     - develop
     - /^feature.*/
+    - /^pull/\d+/head$/
     - /^hotfix.*/
     - /^release.*/
 
