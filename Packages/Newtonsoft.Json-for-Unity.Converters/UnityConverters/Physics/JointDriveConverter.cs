@@ -1,32 +1,36 @@
-﻿using UnityEngine;
+﻿#if HAVE_MODULE_PHYSICS || !UNITY_2019_1_OR_NEWER
+using Newtonsoft.Json.UnityConverters.Helpers;
+using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Physics
 {
-    public class JointDriveConverter : PartialFloatConverter<JointDrive>
+    public class JointDriveConverter : PartialConverter<JointDrive>
     {
-        private static readonly string[] _memberNames = { "positionSpring", "positionDamper", "maximumForce" };
-
-        public JointDriveConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref JointDrive value, string name, JsonReader reader, JsonSerializer serializer)
         {
+            switch (name)
+            {
+                case nameof(value.positionSpring):
+                    value.positionSpring = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.positionDamper):
+                    value.positionDamper = reader.ReadAsFloat() ?? 0f;
+                    break;
+                case nameof(value.maximumForce):
+                    value.maximumForce = reader.ReadAsFloat() ?? 0f;
+                    break;
+            }
         }
 
-        protected override JointDrive CreateInstanceFromValues(ValuesArray<float> values)
+        protected override void WriteJsonProperties(JsonWriter writer, JointDrive value, JsonSerializer serializer)
         {
-            return new JointDrive {
-                positionSpring = values[0],
-                positionDamper = values[1],
-                maximumForce = values[2],
-            };
-        }
-
-        protected override float[] ReadInstanceValues(JointDrive instance)
-        {
-            return new[] {
-                instance.positionSpring,
-                instance.positionDamper,
-                instance.maximumForce,
-            };
+            writer.WritePropertyName(nameof(value.positionSpring));
+            writer.WriteValue(value.positionSpring);
+            writer.WritePropertyName(nameof(value.positionDamper));
+            writer.WriteValue(value.positionDamper);
+            writer.WritePropertyName(nameof(value.maximumForce));
+            writer.WriteValue(value.maximumForce);
         }
     }
 }
+#endif

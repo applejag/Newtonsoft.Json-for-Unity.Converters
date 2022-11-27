@@ -29,18 +29,19 @@ using System.Linq;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Configuration;
 using Newtonsoft.Json.UnityConverters.Helpers;
+using Newtonsoft.Json.UnityConverters.Utility;
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    internal static class UnityConverterInitializer
+    public static class UnityConverterInitializer
     {
         private static bool _shouldAddConvertsToDefaultSettings = true;
 
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
         /// </summary>
-        /// 
+        ///
         /// <remarks>
         /// All its properties stay default, but the <c>Converters</c> includes below:
         /// 	1. Any custom <see cref="JsonConverter"/> has constructor without parameters.
@@ -114,7 +115,8 @@ namespace Newtonsoft.Json.UnityConverters
         {
             var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD);
 
-            if (!config) {
+            if (!config)
+            {
                 config = ScriptableObject.CreateInstance<UnityConvertersConfig>();
             }
 
@@ -176,7 +178,13 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns>The types.</returns>
         internal static IEnumerable<Type> FindUnityConverters()
         {
-            return FilterToJsonConvertersAndOrder(typeof(UnityConverterInitializer).Assembly.GetTypes());
+            var typesFromPackageDomains = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(dll => dll.GetLoadableTypes()
+                    .Where(type => type.Namespace?.StartsWith("Newtonsoft.Json.UnityConverters") == true)
+                )
+                .SelectMany(types => types)
+                .OrderBy(type => type.FullName);
+            return FilterToJsonConvertersAndOrder(typesFromPackageDomains);
         }
 
         private static IEnumerable<Type> FindFilteredJsonNetConverters(UnityConvertersConfig config)
@@ -219,7 +227,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             var typesOfEnabledThroughConfig = configs
                 .Where(o => o.enabled)
-                .Select(o => Type.GetType(o.converterName))
+                .Select(o => TypeCache.FindType(o.converterName))
                 .Where(o => o != null);
 
             var hashMap = new HashSet<Type>(typesOfEnabledThroughConfig);

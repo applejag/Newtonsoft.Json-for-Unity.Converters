@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unity.Collections;
 
 namespace Newtonsoft.Json.UnityConverters
 {
@@ -10,11 +11,14 @@ namespace Newtonsoft.Json.UnityConverters
     /// PartialConverter type <see cref="PartialConverter{T, TInner}"/>.
     /// </summary>
     /// <typeparam name="TInner">Type of the values in this array.</typeparam>
-    public readonly struct ValuesArray<TInner> : IReadOnlyList<TInner>, IEquatable<ValuesArray<TInner>>
+    public struct ValuesArray<TInner> : IReadOnlyList<TInner>, IDisposable
+        where TInner : struct
     {
-        private readonly TInner[] _array;
+        private NativeArray<TInner> _array;
 
-        public int Count => _array.Length;
+        public int Length => _array.Length;
+
+        int IReadOnlyCollection<TInner>.Count => _array.Length;
 
         /// <summary>
         /// Gets or sets the value at a given index. If array contains a nullable
@@ -33,18 +37,18 @@ namespace Newtonsoft.Json.UnityConverters
         /// Creates a new array as a shallow copy from an existing array.
         /// </summary>
         /// <param name="array">Array to copy values from.</param>
-        public ValuesArray(TInner[] array)
+        public ValuesArray(TInner[] array, Allocator allocator)
         {
-            _array = array;
+            _array = new NativeArray<TInner>(array, allocator);
         }
 
         /// <summary>
         /// Creates a new blank array with all values set to <c>default(<typeparamref name="TInner"/>)</c>
         /// </summary>
         /// <param name="capacity">Size of the array.</param>
-        public ValuesArray(int capacity)
+        public ValuesArray(int capacity, Allocator allocator, NativeArrayOptions options = NativeArrayOptions.ClearMemory)
         {
-            _array = new TInner[capacity];
+            _array = new NativeArray<TInner>(capacity, allocator, options);
         }
 
         /// <summary>
@@ -84,38 +88,17 @@ namespace Newtonsoft.Json.UnityConverters
 
         public IEnumerator<TInner> GetEnumerator()
         {
-            return ((IReadOnlyList<TInner>)_array).GetEnumerator();
+            return _array.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IReadOnlyList<TInner>)_array).GetEnumerator();
+            return GetEnumerator();
         }
 
-        public bool Equals(ValuesArray<TInner> other)
+        public void Dispose()
         {
-            return _array == other._array;
-        }
-
-        public override bool Equals([AllowNull] object obj)
-        {
-            return obj is ValuesArray<TInner> array &&
-                   EqualityComparer<TInner[]>.Default.Equals(_array, array._array);
-        }
-
-        public override int GetHashCode()
-        {
-            return -1325016561 + EqualityComparer<TInner[]>.Default.GetHashCode(_array);
-        }
-
-        public static bool operator ==(ValuesArray<TInner> left, ValuesArray<TInner> right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(ValuesArray<TInner> left, ValuesArray<TInner> right)
-        {
-            return !(left == right);
+            _array.Dispose();
         }
     }
 }

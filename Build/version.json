@@ -1,8 +1,7 @@
 {
   "Major": 1,
-  "Minor": 1,
+  "Minor": 5,
   "Patch": 0,
-  "Suffix": "preview.2",
-
-  "AutoDeployLiveRun": true
+  "Suffix": "",
+  "AutoDeployLiveRun": false
 }

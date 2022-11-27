@@ -63,6 +63,16 @@ namespace Newtonsoft.Json.UnityConverters.Tests
             return serializer.Deserialize<T>(new JsonTextReader(new StringReader(json)));
         }
 
+        protected void Populate(string json, object existingValue)
+        {
+            Populate(json, existingValue, _serializer);
+        }
+
+        protected void Populate(string json, object existingValue, JsonSerializer serializer)
+        {
+            serializer.Populate(new JsonTextReader(new StringReader(json)), existingValue);
+        }
+
         public static string GetTypeNameWithAssembly(Type type)
         {
             string assemblyName = type.Assembly.FullName;

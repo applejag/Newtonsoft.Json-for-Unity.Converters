@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Set error flags
 set -o nounset
@@ -25,11 +25,23 @@ fi
 
 echo
 
-if egrep -q "^## ${VERSION_UPM_NO_SUFFIX//\./\\.}$" CHANGELOG.md
+if egrep -q "^## ${VERSION_UPM_NO_SUFFIX//\./\\.}( |$)" CHANGELOG.md
 then
-    echo "> Changelog has been updated, all ok!"
+    echo "> Changelog has a '## $VERSION_UPM_NO_SUFFIX' section, all ok!"
 else
     echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION_UPM_NO_SUFFIX'."
+    echo "[!] Make sure to update the CHANGELOG.md"
+    OK=0
+fi
+
+echo
+
+if egrep -q "^## ${VERSION_UPM_NO_SUFFIX//\./\\.} \\((WIP|[0-9]{4}-[0-9]{2}-[0-9]{2})\\)$" CHANGELOG.md
+then
+    echo "> Changelog has a version section with (YYYY-MM-DD) or (WIP), all ok!"
+else
+    echo "[!] Changelog in CHANGELOG.md is missing its date or WIP tag."
+    echo "[!] Expected: '## $VERSION_UPM_NO_SUFFIX ($(date '+%Y-%m-%e'))' or '## $VERSION_UPM_NO_SUFFIX (WIP)'"
     echo "[!] Make sure to update the CHANGELOG.md"
     OK=0
 fi

@@ -55,7 +55,7 @@ Repeat the following steps for the following versions:
 10. Download the new license
 
 11. Place it into the `Build` folder inside this repo
-    _(don't worry, it's ignored in .gitignore)_ and rename it to follow the
+    *(don't worry, it's ignored in .gitignore)* and rename it to follow the
     format `Unity_v${UnityVersion}.ulf`, ex: `Unity_v2019.2.11f1.ulf`
 
 ### Add licenses to CircleCI environment variables

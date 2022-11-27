@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if HAVE_MODULE_AI || !UNITY_2019_1_OR_NEWER
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine;
@@ -6,84 +7,33 @@ using UnityEngine.AI;
 
 namespace Newtonsoft.Json.UnityConverters.AI.NavMesh
 {
-    public class NavMeshTriangulationConverter : PartialConverter<NavMeshTriangulation, object>
+    public class NavMeshTriangulationConverter : PartialConverter<NavMeshTriangulation>
     {
-        private static readonly string[] _memberNames = { "vertices", "indices", "areas" };
-
-        public NavMeshTriangulationConverter()
-            : base(_memberNames)
+        protected override void ReadValue(ref NavMeshTriangulation value, string name, JsonReader reader, JsonSerializer serializer)
         {
-        }
-
-        protected override NavMeshTriangulation CreateInstanceFromValues(ValuesArray<object> values)
-        {
-            return new NavMeshTriangulation {
-                vertices = values[0] as Vector3[],
-                indices = values[1] as int[],
-                areas = values[2] as int[],
-            };
-        }
-
-        [return: MaybeNull]
-        protected override object[] ReadInstanceValues(NavMeshTriangulation instance)
-        {
-            return new object[] {
-                instance.vertices,
-                instance.indices,
-                instance.areas
-            };
-        }
-
-        [return: MaybeNull]
-        protected override object ReadValue(JsonReader reader, int index, JsonSerializer serializer)
-        {
-            switch (index)
+            switch (name)
             {
-            case 0:
-                return reader.ReadViaSerializer<Vector3[]>(serializer);
-
-            case 1:
-            case 2:
-                return reader.ReadViaSerializer<int[]>(serializer);
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(index), index, "Only accepts member index in range 0..2");
+                case nameof(value.vertices):
+                    value.vertices = reader.ReadViaSerializer<Vector3[]>(serializer);
+                    break;
+                case nameof(value.indices):
+                    value.indices = reader.ReadViaSerializer<int[]>(serializer);
+                    break;
+                case nameof(value.areas):
+                    value.areas = reader.ReadViaSerializer<int[]>(serializer);
+                    break;
             }
         }
 
-        protected override void WriteValue(JsonWriter writer, [AllowNull] object value, JsonSerializer serializer)
+        protected override void WriteJsonProperties(JsonWriter writer, NavMeshTriangulation value, JsonSerializer serializer)
         {
-            switch (value)
-            {
-            case null:
-                writer.WriteNull();
-                break;
-
-            case Vector3[] vertices:
-                writer.WriteStartArray();
-
-                foreach (Vector3 vert in vertices)
-                {
-                    serializer.Serialize(writer, vert, typeof(Vector3));
-                }
-
-                writer.WriteEndArray();
-                break;
-
-            case int[] numArray:
-                writer.WriteStartArray();
-
-                foreach (int num in numArray)
-                {
-                    writer.WriteValue(num);
-                }
-
-                writer.WriteEndArray();
-                break;
-
-            default:
-                throw writer.CreateWriterException($"Unexpected type '{value.GetType().Name}' when serializing {typeof(NavMeshTriangulation).FullName}");
-            }
+            writer.WritePropertyName(nameof(value.vertices));
+            serializer.Serialize(writer, value.vertices, typeof(Vector3[]));
+            writer.WritePropertyName(nameof(value.indices));
+            serializer.Serialize(writer, value.indices, typeof(int[]));
+            writer.WritePropertyName(nameof(value.areas));
+            serializer.Serialize(writer, value.areas, typeof(int[]));
         }
     }
 }
+#endif

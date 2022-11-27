@@ -68,8 +68,9 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-kalle.jillheden@gmail.com or alternative private messaging format of choice.
-All complaints will be reviewed and investigated promptly and fairly.
+kalle.f8, then the "at", followed by pm.me, or alternative private messaging
+format of choice. All complaints will be reviewed and investigated promptly and
+fairly.
 
 All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.

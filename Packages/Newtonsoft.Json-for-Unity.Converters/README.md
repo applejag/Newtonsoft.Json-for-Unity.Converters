@@ -2,7 +2,7 @@
 
 This package contains converters to and from common Unity types. Types such as
 **Vector2, Vector3, Matrix4x4, Quaternions, Color, even ScriptableObject,**
-_and many, many more._
+*and many, many more.*
 (See the [full compatibility table of all +50 supported Unity types][
 doc-compatability-table])
 
@@ -29,7 +29,7 @@ Please see the [CHANGELOG.md][package-changelog] file inside this package.
 
 This package is licensed under The MIT License (MIT)
 
-Copyright (c) 2019 Kalle Jillheden (jilleJr)  
+Copyright (c) 2019 Kalle Fagerberg (jilleJr)  
 <https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters>
 
 See full copyrights in [LICENSE.md][package-license] inside repository

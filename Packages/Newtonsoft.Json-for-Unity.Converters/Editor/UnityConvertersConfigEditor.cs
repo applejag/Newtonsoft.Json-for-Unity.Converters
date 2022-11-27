@@ -5,6 +5,9 @@ using Newtonsoft.Json.UnityConverters.Configuration;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
+// Unity 2020 also has a type cache: UnityEditor.TypeCache:
+// https://docs.unity3d.com/2019.2/Documentation/ScriptReference/TypeCache.html
+using TypeCache = Newtonsoft.Json.UnityConverters.Utility.TypeCache;
 
 namespace Newtonsoft.Json.UnityConverters.Editor
 {
@@ -25,9 +28,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
 
-        private readonly Dictionary<string, Type> _converterTypeByName
-            = new Dictionary<string, Type>();
-
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
 
@@ -44,7 +44,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             try
             {
                 _ = serializedObject;
-            } 
+            }
             catch (Exception)
             {
                 return;
@@ -65,8 +65,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
             _jsonNetConvertersShow.valueChanged.AddListener(Repaint);
-            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true };
-            _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true };
+            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label.normal };
+            _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
 
             serializedObject.Update();
             AddAndSetupConverters(_outsideConverters, outsideConverterTypes, _useAllOutsideConverters.boolValue);
@@ -118,21 +118,20 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
         {
-            var converterTypesByName = converterTypes.ToDictionary(o => o.AssemblyQualifiedName);
-
-            AddMissingConverters(arrayProperty, converterTypesByName.Keys, newAreEnabledByDefault);
-            SetupConvertersIntoDictionary(arrayProperty, converterTypesByName);
+            AddMissingConverters(arrayProperty, converterTypes, newAreEnabledByDefault);
         }
 
-        private static void AddMissingConverters(SerializedProperty arrayProperty, IEnumerable<string> converterNames, bool newAreEnabledByDefault)
+        private void AddMissingConverters(SerializedProperty arrayProperty, IEnumerable<Type> converterTypes, bool newAreEnabledByDefault)
         {
             var elements = EnumerateArrayElements(arrayProperty);
-
-            string[] missingConverters = converterNames
-                .Where(name => elements.All(e => e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue != name))
+            var elementTypes = elements
+                .Select(e => TypeCache.FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
+                .ToArray();
+            Type[] missingConverters = converterTypes
+                .Where(type => !elementTypes.Contains(type))
                 .ToArray();
 
-            foreach (string converterName in missingConverters)
+            foreach (Type converterType in missingConverters)
             {
                 int nextIndex = arrayProperty.arraySize;
                 arrayProperty.InsertArrayElementAtIndex(nextIndex);
@@ -142,20 +141,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 SerializedProperty converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
 
                 enabledProp.boolValue = newAreEnabledByDefault;
-                converterNameProp.stringValue = converterName;
-            }
-        }
-
-        private void SetupConvertersIntoDictionary(SerializedProperty arrayProperty, Dictionary<string, Type> typesByName)
-        {
-            foreach (var elemProp in EnumerateArrayElements(arrayProperty))
-            {
-                var converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
-
-                if (typesByName.TryGetValue(converterNameProp.stringValue, out Type type))
-                {
-                    _converterTypeByName[converterNameProp.stringValue] = type;
-                }
+                converterNameProp.stringValue = converterType.FullName;
             }
         }
 
@@ -196,7 +182,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void FoldoutConvertersList(SerializedProperty property, AnimBool fadedAnim)
         {
-
             string displayName = $"{property.displayName} ({(property.arraySize == 0 ? "none found" : property.arraySize.ToString())})";
 
             EditorGUI.indentLevel++;
@@ -209,9 +194,11 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 EditorGUI.indentLevel++;
 
                 var allConfigsWithType = EnumerateArrayElements(property)
-                    .Select(o => _converterTypeByName.TryGetValue(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue, out var type)
-                        ? (serializedProperty: o, type)
-                        : (o, null));
+                    .Select(o => (
+                        serializedProperty: o,
+                        type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
+                    ))
+                    .OrderBy(o => o.type.FullName);
 
                 foreach (var namespaceGroup in allConfigsWithType.GroupBy(o => GetTypeNamespace(o.type)))
                 {
@@ -262,6 +249,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
             EditorGUILayout.EndFadeGroup();
         }
+
 
         private static string GetNamespaceHeader(IGrouping<string, (SerializedProperty serializedProperty, Type type)> namespaceGroup)
         {

@@ -34,7 +34,7 @@ namespace Newtonsoft.Json.UnityConverters.NativeArray
             }
 
             throw reader.CreateSerializationException(
-                "Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead."
+                "Deserializing NativeArray<> and NativeSlice<> is disabled to not cause accidental memory leaks. Use regular List<> or array types instead in your JSON models. Due to technical limitations, we cannot even populate existing NativeArray<> or NativeSlice<> values. You simply have to use other collection types."
             );
         }
 

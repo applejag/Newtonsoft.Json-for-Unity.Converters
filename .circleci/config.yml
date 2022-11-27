@@ -4,6 +4,7 @@ preset-filter-test: &WORKFLOW_TEST_FILTER
   only:
     - develop
     - /^feature.*/
+    - /^pull/\d+/head$/
     - /^hotfix.*/
     - /^release.*/
 
@@ -16,8 +17,59 @@ preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
     - /^hotfix.*/
     - /^release.*/
 
+commands:
+  checkout-and-setup:
+    parameters:
+      setup-variables:
+        type: boolean
+        default: false
+    steps:
+      - checkout
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+      - when:
+          condition: <<parameters.setup-variables>>
+          steps:
+            - run:
+                name: Setup Variables
+                command: $SCRIPTS/build_setup_variables.sh
+      - run:
+          name: Store Unity version to file
+          command: echo "$UNITY_VERSION" | tee /unity-version.txt
+
+executors:
+  unity-2018-4-14f1: &unity-2018-4-14f1-executor
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2018.4.14f1
+    environment:
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2018_4_14f1_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2018.4.14f1
+
+  unity-2019-2-11f1:
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2019.2.11f1
+    environment:
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2019_2_11f1_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2019.2.11f1
+
+  unity-2020-1-0b6:
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
+    environment:
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2020_1_0b6_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2020.1.0b6
+
 jobs:
-  test-unity-2018-4-14f1:
+  test:
+    parameters:
+      unity-version:
+        type: executor
+      json-net-4-unity-version:
+        type: string
+        default: 13.0.102
+
+    executor: <<parameters.unity-version>>
     working_directory: ~/repo
 
     environment:
@@ -27,95 +79,43 @@ jobs:
       TEST_PROJECT: /root/repo
       PLATFORMS: playmode
 
-    docker:
-      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2018.4.14f1
-
     steps:
       # Checkout repo -> ~/repo
-      - checkout
-
-      - restore_cache:
-          keys:
-            - test-unity-upm-manifest-2018
-
-      - restore_cache:
-          keys:
-            - test-unity-upm-global-2018
+      - checkout-and-setup
 
       - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Unity license
+          name: Switch manifest.json (if avail.)
           command: |
-            # Requires UNITY_2018_4_14f1_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
-            UNITY_LICENSE_CONTENT_B64="$UNITY_2018_4_14f1_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
+            if [[ -f "$TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json" ]]; then
+              mv -v "$TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json" "$TEST_PROJECT/Packages/manifest.json"
+            else
+              echo "No file at $TEST_PROJECT/Packages/manifest_$UNITY_VERSION.json to replace the manifest.json file with."
+            fi
 
       - run:
-          name: Run tests
-          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
-
-      - run:
-          name: Convert NUnit to JUnit xml
-          when: always
-          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
-
-      - store_test_results:
-          name: Store test results -> ~/tests/junit
-          path: ~/tests/junit
-
-      - save_cache:
-          key: test-unity-upm-manifest-2018
-          paths:
-            - /root/repo/Library/PackageCache
-
-      - save_cache:
-          key: test-unity-upm-global-2018
-          paths:
-            - /root/.config/unity3d/cache
-
-  test-unity-2019-2-11f1:
-    working_directory: ~/repo
-
-    environment:
-      SCRIPTS: /root/repo/Build/Scripts
-      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
-      ASSETS_FOLDER: /root/repo/Assets
-      TEST_PROJECT: /root/repo
-      PLATFORMS: playmode
-
-    docker:
-      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2019.2.11f1
-
-    steps:
-      # Checkout repo -> ~/repo
-      - checkout
+          name: Set package version
+          command: |
+            echo "Newtonsoft.Json-for-Unity version: ${JSON_NET_4_UNITY_VERSION:=<<parameters.json-net-4-unity-version>>}"
+            MANIFEST_FILE="$TEST_PROJECT/Packages/manifest.json"
+            JQ_PATH='.dependencies["jillejr.newtonsoft.json-for-unity"]'
+            echo "Previous version from manifest.json: $(jq "$JQ_PATH" "$MANIFEST_FILE")"
+            echo "$(jq "$JQ_PATH=\"$JSON_NET_4_UNITY_VERSION\"" "$MANIFEST_FILE")" > "$MANIFEST_FILE"
+            echo "New version from manifest.json: $(jq "$JQ_PATH" "$MANIFEST_FILE")"
 
       - restore_cache:
           keys:
             - test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
+            - test-unity-upm-manifest
 
       - restore_cache:
           keys:
-            - test-unity-upm-global-2019
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
+            - test-unity-upm-global-{{ checksum "/unity-version.txt" }}
+            - test-unity-upm-global
 
       - run:
           name: Setup Unity license
           command: |
-            # Requires UNITY_2019_2_11f1_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
-            UNITY_LICENSE_CONTENT_B64="$UNITY_2019_2_11f1_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
-
-      - run:
-          name: Upgrade Unity project to 2019.x
-          command: |
-            echo "Moving $TEST_PROJECT/Packages/manifest.json file"
-            mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
-            mv -v "$TEST_PROJECT/Packages/manifest_2019.2.11f1.json" "$TEST_PROJECT/Packages/manifest.json"
+            UNITY_LICENSE_CONTENT_B64="${!UNITY_LICENSE_CONTENT_B64_ENV}" $SCRIPTS/unity_login.sh
 
       - run:
           name: Run tests
@@ -136,72 +136,7 @@ jobs:
             - /root/repo/Library/PackageCache
 
       - save_cache:
-          key: test-unity-upm-global-2019
-          paths:
-            - /root/.config/unity3d/cache
-
-  test-unity-2020-1-0b6:
-    working_directory: ~/repo
-
-    environment:
-      SCRIPTS: /root/repo/Build/Scripts
-      PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
-      ASSETS_FOLDER: /root/repo/Assets
-      TEST_PROJECT: /root/repo
-      PLATFORMS: playmode
-
-    docker:
-      - image: applejag/newtonsoft.json-for-unity.converters.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
-
-    steps:
-      # Checkout repo -> ~/repo
-      - checkout
-
-      - restore_cache:
-          keys:
-            - test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
-
-      - restore_cache:
-          keys:
-            - test-unity-upm-global-2020
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Unity license
-          command: |
-            # Requires UNITY_2020_1_0b6_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
-            UNITY_LICENSE_CONTENT_B64="$UNITY_2020_1_0b6_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
-
-      - run:
-          name: Upgrade Unity project to 2019.x
-          command: |
-            echo "Moving $TEST_PROJECT/Packages/manifest.json file"
-            mv -v "$TEST_PROJECT/Packages/manifest.json" "$TEST_PROJECT/Packages/.manifest.json.old"
-            mv -v "$TEST_PROJECT/Packages/manifest_2020.1.0b6.json" "$TEST_PROJECT/Packages/manifest.json"
-
-      - run:
-          name: Run tests
-          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
-
-      - run:
-          name: Convert NUnit to JUnit xml
-          when: always
-          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
-
-      - store_test_results:
-          name: Store test results -> ~/tests/junit
-          path: ~/tests/junit
-
-      - save_cache:
-          key: test-unity-upm-manifest-{{ checksum "/root/repo/Packages/manifest.json" }}
-          paths:
-            - /root/repo/Library/PackageCache
-
-      - save_cache:
-          key: test-unity-upm-global-2020
+          key: test-unity-upm-global-{{ checksum "/unity-version.txt" }}
           paths:
             - /root/.config/unity3d/cache
 
@@ -216,18 +151,11 @@ jobs:
       PACKAGE_FOLDER: /root/repo/Packages/Newtonsoft.Json-for-Unity.Converters
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - attach_workspace:
           at: /workspace
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
 
       - run:
           name: Check if release is ready for deploy
@@ -246,15 +174,8 @@ jobs:
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
-      - checkout
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
+      - checkout-and-setup:
+          setup-variables: true
 
       - run:
           name: NPM Login
@@ -299,23 +220,16 @@ jobs:
       - image: applejag/newtonsoft.json-for-unity.converters.package-deploy-github:v4
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - add_ssh_keys:
           fingerprints:
             - "4d:b2:3f:e0:17:3e:3a:bd:7d:16:5b:ca:b7:6e:fb:c0"
 
       - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
           name: Git Login
           command: $SCRIPTS/git_login.sh
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh
 
       - run:
           name: Deploy
@@ -325,18 +239,14 @@ workflows:
   version: 2
   test:
     jobs:
-      - test-unity-2018-4-14f1:
+      - test:
           filters:
             branches:
               <<: *WORKFLOW_TEST_FILTER
-      - test-unity-2019-2-11f1:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_FILTER
-      - test-unity-2020-1-0b6:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_FILTER
+          matrix:
+            parameters:
+              unity-version: [ unity-2018-4-14f1, unity-2019-2-11f1, unity-2020-1-0b6 ]
+              json-net-4-unity-version: [ 13.0.102, 12.0.302, 11.0.202, 10.0.302 ]
   check-deploy-ready:
     jobs:
       - check-deploy-ready:
@@ -345,31 +255,20 @@ workflows:
               <<: *WORKFLOW_CHECK_DEPLOY_READY_FILTER
   test-deploy:
     jobs:
-      - test-unity-2018-4-14f1:
+      - test:
           filters:
             branches:
               <<: *WORKFLOW_TEST_DEPLOY_FILTER
-      - test-unity-2019-2-11f1:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_DEPLOY_FILTER
-      - test-unity-2020-1-0b6:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_DEPLOY_FILTER
+          matrix:
+            parameters:
+              unity-version: [ unity-2018-4-14f1, unity-2019-2-11f1, unity-2020-1-0b6 ]
+              json-net-4-unity-version: [ 13.0.102, 12.0.302, 11.0.202, 10.0.302 ]
       - check-deploy-ready:
-          filters:
-            branches:
-              <<: *WORKFLOW_TEST_DEPLOY_FILTER
+          requires:
+            - test
       - deploy-cloudsmith:
           requires:
             - check-deploy-ready
-            - test-unity-2018-4-14f1
-            - test-unity-2019-2-11f1
-            - test-unity-2020-1-0b6
       - deploy-github:
           requires:
             - check-deploy-ready
-            - test-unity-2018-4-14f1
-            - test-unity-2019-2-11f1
-            - test-unity-2020-1-0b6

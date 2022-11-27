@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if HAVE_MODULE_AI || !UNITY_2019_1_OR_NEWER
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,3 +31,4 @@ namespace Newtonsoft.Json.UnityConverters.Tests.AI.NavMesh
         };
     }
 }
+#endif

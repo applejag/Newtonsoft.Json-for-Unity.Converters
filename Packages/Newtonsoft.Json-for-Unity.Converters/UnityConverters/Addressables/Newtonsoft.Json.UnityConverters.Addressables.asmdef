@@ -1,0 +1,24 @@
+{
+    "name": "Newtonsoft.Json.UnityConverters.Addressables",
+    "references": [
+        "Unity.Addressables",
+        "Newtonsoft.Json.UnityConverters"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HAVE_MODULE_ADDRESSABLES"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.addressables",
+            "expression": "",
+            "define": "HAVE_MODULE_ADDRESSABLES"
+        }
+    ]
+}

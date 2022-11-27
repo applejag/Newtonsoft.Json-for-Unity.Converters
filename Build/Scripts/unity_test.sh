@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script taken from https://github.com/zifro-playground/car-controller
 # Copyright Zifro © 2019
 
@@ -16,6 +16,8 @@ failed=$((0))
 inconclusive=$((0))
 skipped=$((0))
 total=$((0))
+
+mkdir -pv "$TEST_RESULTS_FOLDER"
 
 while read platform
 do
