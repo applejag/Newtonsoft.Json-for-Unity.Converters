@@ -1,5 +1,11 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.5.1 (2023-04-19)
+
+- Fixed converters being stripped when Managed Stripping Level is set to
+  anything higher than "minimal", by adding `[Preserve]` attribute
+  to the entire assemblies. ([#73](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/73))
+
 ## 1.5.0 (2022-08-16)
 
 - Added support for `UnityEngine.AddressableAssets.AssetReferenceT<T>`, in
