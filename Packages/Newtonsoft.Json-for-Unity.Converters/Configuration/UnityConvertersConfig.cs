@@ -5,12 +5,15 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
+
 #pragma warning disable CA2235 // Mark all non-serializable fields
     [Serializable]
     public sealed class UnityConvertersConfig : ScriptableObject
     {
         internal const string PATH = "Assets/Resources/Newtonsoft.Json-for-Unity.Converters.asset";
         internal const string PATH_FOR_RESOURCES_LOAD = "Newtonsoft.Json-for-Unity.Converters";
+
+        public bool useBakedConverters = true;
 
         public bool useUnityContractResolver = true;
 
@@ -28,6 +31,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
             new ConverterConfig { converterName = typeof(StringEnumConverter).FullName, enabled = true },
             new ConverterConfig { converterName = typeof(VersionConverter).FullName, enabled = true },
         };
+        
     }
 #pragma warning restore CA2235 // Mark all non-serializable fields
 }
