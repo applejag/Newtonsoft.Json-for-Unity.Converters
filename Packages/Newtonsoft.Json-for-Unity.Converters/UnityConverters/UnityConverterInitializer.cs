@@ -113,22 +113,30 @@ namespace Newtonsoft.Json.UnityConverters
         public static void UpdateConverter(List<ConverterConfig> configs, Type[] types)
         {
             var configurations = new List<ConverterConfig>();
-            configurations.AddRange(configs);
-
-            for (var i = 0; i < configurations.Count; i++)
+            
+            for (var i = 0; i < configs.Count; i++)
             {
-                var config = configurations[i];
+                var config = configs[i];
                 foreach (var type in types)
                 {
                     var fullName = type.FullName;
                     if (fullName == null || !fullName
-                            .Equals(config.converterName, StringComparison.OrdinalIgnoreCase))
-                        continue;
-                    config.converterType = type.AssemblyQualifiedName;
+                            .Equals(config.converterName, StringComparison.OrdinalIgnoreCase)) continue;
+                    
+                    var typeName = type.AssemblyQualifiedName;
+                    if(string.IsNullOrEmpty(typeName)) break;
+
+                    config.converterType = typeName;
+                    var targetType = Type.GetType(typeName, false, true);
+                    if(targetType == null) continue;
+                    
+                    configurations.Add(config);
                     break;
                 }
-                configs[i] = config;
             }
+            
+            configs.Clear();
+            configs.AddRange(configurations);
         }
         
         /// <summary>
@@ -346,7 +354,12 @@ namespace Newtonsoft.Json.UnityConverters
             foreach (var item in items)
             {
                 if(!useAll && !item.enabled) continue;
-                var type = Type.GetType(item.converterType, false, true);
+                
+                var typeValue = string.IsNullOrEmpty(item.converterType)
+                    ? string.Empty
+                    : item.converterType;
+                
+                var type = Type.GetType(typeValue, false, true);
 #if UNITY_EDITOR
                 if (type == null)
                 {
