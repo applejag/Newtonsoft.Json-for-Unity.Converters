@@ -1,6 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Scripting;
+
+[assembly: Preserve]
 
 namespace Newtonsoft.Json.UnityConverters.Addressables
 {
