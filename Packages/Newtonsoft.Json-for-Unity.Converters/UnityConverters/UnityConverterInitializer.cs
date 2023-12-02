@@ -30,7 +30,9 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Configuration;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using Newtonsoft.Json.UnityConverters.Utility;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
@@ -198,7 +200,7 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns>The types.</returns>
         internal static IEnumerable<Type> FindConverters()
         {
-#if UNITY_2019_2_OR_NEWER
+#if UNITY_2019_2_OR_NEWER && UNITY_EDITOR
             var types = UnityEditor.TypeCache.GetTypesDerivedFrom<JsonConverter>();
 #else
             var types = typeof(JsonConverter).Assembly.GetTypes();
