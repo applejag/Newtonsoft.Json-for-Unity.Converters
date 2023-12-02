@@ -35,9 +35,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void OnEnable()
         {
-            var outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
-            var unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
-            var jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
+            var grouped = UnityConverterInitializer.FindGroupedConverters();
 
             // Hack around the "SerializedObjectNotCreatableException: Object at index 0 is null"
             // error message
@@ -65,13 +63,13 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
             _jsonNetConvertersShow.valueChanged.AddListener(Repaint);
-            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label.normal };
+            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label?.normal };
             _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
 
             serializedObject.Update();
-            AddAndSetupConverters(_outsideConverters, outsideConverterTypes, _useAllOutsideConverters.boolValue);
-            AddAndSetupConverters(_unityConverters, unityConverterTypes, _useAllUnityConverters.boolValue);
-            AddAndSetupConverters(_jsonNetConverters, jsonNetConverterTypes, _useAllJsonNetConverters.boolValue);
+            AddAndSetupConverters(_outsideConverters, grouped.outsideConverters, _useAllOutsideConverters.boolValue);
+            AddAndSetupConverters(_unityConverters, grouped.unityConverters, _useAllUnityConverters.boolValue);
+            AddAndSetupConverters(_jsonNetConverters, grouped.jsonNetConverters, _useAllJsonNetConverters.boolValue);
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -119,6 +117,11 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
         {
+            if (newAreEnabledByDefault)
+            {
+                // TODO: Remove excess
+            }
+
             AddMissingConverters(arrayProperty, converterTypes, newAreEnabledByDefault);
         }
 
@@ -132,6 +135,16 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             Type[] missingConverters = converterTypes
                 .Where(type => !elementTypes.Contains(type))
                 .ToArray();
+
+            // Cleanup excess types
+            for (int i = elementTypes.Length - 1; i >= 0; i--)
+            {
+                if (converterTypes.Contains(elementTypes[i]))
+                {
+                    continue;
+                }
+                arrayProperty.DeleteArrayElementAtIndex(i);
+            }
 
             foreach (Type converterType in missingConverters)
             {
@@ -200,6 +213,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                         serializedProperty: o,
                         type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
                     ))
+                    .Where(o => o.type != null)
                     .OrderBy(o => o.type.FullName);
 
                 foreach (var namespaceGroup in allConfigsWithType.GroupBy(o => GetTypeNamespace(o.type)))
@@ -238,7 +252,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
                             SerializedProperty converterNameProp = configWithType.serializedProperty.FindPropertyRelative(nameof(ConverterConfig.converterName));
                             EditorGUI.BeginDisabledGroup(true);
-                            EditorGUILayout.ToggleLeft($"Unkown type: {converterNameProp.stringValue}", false);
+                            EditorGUILayout.ToggleLeft($"Unknown type: {converterNameProp.stringValue}", false);
                             EditorGUI.EndDisabledGroup();
                         }
                     }
