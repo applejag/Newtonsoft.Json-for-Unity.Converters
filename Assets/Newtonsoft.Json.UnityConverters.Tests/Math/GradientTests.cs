@@ -16,7 +16,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Math
                     new { alpha = 1f, time = 0f },
                     new { alpha = 1f, time = 1f },
                 },
-                mode = GradientMode.Blend
+                mode = GradientMode.Blend,
+#if UNITY_2022_2_OR_NEWER
+                colorSpace = ColorSpace.Uninitialized,
+#endif
             }),
             (new Gradient{
                 colorKeys = new[] {
@@ -36,7 +39,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Math
                     new GradientAlphaKey(1, .6f),
                     new GradientAlphaKey(3, .8f),
                 },
-                mode = GradientMode.Blend
+                mode = GradientMode.Blend,
+#if UNITY_2022_2_OR_NEWER
+                colorSpace = ColorSpace.Linear,
+#endif
             }, new {
                 colorKeys = new[] {
                     new { color = new { r = 5f, g = 6f, b = 7f, a = 1f }, time = .2f },
@@ -46,7 +52,10 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Math
                     new { alpha = 1f, time = .6f },
                     new { alpha = 3f, time = .8f },
                 },
-                mode = GradientMode.Blend
+                mode = GradientMode.Blend,
+#if UNITY_2022_2_OR_NEWER
+                colorSpace = ColorSpace.Linear,
+#endif
             }),
         };
 
@@ -54,7 +63,11 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Math
         {
             return a.alphaKeys.SequenceEqual(b.alphaKeys)
                 && a.colorKeys.SequenceEqual(b.colorKeys)
-                && a.mode == b.mode;
+                && a.mode == b.mode
+#if UNITY_2022_2_OR_NEWER
+                && a.colorSpace == b.colorSpace
+#endif
+                ;
         }
     }
 

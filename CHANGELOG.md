@@ -1,11 +1,28 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.5.2 (WIP)
+## 1.6.0 (WIP)
+
+- Added `ResolutionConverter` to be able to read JSON from older Unity
+  versions. ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
+
+- Fixed compilation errors when targeting .NET Standard 2.1.
+  ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
 
 - Fixed converter types taking long time to load, sometimes causing lag spikes
   each time assembly got reloaded (especially when entering play-mode).
 
-  Thanks [@Mefodei](https://github.com/Mefodei) for the implementation ([#78](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/pull/78))
+  The issue was that this package tries to find all converters by looping
+  through all types in all assemblies.
+
+  You should see better performance now, as we are using more optimized code
+  paths and making use of Unity's [TypeCache](https://docs.unity3d.com/2023.3/Documentation/ScriptReference/TypeCache.html).
+
+  If your project still suffers from big lag spikes, then you can opt-out
+  completely of the "auto type scanning" code via the settings found at
+  "Edit > Json.NET converters settings..." ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
+
+  - Thanks [@tomkail](https://github.com/tomkail) for the excellent issue ([#77](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/issues/77)).
+  - Thanks [@Mefodei](https://github.com/Mefodei) for the inspiration ([#78](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/pull/78))
 
 ## 1.5.1 (2023-04-19)
 

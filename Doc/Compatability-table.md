@@ -27,7 +27,7 @@ https://beautifuldingbats.com/superscript-generator/
 | Geometry       | *UnityEngine*.**Rect**                                          | ✔               | ✔               | ✔                |
 | Geometry       | *UnityEngine*.**RectInt**                                       | ✔               | ✔               | ✔                |
 | Geometry       | *UnityEngine*.**RectOffset**                                    | ✔               | ✔               | ✔                |
-| Graphics       | *UnityEngine*.**Resolution**                                    | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
+| Graphics       | *UnityEngine*.**Resolution**                                    | ✔               | ✔               | ✔                |
 | Hashing        | *UnityEngine*.**Hash128**                                       | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Color**                                         | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Color32**                                       | ✔               | ✔               | ✔                |
