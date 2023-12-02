@@ -31,13 +31,18 @@ This package can be combined with any of the following:
 - SaladLab's fork: [SaladLab/Json.Net.Unity3D](https://github.com/SaladLab/Json.Net.Unity3D)
 
 - ParentElement's Assets Store package: <https://www.parentelement.com/assets/json_net_unity>
-  
+
 - *Any other source, such as having the `Newtonsoft.Json.dll` files inside your
   Assets folder, as long as it declares the base `Newtonsoft.Json` types.*
 
 Since v3.0.1 of Unity's fork (of my fork) of Newtonsoft.Json, they are now
 promising a maintained version with official support by Unity's own dev
 team. See installation instructions here: [Install official UPM package](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Install-official-via-UPM)
+
+> Do note that I've changed my GitHub username from jilleJr to applejag.
+> Repository URLs automatically get redirected.
+>
+> I will not however rename the NPM/UPM/Cloudsmith packages.
 
 ### Newtonsoft.Json versions
 
