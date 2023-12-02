@@ -200,7 +200,8 @@ namespace Newtonsoft.Json.UnityConverters
 #if UNITY_2019_2_OR_NEWER && UNITY_EDITOR
             var types = UnityEditor.TypeCache.GetTypesDerivedFrom<JsonConverter>();
 #else
-            var types = typeof(JsonConverter).Assembly.GetTypes();
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(dll => dll.GetLoadableTypes());
 #endif
             return FilterToJsonConvertersAndOrder(types);
         }
