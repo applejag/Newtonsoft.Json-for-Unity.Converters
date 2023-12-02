@@ -142,7 +142,7 @@ namespace Newtonsoft.Json.UnityConverters
         internal static List<JsonConverter> CreateConverters(UnityConvertersConfig config)
         {
             var converterTypes = new List<Type>();
-            var grouping = GroupConverters(FindConverters());
+            var grouping = FindGroupedConverters();
             converterTypes.AddRange(ApplyConfigFilter(grouping.outsideConverters, config.useAllOutsideConverters, config.outsideConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.unityConverters, config.useAllUnityConverters, config.unityConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.jsonNetConverters, config.useAllJsonNetConverters, config.jsonNetConverters));
@@ -152,43 +152,9 @@ namespace Newtonsoft.Json.UnityConverters
             return result;
         }
 
-        internal struct ConverterGrouping
-        {
-            public List<Type> outsideConverters { get; set; }
-            public List<Type> unityConverters { get; set; }
-            public List<Type> jsonNetConverters { get; set; }
-        }
-
-        internal static ConverterGrouping GroupConverters(IEnumerable<Type> types)
-        {
-            var grouping = new ConverterGrouping {
-                outsideConverters = new List<Type>(),
-                unityConverters = new List<Type>(),
-                jsonNetConverters = new List<Type>(),
-            };
-
-            foreach (var converter in types)
-            {
-                if (converter.Namespace?.StartsWith("Newtonsoft.Json.UnityConverters") == true)
-                {
-                    grouping.unityConverters.Add(converter);
-                }
-                else if (converter.Namespace?.StartsWith("Newtonsoft.Json.Converters") == true)
-                {
-                    grouping.jsonNetConverters.Add(converter);
-                }
-                else
-                {
-                    grouping.outsideConverters.Add(converter);
-                }
-            }
-
-            return grouping;
-        }
-
         internal static ConverterGrouping FindGroupedConverters()
         {
-            return GroupConverters(FindConverters());
+            return ConverterGrouping.Create(FindConverters());
         }
 
         /// <summary>
