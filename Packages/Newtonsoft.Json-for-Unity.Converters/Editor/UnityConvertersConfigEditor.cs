@@ -23,10 +23,12 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private SerializedProperty _unityConverters;
         private SerializedProperty _useAllJsonNetConverters;
         private SerializedProperty _jsonNetConverters;
+        private SerializedProperty _autoSyncConverters;
 
         private AnimBool _outsideConvertersShow;
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
+        private AnimBool _autoSyncConvertersShow;
 
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
@@ -35,7 +37,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void OnEnable()
         {
-            var grouped = UnityConverterInitializer.FindGroupedConverters();
+            var config = (UnityConvertersConfig)target;
+            var grouped = UnityConverterInitializer.FindGroupedConverters(config);
 
             // Hack around the "SerializedObjectNotCreatableException: Object at index 0 is null"
             // error message
@@ -55,10 +58,12 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _unityConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.unityConverters));
             _useAllJsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.useAllJsonNetConverters));
             _jsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.jsonNetConverters));
+            _autoSyncConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.autoSyncConverters));
 
             _outsideConvertersShow = new AnimBool(_outsideConverters.isExpanded);
             _unityConvertersShow = new AnimBool(_unityConverters.isExpanded);
             _jsonNetConvertersShow = new AnimBool(_jsonNetConverters.isExpanded);
+            _autoSyncConvertersShow = new AnimBool(!_autoSyncConverters.boolValue);
 
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
@@ -107,6 +112,27 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
             EditorGUILayout.Space();
 
+            ToggleLeft(_autoSyncConverters,
+                "Automatic synchronization of JsonConverter types is enabled by default," +
+                " but can induce a heavy spike on each assembly reload (such as when entering play mode) on bigger projects.");
+            _autoSyncConvertersShow.target = !_autoSyncConverters.boolValue;
+            if (EditorGUILayout.BeginFadeGroup(_autoSyncConvertersShow.faded))
+            {
+                EditorGUILayout.HelpBox("The Newtonsoft.Json-for-Unity.Converters package will no longer automatically" +
+                    " look for new JsonConverters.\n\n" +
+                    "Having this automatic scan disabled reduces the load spike caused on larger projects every time you enter play mode," +
+                    " but you must instead remember to press the sync button below every time you add a new JsonConverter.",
+                    MessageType.Warning);
+                if (GUILayout.Button("Manual Converter Sync Now"))
+                {
+                    var grouped = ConverterGrouping.Create(UnityConverterInitializer.FindConverters());
+                    AddAndSetupConverters(_outsideConverters, grouped.outsideConverters, _useAllOutsideConverters.boolValue);
+                    AddAndSetupConverters(_unityConverters, grouped.unityConverters, _useAllUnityConverters.boolValue);
+                    AddAndSetupConverters(_jsonNetConverters, grouped.jsonNetConverters, _useAllJsonNetConverters.boolValue);
+                }
+            }
+            EditorGUILayout.EndFadeGroup();
+
             serializedObject.ApplyModifiedProperties();
 
             if (_isDirty)
@@ -116,16 +142,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         }
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
-        {
-            if (newAreEnabledByDefault)
-            {
-                // TODO: Remove excess
-            }
-
-            AddMissingConverters(arrayProperty, converterTypes, newAreEnabledByDefault);
-        }
-
-        private void AddMissingConverters(SerializedProperty arrayProperty, IEnumerable<Type> converterTypes, bool newAreEnabledByDefault)
         {
             var elements = EnumerateArrayElements(arrayProperty);
             var elementTypes = elements
@@ -143,6 +159,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 {
                     continue;
                 }
+                var typeName = arrayProperty.GetArrayElementAtIndex(i).FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue;
+                Debug.Log($"Removed type from JsonConverter list: \"{typeName}\"", target);
                 arrayProperty.DeleteArrayElementAtIndex(i);
             }
 

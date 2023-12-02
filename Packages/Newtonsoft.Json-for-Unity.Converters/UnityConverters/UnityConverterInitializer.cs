@@ -142,7 +142,7 @@ namespace Newtonsoft.Json.UnityConverters
         internal static List<JsonConverter> CreateConverters(UnityConvertersConfig config)
         {
             var converterTypes = new List<Type>();
-            var grouping = FindGroupedConverters();
+            var grouping = FindGroupedConverters(config);
             converterTypes.AddRange(ApplyConfigFilter(grouping.outsideConverters, config.useAllOutsideConverters, config.outsideConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.unityConverters, config.useAllUnityConverters, config.unityConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.jsonNetConverters, config.useAllJsonNetConverters, config.jsonNetConverters));
@@ -152,9 +152,29 @@ namespace Newtonsoft.Json.UnityConverters
             return result;
         }
 
-        internal static ConverterGrouping FindGroupedConverters()
+        internal static ConverterGrouping FindGroupedConverters(UnityConvertersConfig config)
         {
-            return ConverterGrouping.Create(FindConverters());
+            if (config.autoSyncConverters)
+            {
+                return ConverterGrouping.Create(FindConverters());
+            }
+
+            return new ConverterGrouping {
+                outsideConverters = config.outsideConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
+                unityConverters = config.unityConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
+                jsonNetConverters = config.jsonNetConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
+            };
+        }
+
+        private static Type GetTypeOrLog(string name)
+        {
+            var type = TypeCache.FindType(name);
+            if (type == null)
+            {
+                Debug.LogWarning($"Failed to lookup JsonConverter type. Ignoring it. Type name: \"{name}\""+
+                    "\nTo fix this warning by going to \"Edit > Json.NET converter settings...\", and then the editor will update your config for you.");
+            }
+            return type;
         }
 
         /// <summary>
