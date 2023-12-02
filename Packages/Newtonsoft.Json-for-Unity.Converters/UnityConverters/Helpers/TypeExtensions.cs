@@ -7,23 +7,6 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
 {
     internal static class TypeExtensions
     {
-        public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-#if DEBUG
-                Console.WriteLine("Newtonsoft.Json.UnityConverters.Helpers.TypeExtensions: "
-                    + "Failed to load some types from assembly '{assembly.FullName}'. Maybe assembly is not fully loaded yet?\n"
-                    + ex.ToString());
-#endif
-                return ex.Types.Where(t => t != null);
-            }
-        }
-
         /// <summary>
         /// Gets the non-public instance field info <see cref="FieldInfo"/> for the converted type
         /// <typeparamref name="T"/>.
