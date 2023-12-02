@@ -141,14 +141,11 @@ namespace Newtonsoft.Json.UnityConverters
         /// <returns>The converters.</returns>
         internal static List<JsonConverter> CreateConverters(UnityConvertersConfig config)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             var converterTypes = new List<Type>();
             var grouping = GroupConverters(FindConverters());
             converterTypes.AddRange(ApplyConfigFilter(grouping.outsideConverters, config.useAllOutsideConverters, config.outsideConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.unityConverters, config.useAllUnityConverters, config.unityConverters));
             converterTypes.AddRange(ApplyConfigFilter(grouping.jsonNetConverters, config.useAllJsonNetConverters, config.jsonNetConverters));
-            watch.Stop();
-            UnityEngine.Debug.Log($"Loading converters took {watch.Elapsed}");
 
             var result = new List<JsonConverter>();
             result.AddRange(converterTypes.Select(CreateConverter));
