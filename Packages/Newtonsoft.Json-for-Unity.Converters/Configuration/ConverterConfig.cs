@@ -12,8 +12,6 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public string converterName;
 
-        public string converterType;
-
         public List<KeyedConfig> settings;
 
         public override string ToString()

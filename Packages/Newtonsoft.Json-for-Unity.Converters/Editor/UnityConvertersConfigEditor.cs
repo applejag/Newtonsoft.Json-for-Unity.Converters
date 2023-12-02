@@ -23,13 +23,11 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private SerializedProperty _unityConverters;
         private SerializedProperty _useAllJsonNetConverters;
         private SerializedProperty _jsonNetConverters;
-        private SerializedProperty _useBakingConverters;
 
         private AnimBool _outsideConvertersShow;
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
 
-        private UnityConvertersConfig _config;
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
 
@@ -52,7 +50,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 return;
             }
 
-            _config = serializedObject.targetObject as UnityConvertersConfig;
             _useUnityContractResolver = serializedObject.FindProperty(nameof(UnityConvertersConfig.useUnityContractResolver));
             _useAllOutsideConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.useAllOutsideConverters));
             _outsideConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.outsideConverters));
@@ -60,7 +57,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _unityConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.unityConverters));
             _useAllJsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.useAllJsonNetConverters));
             _jsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.jsonNetConverters));
-            _useBakingConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.useBakedConverters));
 
             _outsideConvertersShow = new AnimBool(_outsideConverters.isExpanded);
             _unityConvertersShow = new AnimBool(_unityConverters.isExpanded);
@@ -95,18 +91,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 " 'UnityEngine.ScriptableObject' via 'ScriptableObject.Create()' instead of the default" +
                 " 'new ScriptableObject()'.");
 
-            ToggleLeft(_useBakingConverters, "If true - use baked converters at runtime");
-            
-            EditorGUILayout.Separator();
-            EditorGUILayout.Space();
-
-            if (GUILayout.Button("Bake Json Converters"))
-            {
-                UnityConverterInitializer.BakeConverters(_config);
-                EditorUtility.SetDirty(_config);
-                AssetDatabase.SaveAssetIfDirty(_config);
-            }
-            
             EditorGUILayout.Space();
 
             FoldedConverters(_useAllOutsideConverters, _outsideConverters, _outsideConvertersShow,
@@ -144,7 +128,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             var elementTypes = elements
                 .Select(e => TypeCache.FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
                 .ToArray();
-            
+
             Type[] missingConverters = converterTypes
                 .Where(type => !elementTypes.Contains(type))
                 .ToArray();
@@ -153,15 +137,13 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             {
                 int nextIndex = arrayProperty.arraySize;
                 arrayProperty.InsertArrayElementAtIndex(nextIndex);
-                
+
                 SerializedProperty elemProp = arrayProperty.GetArrayElementAtIndex(nextIndex);
                 SerializedProperty enabledProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.enabled));
                 SerializedProperty converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
-                SerializedProperty converterTypeProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterType));
 
                 enabledProp.boolValue = newAreEnabledByDefault;
                 converterNameProp.stringValue = converterType.FullName;
-                converterTypeProp.stringValue = converterType.AssemblyQualifiedName;
             }
         }
 
