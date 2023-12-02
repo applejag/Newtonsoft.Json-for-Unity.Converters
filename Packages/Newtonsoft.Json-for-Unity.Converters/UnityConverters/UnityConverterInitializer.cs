@@ -37,7 +37,7 @@ namespace Newtonsoft.Json.UnityConverters
     public static class UnityConverterInitializer
     {
         private static bool _shouldAddConvertsToDefaultSettings = true;
-
+        private static JsonSerializerSettings _defaultSettings;
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
         /// </summary>
@@ -97,6 +97,48 @@ namespace Newtonsoft.Json.UnityConverters
             }
         }
 
+        public static void BakeConverters(UnityConvertersConfig configuration)
+        {
+            _defaultSettings = null;
+            
+            var outsideConverterTypes = FindCustomConverters().ToArray();
+            var unityConverterTypes = FindUnityConverters().ToArray();
+            var jsonNetConverterTypes = FindJsonNetConverters().ToArray();
+            
+            UpdateConverter(configuration.unityConverters, unityConverterTypes);
+            UpdateConverter(configuration.outsideConverters, outsideConverterTypes);
+            UpdateConverter(configuration.jsonNetConverters, jsonNetConverterTypes);
+        }
+
+        public static void UpdateConverter(List<ConverterConfig> configs, Type[] types)
+        {
+            var configurations = new List<ConverterConfig>();
+            
+            for (var i = 0; i < configs.Count; i++)
+            {
+                var config = configs[i];
+                foreach (var type in types)
+                {
+                    var fullName = type.FullName;
+                    if (fullName == null || !fullName
+                            .Equals(config.converterName, StringComparison.OrdinalIgnoreCase)) continue;
+                    
+                    var typeName = type.AssemblyQualifiedName;
+                    if(string.IsNullOrEmpty(typeName)) break;
+
+                    config.converterType = typeName;
+                    var targetType = Type.GetType(typeName, false, true);
+                    if(targetType == null) continue;
+                    
+                    configurations.Add(config);
+                    break;
+                }
+            }
+            
+            configs.Clear();
+            configs.AddRange(configurations);
+        }
+        
         /// <summary>
         /// Refreshes the settings that are found in the Resources folder
         /// (specified in <see cref="UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD"/>);
@@ -113,6 +155,9 @@ namespace Newtonsoft.Json.UnityConverters
 
         private static JsonSerializerSettings CreateJsonSettingsWithFreslyLoadedConfig()
         {
+            //return new JsonSerializerSettings();
+            if (_defaultSettings != null) return _defaultSettings;
+            
             var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD);
 
             if (!config)
@@ -120,43 +165,47 @@ namespace Newtonsoft.Json.UnityConverters
                 config = ScriptableObject.CreateInstance<UnityConvertersConfig>();
             }
 
-            var settings = new JsonSerializerSettings {
+            _defaultSettings = new JsonSerializerSettings {
                 Converters = CreateConverters(config),
             };
 
             if (config.useUnityContractResolver)
             {
-                settings.ContractResolver = new UnityTypeContractResolver();
+                _defaultSettings.ContractResolver = new UnityTypeContractResolver();
             }
 
-            return settings;
+            return _defaultSettings;
         }
-
+        
         /// <summary>
         /// Create the converter instances.
         /// </summary>
         /// <returns>The converters.</returns>
-        private static List<JsonConverter> CreateConverters(UnityConvertersConfig config)
+        public static List<JsonConverter> CreateConverters(UnityConvertersConfig config)
         {
-            var customs = FindFilteredCustomConverters(config)
-                .Concat(FindFilteredUnityConverters(config))
-                .Concat(FindFilteredJsonNetConverters(config))
-                .Select(type => CreateConverter(type))
-                .Where(o => o != null);
-
-            return new List<JsonConverter>(customs);
+            var converterTypes = new List<Type>();
+            var result = new List<JsonConverter>();
+            
+            converterTypes.AddRange(FindFilteredCustomConverters(config));
+            converterTypes.AddRange(FindFilteredUnityConverters(config));
+            converterTypes.AddRange(FindFilteredJsonNetConverters(config));
+            
+            foreach (var type in converterTypes)
+            {
+                var converter = CreateConverter(type);
+                if(converter == null) continue;
+                result.Add(converter);
+            }
+            
+            return result;
         }
 
-        private static IEnumerable<Type> FindFilteredCustomConverters(UnityConvertersConfig config)
-        {
-            return ApplyConfigFilter(FindCustomConverters(), config.useAllOutsideConverters, config.outsideConverters);
-        }
 
         /// <summary>
         /// Find all the valid converter types outside of Newtonsoft.Json namespaces.
         /// </summary>
         /// <returns>The types.</returns>
-        internal static IEnumerable<Type> FindCustomConverters()
+        public static IEnumerable<Type> FindCustomConverters()
         {
             var typesFromOtherDomains = AppDomain.CurrentDomain.GetAssemblies()
                 .Select(dll => dll.GetLoadableTypes()
@@ -166,17 +215,13 @@ namespace Newtonsoft.Json.UnityConverters
 
             return FilterToJsonConvertersAndOrder(typesFromOtherDomains);
         }
-
-        private static IEnumerable<Type> FindFilteredUnityConverters(UnityConvertersConfig config)
-        {
-            return ApplyConfigFilter(FindUnityConverters(), config.useAllUnityConverters, config.unityConverters);
-        }
+        
 
         /// <summary>
         /// Find all the valid converter types inside this assembly, <c>Newtonsoft.Json.UnityConverters</c>
         /// </summary>
         /// <returns>The types.</returns>
-        internal static IEnumerable<Type> FindUnityConverters()
+        public static IEnumerable<Type> FindUnityConverters()
         {
             var typesFromPackageDomains = AppDomain.CurrentDomain.GetAssemblies()
                 .Select(dll => dll.GetLoadableTypes()
@@ -187,21 +232,44 @@ namespace Newtonsoft.Json.UnityConverters
             return FilterToJsonConvertersAndOrder(typesFromPackageDomains);
         }
 
+        private static IEnumerable<Type> FindFilteredUnityConverters(UnityConvertersConfig config)
+        {
+            var unityTypes = config.useBakedConverters
+                ? GetUnityConvertersTypes(config)
+                : FindUnityConverters();
+            
+            return ApplyConfigFilter(unityTypes, config.useAllUnityConverters, config.unityConverters);
+        }
+        
+        private static IEnumerable<Type> FindFilteredCustomConverters(UnityConvertersConfig config)
+        {
+            var customTypes = config.useBakedConverters
+                ? GetCustomConvertersTypes(config)
+                : FindCustomConverters();
+            
+            return ApplyConfigFilter(customTypes, config.useAllOutsideConverters, config.outsideConverters);
+        }
+        
         private static IEnumerable<Type> FindFilteredJsonNetConverters(UnityConvertersConfig config)
         {
-            return ApplyConfigFilter(FindJsonNetConverters(), config.useAllJsonNetConverters, config.jsonNetConverters);
+            var converterTypes = config.useBakedConverters
+                ? GetJsonNetConvertersTypes(config)
+                : FindJsonNetConverters();
+            
+            return ApplyConfigFilter(converterTypes, config.useAllJsonNetConverters, config.jsonNetConverters);
         }
 
         /// <summary>
         /// Finds all the valid converter types inside the <c>Newtonsoft.Json</c> assembly.
         /// </summary>
         /// <returns>The types.</returns>
-        internal static IEnumerable<Type> FindJsonNetConverters()
+        public static IEnumerable<Type> FindJsonNetConverters()
         {
-            return FilterToJsonConvertersAndOrder(typeof(JsonConverter).Assembly.GetTypes());
+            var types = typeof(JsonConverter).Assembly.GetTypes();
+            return FilterToJsonConvertersAndOrder(types);
         }
 
-        private static IEnumerable<Type> FilterToJsonConvertersAndOrder(IEnumerable<Type> types)
+        public static IEnumerable<Type> FilterToJsonConvertersAndOrder(IEnumerable<Type> types)
         {
             return types
                 .Where(type
@@ -250,10 +318,56 @@ namespace Newtonsoft.Json.UnityConverters
             }
             catch (Exception exception)
             {
-                Debug.LogErrorFormat("Cannot create JsonConverter '{0}':\n{1}", jsonConverterType.FullName, exception);
+                Debug.LogErrorFormat("Cannot create JsonConverter '{0}':\n{1}", jsonConverterType?.FullName, exception);
             }
-
+            
             return null;
+        }
+        
+        
+        public static IEnumerable<Type> GetCustomConvertersTypes(UnityConvertersConfig config)
+        {
+            var customConvertersTypes = config.outsideConverters;
+            var types = ConvertTypes(customConvertersTypes, config.useAllOutsideConverters);
+            foreach (var type in types)
+                yield return type;
+        }
+        
+        public static IEnumerable<Type> GetUnityConvertersTypes(UnityConvertersConfig config)
+        {
+            var unityConvertersTypes = config.unityConverters;
+            var types = ConvertTypes(unityConvertersTypes, config.useAllUnityConverters);
+            foreach (var type in types)
+                yield return type;
+        }
+        
+        public static IEnumerable<Type> GetJsonNetConvertersTypes(UnityConvertersConfig config)
+        {
+            var unityConvertersTypes = config.jsonNetConverters;
+            var types = ConvertTypes(unityConvertersTypes, config.useAllJsonNetConverters);
+            foreach (var type in types)
+                yield return type;
+        }
+        
+        private static IEnumerable<Type> ConvertTypes(IEnumerable<ConverterConfig> items,bool useAll)
+        {
+            foreach (var item in items)
+            {
+                if(!useAll && !item.enabled) continue;
+                
+                var typeValue = string.IsNullOrEmpty(item.converterType)
+                    ? string.Empty
+                    : item.converterType;
+                
+                var type = Type.GetType(typeValue, false, true);
+#if UNITY_EDITOR
+                if (type == null)
+                {
+                    Debug.LogErrorFormat("JsonConverter Type is NULL for {0} : {1}", item.converterName, item.converterType);
+                }
+#endif
+                yield return type;
+            }
         }
     }
 }
