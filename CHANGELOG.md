@@ -1,5 +1,12 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.5.2 (WIP)
+
+- Fixed converter types taking long time to load, sometimes causing lag spikes
+  each time assembly got reloaded (especially when entering play-mode).
+
+  Thanks [@Mefodei](https://github.com/Mefodei) for the implementation ([#78](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/pull/78))
+
 ## 1.5.1 (2023-04-19)
 
 - Fixed converters being stripped when Managed Stripping Level is set to
