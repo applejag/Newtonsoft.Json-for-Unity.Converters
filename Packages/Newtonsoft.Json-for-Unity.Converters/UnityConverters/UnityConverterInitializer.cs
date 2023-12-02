@@ -30,9 +30,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Configuration;
 using Newtonsoft.Json.UnityConverters.Helpers;
 using Newtonsoft.Json.UnityConverters.Utility;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
