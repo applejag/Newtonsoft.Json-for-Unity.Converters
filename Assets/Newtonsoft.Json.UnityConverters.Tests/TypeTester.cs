@@ -138,6 +138,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests
         {
             // Arrange
             string input = Serialize(representation.anonymous);
+            TestContext.WriteLine($"Input given: '{input}'");
 
             // Act
             T result = Deserialize<T>(input);

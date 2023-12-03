@@ -1,0 +1,34 @@
+{
+    "name": "Newtonsoft.Json.UnityConverters.Tests.Mathematics",
+    "rootNamespace": "",
+    "references": [
+        "Newtonsoft.Json.UnityConverters.Tests",
+        "Newtonsoft.Json.UnityConverters",
+        "Newtonsoft.Json.UnityConverters.Addressables",
+        "Newtonsoft.Json.UnityConverters.Mathematics",
+        "Unity.Mathematics",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll",
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "HAVE_MODULE_MATHEMATICS",
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.mathematics",
+            "expression": "",
+            "define": "HAVE_MODULE_MATHEMATICS"
+        }
+    ],
+    "noEngineReferences": false
+}
