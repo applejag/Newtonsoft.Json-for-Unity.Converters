@@ -18,6 +18,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Mathematics
         }
     }
 
+    #region Vector
     // Have to use a wrapper type, as Json.NET ignores the converters when
     // targeting a single scalar type.
     public class HalfTests : ValueTypeTester<HalfWrapper>
@@ -51,4 +52,5 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Mathematics
             (new half4(new half(1), new half(2), new half(3), new half(4)), new { x = 1f, y = 2f, z = 3f, w = 4f }),
         };
     }
+    #endregion
 }
