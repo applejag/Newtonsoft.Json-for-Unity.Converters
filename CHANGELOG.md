@@ -2,6 +2,13 @@
 
 ## 1.6.0 (WIP)
 
+- Added converters for [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html).
+  This includes all the `float2`, `double3`, `int4`, `bool4`, and similar types.
+  ([#80](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/80))
+
+  There are no custom converters for the matrix types
+  (`float2x2`, `float2x3`, etc), as they currently work out-of-the-box.
+
 - Added `ResolutionConverter` to be able to read JSON from older Unity
   versions. ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
 
