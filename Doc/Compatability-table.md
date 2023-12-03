@@ -35,14 +35,20 @@ https://beautifuldingbats.com/superscript-generator/
 | Math           | *UnityEngine*.**Gradient**                                      | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
 | Math           | *UnityEngine*.**GradientAlphaKey**                              | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
 | Math           | *UnityEngine*.**GradientColorKey**                              | ✔               | ✔               | ✖[⁽¹⁾](#note-1)  |
+| Math           | *UnityEngine*.**Matrix4x4**                                     | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Quaternion**                                    | ✔               | ✔               | ✔                |
-| Math           | *UnityEngine.Rendering*.**SphericalHarmonicsL2**                | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector2**                                       | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector2Int**                                    | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector3**                                       | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector3Int**                                    | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector4**                                       | ✔               | ✔               | ✔                |
-| Math           | *UnityEngine*.**Matrix4x4**                                     | ✔               | ✔               | ✔                |
+| Math           | *UnityEngine.Rendering*.**SphericalHarmonicsL2**                | ✔               | ✔               | ✔                |
+| Mathematics    | *Unity.Mathematics*.**boolN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**doubleN** [⁽⁸⁾](#note-8)                  | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**floatN** [⁽⁸⁾](#note-8)                   | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**halfN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**intN** [⁽⁸⁾](#note-8)                     | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**uintN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | NativeArray    | *Unity.Collections*.**NativeArray&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | NativeArray    | *Unity.Collections*.**NativeSlice&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | ParticleSystem | *UnityEngine.ParticleSystemJobs*.**ParticleSystemJobData**      | ❌[⁽⁴⁾](#note-4) | ❔[⁽⁵⁾](#note-5) | ❌[⁽⁴⁾](#note-4)  |
@@ -108,21 +114,29 @@ https://beautifuldingbats.com/superscript-generator/
   therefore has been left out. Possible to solve by using reflection tricks
   but this has been down prioritized.
 
-7. ✔<a name="note-7"></a> Support for Addressables package, which was added in
-  v1.4.0, is only automatically included if your Unity project has imported the
-  `com.unity.addressable` package. This automatic inclusion relies on
-  AssemblyDefinition version defines, which was introduced in Unity 2019.1.x.
-  To enable the `AssetReferenceConverter` in earlier versions of Unity, please
-  add `HAVE_MODULE_ADDRESSABLES` to your project's "Scripting Define Symbols"
-  found in the "Project Settings" -> "Player" -> "Other Settings" panel.
+7. ✔<a name="note-7"></a> Support for [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@2.0/manual/index.html)
+  package, which was added in v1.4.0, is only automatically included if your
+  Unity project has imported the `com.unity.addressable` package.
+  This automatic inclusion relies on AssemblyDefinition version defines,
+  which was introduced in Unity 2019.1.x.
+  To enable the `AssetReferenceConverter` in earlier versions of Unity,
+  please add `HAVE_MODULE_ADDRESSABLES` to your project's
+  "Scripting Define Symbols" found in the
+  "Project Settings" -> "Player" -> "Other Settings" panel.
 
-8. ✔<a name="note-8"></a> Support for Mathematics package, which was added in
-  v1.6.0, is only automatically included if your Unity project has imported the
-  `com.unity.mathematics` package. This automatic inclusion relies on
-  AssemblyDefinition version defines, which was introduced in Unity 2019.1.x.
+8. ✔<a name="note-8"></a> The `N` in for example `floatN` means all the
+  different vector and matrix types available in [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/api/Unity.Mathematics.html):
+  `float2`, `float3`, `float4`, `float2x2`, `float2x3`, `float2x4`, etc.
+
+9. ✔<a name="note-9"></a> Support for [Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html)
+  package, which was added in v1.6.0, is only automatically included if your
+  Unity project has imported the `com.unity.mathematics` package.
+  This automatic inclusion relies on AssemblyDefinition version defines,
+  which was introduced in Unity 2019.1.x.
   To enable for example the `Float3Converter` in earlier versions of Unity,
-  please add `HAVE_MODULE_MATHEMATICS` to your project's "Scripting Define Symbols"
-  found in the "Project Settings" -> "Player" -> "Other Settings" panel.
+  please add `HAVE_MODULE_MATHEMATICS` to your project's
+  "Scripting Define Symbols" found in the
+  "Project Settings" -> "Player" -> "Other Settings" panel.
 
 ## Legend
 
