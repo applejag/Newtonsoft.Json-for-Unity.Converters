@@ -110,10 +110,18 @@ https://beautifuldingbats.com/superscript-generator/
 
 7. ✔<a name="note-7"></a> Support for Addressables package, which was added in
   v1.4.0, is only automatically included if your Unity project has imported the
-  `com.unity.addressable` package. This automatic inclusion  relies on
+  `com.unity.addressable` package. This automatic inclusion relies on
   AssemblyDefinition version defines, which was introduced in Unity 2019.1.x.
   To enable the `AssetReferenceConverter` in earlier versions of Unity, please
   add `HAVE_MODULE_ADDRESSABLES` to your project's "Scripting Define Symbols"
+  found in the "Project Settings" -> "Player" -> "Other Settings" panel.
+
+8. ✔<a name="note-8"></a> Support for Mathematics package, which was added in
+  v1.6.0, is only automatically included if your Unity project has imported the
+  `com.unity.mathematics` package. This automatic inclusion relies on
+  AssemblyDefinition version defines, which was introduced in Unity 2019.1.x.
+  To enable for example the `Float3Converter` in earlier versions of Unity,
+  please add `HAVE_MODULE_MATHEMATICS` to your project's "Scripting Define Symbols"
   found in the "Project Settings" -> "Player" -> "Other Settings" panel.
 
 ## Legend
