@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.6.0 (WIP)
+## 1.6.0 (2023-12-03)
 
 - Added converters for [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html).
   This includes all the `float2`, `double3`, `int4`, `bool4`, and similar types.
