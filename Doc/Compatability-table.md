@@ -43,6 +43,7 @@ https://beautifuldingbats.com/superscript-generator/
 | Math           | *UnityEngine*.**Vector3Int**                                    | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine*.**Vector4**                                       | ✔               | ✔               | ✔                |
 | Math           | *UnityEngine.Rendering*.**SphericalHarmonicsL2**                | ✔               | ✔               | ✔                |
+| Mathematics    | *Unity.Mathematics*.**half**                                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | Mathematics    | *Unity.Mathematics*.**boolN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | Mathematics    | *Unity.Mathematics*.**doubleN** [⁽⁸⁾](#note-8)                  | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | Mathematics    | *Unity.Mathematics*.**floatN** [⁽⁸⁾](#note-8)                   | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
