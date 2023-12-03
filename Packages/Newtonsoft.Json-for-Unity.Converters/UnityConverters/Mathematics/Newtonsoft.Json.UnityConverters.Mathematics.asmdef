@@ -1,6 +1,5 @@
 {
     "name": "Newtonsoft.Json.UnityConverters.Mathematics",
-    "rootNamespace": "",
     "references": [
         "Unity.Mathematics",
         "Newtonsoft.Json.UnityConverters"

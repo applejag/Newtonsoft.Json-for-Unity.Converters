@@ -3,11 +3,28 @@ using Unity.Mathematics;
 
 namespace Newtonsoft.Json.UnityConverters.Tests.Mathematics
 {
-    public class HalfTests : ValueTypeTester<half>
+    public struct HalfWrapper
     {
-        public static readonly IReadOnlyCollection<(half deserialized, object anonymous)> representations = new (half, object)[] {
-            (new half(), 0f),
-            (new half(1), 1),
+        public half half;
+
+        public HalfWrapper(half half)
+        {
+            this.half = half;
+        }
+
+        public override string ToString()
+        {
+            return half.ToString();
+        }
+    }
+
+    // Have to use a wrapper type, as Json.NET ignores the converters when
+    // targeting a single scalar type.
+    public class HalfTests : ValueTypeTester<HalfWrapper>
+    {
+        public static readonly IReadOnlyCollection<(HalfWrapper deserialized, object anonymous)> representations = new (HalfWrapper, object)[] {
+            (new HalfWrapper(new half()), new {half = 0f}),
+            (new HalfWrapper(new half(1)), new {half = 1f}),
         };
     }
 

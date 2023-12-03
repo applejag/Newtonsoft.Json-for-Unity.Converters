@@ -22,7 +22,7 @@ namespace Newtonsoft.Json.UnityConverters.Tests.Mathematics
     public class Int4Tests : ValueTypeTester<int4>
     {
         public static readonly IReadOnlyCollection<(int4 deserialized, object anonymous)> representations = new (int4, object)[] {
-            (new int4(), new { x = 0, y = 0, z = 0, w = 4 }),
+            (new int4(), new { x = 0, y = 0, z = 0, w = 0 }),
             (new int4(1, 2, 3,4), new { x = 1, y = 2, z = 3, w = 4 }),
         };
     }
