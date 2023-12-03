@@ -1,6 +1,6 @@
 ﻿#pragma warning disable MA0048 // File name must match type name
 #define INTERNAL_NULLABLE_ATTRIBUTES
-#if NET_STANDARD_2_0 || NET_4_6 || NET_2_0 || NET_2_0_SUBSET || NET_LEGACY 
+#if (NET_STANDARD_2_0 || NET_4_6 || NET_2_0 || NET_2_0_SUBSET || NET_LEGACY) && !NET_STANDARD_2_1
 
 // https://github.com/dotnet/corefx/blob/48363ac826ccf66fbe31a5dcb1dc2aab9a7dd768/src/Common/src/CoreLib/System/Diagnostics/CodeAnalysis/NullableAttributes.cs
 

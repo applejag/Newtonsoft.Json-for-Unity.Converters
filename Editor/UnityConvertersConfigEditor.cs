@@ -23,10 +23,12 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private SerializedProperty _unityConverters;
         private SerializedProperty _useAllJsonNetConverters;
         private SerializedProperty _jsonNetConverters;
+        private SerializedProperty _autoSyncConverters;
 
         private AnimBool _outsideConvertersShow;
         private AnimBool _unityConvertersShow;
         private AnimBool _jsonNetConvertersShow;
+        private AnimBool _autoSyncConvertersShow;
 
         private GUIStyle _headerStyle;
         private GUIStyle _boldHeaderStyle;
@@ -35,9 +37,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void OnEnable()
         {
-            var outsideConverterTypes = UnityConverterInitializer.FindCustomConverters().ToArray();
-            var unityConverterTypes = UnityConverterInitializer.FindUnityConverters().ToArray();
-            var jsonNetConverterTypes = UnityConverterInitializer.FindJsonNetConverters().ToArray();
+            var config = (UnityConvertersConfig)target;
+            var grouped = UnityConverterInitializer.FindGroupedConverters(config);
 
             // Hack around the "SerializedObjectNotCreatableException: Object at index 0 is null"
             // error message
@@ -57,10 +58,12 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _unityConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.unityConverters));
             _useAllJsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.useAllJsonNetConverters));
             _jsonNetConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.jsonNetConverters));
+            _autoSyncConverters = serializedObject.FindProperty(nameof(UnityConvertersConfig.autoSyncConverters));
 
             _outsideConvertersShow = new AnimBool(_outsideConverters.isExpanded);
             _unityConvertersShow = new AnimBool(_unityConverters.isExpanded);
             _jsonNetConvertersShow = new AnimBool(_jsonNetConverters.isExpanded);
+            _autoSyncConvertersShow = new AnimBool(!_autoSyncConverters.boolValue);
 
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
@@ -69,9 +72,10 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
 
             serializedObject.Update();
-            AddAndSetupConverters(_outsideConverters, outsideConverterTypes, _useAllOutsideConverters.boolValue);
-            AddAndSetupConverters(_unityConverters, unityConverterTypes, _useAllUnityConverters.boolValue);
-            AddAndSetupConverters(_jsonNetConverters, jsonNetConverterTypes, _useAllJsonNetConverters.boolValue);
+            AddAndSetupConverters(_outsideConverters, grouped.outsideConverters, _useAllOutsideConverters.boolValue);
+            AddAndSetupConverters(_unityConverters, grouped.unityConverters, _useAllUnityConverters.boolValue);
+            AddAndSetupConverters(_jsonNetConverters, grouped.jsonNetConverters, _useAllJsonNetConverters.boolValue);
+
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -108,6 +112,27 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
             EditorGUILayout.Space();
 
+            ToggleLeft(_autoSyncConverters,
+                "Automatic synchronization of JsonConverter types is enabled by default," +
+                " but can induce a heavy spike on each assembly reload (such as when entering play mode) on bigger projects.");
+            _autoSyncConvertersShow.target = !_autoSyncConverters.boolValue;
+            if (EditorGUILayout.BeginFadeGroup(_autoSyncConvertersShow.faded))
+            {
+                EditorGUILayout.HelpBox("The Newtonsoft.Json-for-Unity.Converters package will no longer automatically" +
+                    " look for new JsonConverters.\n\n" +
+                    "Having this automatic scan disabled reduces the load spike caused on larger projects every time you enter play mode," +
+                    " but you must instead remember to press the sync button below every time you add a new JsonConverter.",
+                    MessageType.Warning);
+                if (GUILayout.Button("Manual Converter Sync Now"))
+                {
+                    var grouped = ConverterGrouping.Create(UnityConverterInitializer.FindConverters());
+                    AddAndSetupConverters(_outsideConverters, grouped.outsideConverters, _useAllOutsideConverters.boolValue);
+                    AddAndSetupConverters(_unityConverters, grouped.unityConverters, _useAllUnityConverters.boolValue);
+                    AddAndSetupConverters(_jsonNetConverters, grouped.jsonNetConverters, _useAllJsonNetConverters.boolValue);
+                }
+            }
+            EditorGUILayout.EndFadeGroup();
+
             serializedObject.ApplyModifiedProperties();
 
             if (_isDirty)
@@ -118,25 +143,33 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
         {
-            AddMissingConverters(arrayProperty, converterTypes, newAreEnabledByDefault);
-        }
-
-        private void AddMissingConverters(SerializedProperty arrayProperty, IEnumerable<Type> converterTypes, bool newAreEnabledByDefault)
-        {
             var elements = EnumerateArrayElements(arrayProperty);
             var elementTypes = elements
                 .Select(e => TypeCache.FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
                 .ToArray();
+
             Type[] missingConverters = converterTypes
                 .Where(type => !elementTypes.Contains(type))
                 .ToArray();
+
+            // Cleanup excess types
+            for (int i = elementTypes.Length - 1; i >= 0; i--)
+            {
+                if (converterTypes.Contains(elementTypes[i]))
+                {
+                    continue;
+                }
+                var typeName = arrayProperty.GetArrayElementAtIndex(i).FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue;
+                Debug.Log($"Removed type from JsonConverter list: \"{typeName}\"", target);
+                arrayProperty.DeleteArrayElementAtIndex(i);
+            }
 
             foreach (Type converterType in missingConverters)
             {
                 int nextIndex = arrayProperty.arraySize;
                 arrayProperty.InsertArrayElementAtIndex(nextIndex);
-                SerializedProperty elemProp = arrayProperty.GetArrayElementAtIndex(nextIndex);
 
+                SerializedProperty elemProp = arrayProperty.GetArrayElementAtIndex(nextIndex);
                 SerializedProperty enabledProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.enabled));
                 SerializedProperty converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
 
@@ -198,6 +231,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                         serializedProperty: o,
                         type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
                     ))
+                    .Where(o => o.type != null)
                     .OrderBy(o => o.type.FullName);
 
                 foreach (var namespaceGroup in allConfigsWithType.GroupBy(o => GetTypeNamespace(o.type)))
@@ -236,7 +270,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
                             SerializedProperty converterNameProp = configWithType.serializedProperty.FindPropertyRelative(nameof(ConverterConfig.converterName));
                             EditorGUI.BeginDisabledGroup(true);
-                            EditorGUILayout.ToggleLeft($"Unkown type: {converterNameProp.stringValue}", false);
+                            EditorGUILayout.ToggleLeft($"Unknown type: {converterNameProp.stringValue}", false);
                             EditorGUI.EndDisabledGroup();
                         }
                     }

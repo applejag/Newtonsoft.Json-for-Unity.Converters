@@ -1,5 +1,36 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.6.0 (2023-12-03)
+
+- Added converters for [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html).
+  This includes all the `float2`, `double3`, `int4`, `bool4`, and similar types.
+  ([#80](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/80))
+
+  There are no custom converters for the matrix types
+  (`float2x2`, `float2x3`, etc), as they currently work out-of-the-box.
+
+- Added `ResolutionConverter` to be able to read JSON from older Unity
+  versions. ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
+
+- Fixed compilation errors when targeting .NET Standard 2.1.
+  ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
+
+- Fixed converter types taking long time to load, sometimes causing lag spikes
+  each time assembly got reloaded (especially when entering play-mode).
+
+  The issue was that this package tries to find all converters by looping
+  through all types in all assemblies.
+
+  You should see better performance now, as we are using more optimized code
+  paths and making use of Unity's [TypeCache](https://docs.unity3d.com/2023.3/Documentation/ScriptReference/TypeCache.html).
+
+  If your project still suffers from big lag spikes, then you can opt-out
+  completely of the "auto type scanning" code via the settings found at
+  "Edit > Json.NET converters settings..." ([#79](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/79))
+
+  - Thanks [@tomkail](https://github.com/tomkail) for the excellent issue ([#77](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/issues/77)).
+  - Thanks [@Mefodei](https://github.com/Mefodei) for the inspiration ([#78](https://github.com/applejag/Newtonsoft.Json-for-Unity.Converters/pull/78))
+
 ## 1.5.1 (2023-04-19)
 
 - Fixed converters being stripped when Managed Stripping Level is set to

@@ -15,7 +15,7 @@ namespace Newtonsoft.Json.UnityConverters.Helpers
         /// <see href="https://github.com/JamesNK/Newtonsoft.Json/blob/12.0.1/Src/Newtonsoft.Json/JsonSerializationException.cs#L110"/>
         /// </summary>
         internal static readonly ConstructorInfo _JsonSerializationExceptionPositionalCtor
-            = typeof(JsonSerializationException).GetConstructor(new [] {
+            = typeof(JsonSerializationException).GetConstructor(new[] {
                 typeof(string), typeof(string), typeof(int), typeof(int), typeof(Exception)
             });
 

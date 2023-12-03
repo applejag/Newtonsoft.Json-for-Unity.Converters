@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
+
 #pragma warning disable CA2235 // Mark all non-serializable fields
     [Serializable]
     public sealed class UnityConvertersConfig : ScriptableObject
@@ -28,6 +29,8 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
             new ConverterConfig { converterName = typeof(StringEnumConverter).FullName, enabled = true },
             new ConverterConfig { converterName = typeof(VersionConverter).FullName, enabled = true },
         };
+
+        public bool autoSyncConverters = true;
     }
 #pragma warning restore CA2235 // Mark all non-serializable fields
 }

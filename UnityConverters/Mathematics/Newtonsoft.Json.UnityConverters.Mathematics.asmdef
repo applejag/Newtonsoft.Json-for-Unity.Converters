@@ -1,0 +1,24 @@
+{
+    "name": "Newtonsoft.Json.UnityConverters.Mathematics",
+    "references": [
+        "Unity.Mathematics",
+        "Newtonsoft.Json.UnityConverters"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HAVE_MODULE_MATHEMATICS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.mathematics",
+            "expression": "",
+            "define": "HAVE_MODULE_MATHEMATICS"
+        }
+    ],
+    "noEngineReferences": false
+}
