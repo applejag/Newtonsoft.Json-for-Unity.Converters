@@ -49,6 +49,11 @@ https://beautifuldingbats.com/superscript-generator/
 | Mathematics    | *Unity.Mathematics*.**halfN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | Mathematics    | *Unity.Mathematics*.**intN** [⁽⁸⁾](#note-8)                     | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
 | Mathematics    | *Unity.Mathematics*.**uintN** [⁽⁸⁾](#note-8)                    | ✔[⁽⁹⁾](#note-9) | ✔[⁽⁹⁾](#note-9)  | ✔                |
+| Mathematics    | *Unity.Mathematics*.**boolNxN** [⁽⁸⁾](#note-8)                  | ✔                | ✔              | ✖[⁽¹⁾](#note-1)  |
+| Mathematics    | *Unity.Mathematics*.**doubleNxN** [⁽⁸⁾](#note-8)                | ✔                | ✔              | ✖[⁽¹⁾](#note-1)  |
+| Mathematics    | *Unity.Mathematics*.**floatNxN** [⁽⁸⁾](#note-8)                 | ✔                | ✔              | ✖[⁽¹⁾](#note-1)  |
+| Mathematics    | *Unity.Mathematics*.**intNxN** [⁽⁸⁾](#note-8)                   | ✔                | ✔              | ✖[⁽¹⁾](#note-1)  |
+| Mathematics    | *Unity.Mathematics*.**uintNxN** [⁽⁸⁾](#note-8)                  | ✔                | ✔              | ✖[⁽¹⁾](#note-1)  |
 | NativeArray    | *Unity.Collections*.**NativeArray&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | NativeArray    | *Unity.Collections*.**NativeSlice&lt;T&gt;**                    | ❌[⁽⁴⁾](#note-4) | ✔               | ✔                |
 | ParticleSystem | *UnityEngine.ParticleSystemJobs*.**ParticleSystemJobData**      | ❌[⁽⁴⁾](#note-4) | ❔[⁽⁵⁾](#note-5) | ❌[⁽⁴⁾](#note-4)  |
@@ -124,9 +129,11 @@ https://beautifuldingbats.com/superscript-generator/
   "Scripting Define Symbols" found in the
   "Project Settings" -> "Player" -> "Other Settings" panel.
 
-8. ✔<a name="note-8"></a> The `N` in for example `floatN` means all the
-  different vector and matrix types available in [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/api/Unity.Mathematics.html):
-  `float2`, `float3`, `float4`, `float2x2`, `float2x3`, `float2x4`, etc.
+8. ✔<a name="note-8"></a> The `N` in `floatN`, `intN`, etc. stands for all the
+  different vector types available in [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/api/Unity.Mathematics.html):
+  `float2`, `float3`, `float4`, etc.
+  Similarly, the `NxN` in `floatNxN`, `intNxN`, etc. stands for all the
+  different matrix types: `float2x2`, `float2x3`, `float4x4`, etc.
 
 9. ✔<a name="note-9"></a> Support for [Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html)
   package, which was added in v1.6.0, is only automatically included if your
