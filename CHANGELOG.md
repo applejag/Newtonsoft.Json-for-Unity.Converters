@@ -1,5 +1,13 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.6.1 (2023-12-23)
+
+- Fixed UnityConvertersConfigEditor scriptable object asset throwing error after
+  recompiling scripts in Unity 2022.3.0 when selected and shown in inspector.
+  ([#82](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/82))
+
+  Thanks [@EpsilonD3lta](https://github.com/EpsilonD3lta) for the implementation ([#83](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/83))
+
 ## 1.6.0 (2023-12-03)
 
 - Added converters for [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html).
