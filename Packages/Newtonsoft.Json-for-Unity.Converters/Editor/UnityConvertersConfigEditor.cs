@@ -30,10 +30,19 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private AnimBool _jsonNetConvertersShow;
         private AnimBool _autoSyncConvertersShow;
 
-        private GUIStyle _headerStyle;
-        private GUIStyle _boldHeaderStyle;
-
         private bool _isDirty;
+
+        private static class Styles
+        {
+            public static GUIStyle headerStyle;
+            public static GUIStyle boldHeaderStyle;
+
+            static Styles()
+            {
+                headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label.normal };
+                boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
+            }
+        }
 
         private void OnEnable()
         {
@@ -68,8 +77,6 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
             _jsonNetConvertersShow.valueChanged.AddListener(Repaint);
-            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label.normal };
-            _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
 
             serializedObject.Update();
             AddAndSetupConverters(_outsideConverters, grouped.outsideConverters, _useAllOutsideConverters.boolValue);
@@ -82,8 +89,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         public override void OnInspectorGUI()
         {
             _isDirty = false;
-            EditorGUILayout.LabelField("Settings for the converters of", _headerStyle);
-            EditorGUILayout.LabelField("Newtonsoft.Json-for-Unity.Converters", _boldHeaderStyle);
+            EditorGUILayout.LabelField("Settings for the converters of", Styles.headerStyle);
+            EditorGUILayout.LabelField("Newtonsoft.Json-for-Unity.Converters", Styles.boldHeaderStyle);
 
             serializedObject.Update();
 
