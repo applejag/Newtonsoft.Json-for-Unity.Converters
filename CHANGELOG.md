@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.6.2 (WIP)
+## 1.6.2 (2024-01-08)
 
 - Fixed typo in the new Unity.Mathematics QuaternionConverter's namespace:
   from `Newtonsoft.Json.UnityConverters.Math.QuaternionConverter`
