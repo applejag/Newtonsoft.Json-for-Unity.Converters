@@ -25,7 +25,7 @@
 using Newtonsoft.Json.UnityConverters.Helpers;
 using Unity.Mathematics;
 
-namespace Newtonsoft.Json.UnityConverters.Math
+namespace Newtonsoft.Json.UnityConverters.Mathematics
 {
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity.Mathematics type <see cref="quaternion"/>.
