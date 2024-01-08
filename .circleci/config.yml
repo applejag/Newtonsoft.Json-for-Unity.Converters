@@ -6,6 +6,7 @@ preset-filter-test: &WORKFLOW_TEST_FILTER
     - /^feature.*/
     - /^pull/\d+/
     - /^hotfix.*/
+    - /^bugfix.*/
     - /^release.*/
 
 preset-filter-deploy: &WORKFLOW_TEST_DEPLOY_FILTER
