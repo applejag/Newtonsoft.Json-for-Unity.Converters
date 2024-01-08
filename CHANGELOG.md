@@ -8,6 +8,9 @@
   (`Math` &rarr; `Mathematics`).
   ([#87](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/87))
 
+- Fixed compilation error when using Unity.Mathematics with Newtonsoft.JSON v10.
+  ([#87](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/87))
+
 ## 1.6.1 (2023-12-23)
 
 - Fixed UnityConvertersConfigEditor scriptable object asset throwing error after

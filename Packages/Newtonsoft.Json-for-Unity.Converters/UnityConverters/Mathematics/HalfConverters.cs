@@ -8,14 +8,14 @@ namespace Newtonsoft.Json.UnityConverters.Mathematics
     /// <summary>
     /// Custom Newtonsoft.Json converter <see cref="JsonConverter"/> for the Unity.Mathematics <see cref="half"/> type.
     /// </summary>
-    public class HalfConverter : JsonConverter<half>
+    public class HalfConverter : PartialConverter<half>
     {
-        public override half ReadJson(JsonReader reader, Type objectType, half existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override void ReadValue(ref half value, string name, JsonReader reader, JsonSerializer serializer)
         {
-            return new half((double)reader.Value);
+            value = new half((double)reader.Value);
         }
 
-        public override void WriteJson(JsonWriter writer, half value, JsonSerializer serializer)
+        protected override void WriteJsonProperties(JsonWriter writer, half value, JsonSerializer serializer)
         {
             writer.WriteValue(value);
         }
