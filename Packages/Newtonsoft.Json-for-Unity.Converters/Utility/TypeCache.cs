@@ -16,7 +16,15 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                 // When searching for types we want to look in mscorlib last
                 // and Newtonsoft.Json up as the first ones
                 .Reverse()
+                .OrderBy(Order)
                 .ToArray();
+
+        private static int Order(Assembly assembly)
+        {
+            if (assembly.FullName.StartsWith("Newtonsoft.Json")) return -1;
+            if (assembly.FullName == "mscorlib") return 1;
+            return 0;
+        }
 
         public static Type FindType(string name)
         {
