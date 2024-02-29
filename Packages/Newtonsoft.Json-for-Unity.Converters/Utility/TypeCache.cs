@@ -22,7 +22,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
         private static int Order(Assembly assembly)
         {
             if (assembly.FullName.StartsWith("Newtonsoft.Json")) return -1;
-            if (assembly.FullName == "mscorlib") return 1;
+            if (assembly.FullName.StartsWith("mscorlib")) return 1;
             return 0;
         }
 
