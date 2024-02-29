@@ -23,7 +23,6 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                 .OrderBy(AssemblyOrderBy).ThenBy(x => x.FullName)
                 .ToArray();
 
-            UnityEngine.Debug.Log("Assemblies:\n"+string.Join("\n", _assemblies.Select(x => x.FullName)));
             _assemblyByName = new Dictionary<string, Assembly>();
             foreach (var assembly in _assemblies)
             {
@@ -42,6 +41,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                 return -10;
             }
 
+            // Relies on the heuristic that "assembly name == namespace"
             switch (GetRootNamespace(name))
             {
                 // User-defined code gets sent to the top
@@ -101,6 +101,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                     type = asm.GetType(name);
                     if (type != null)
                     {
+                        _typeByName[name] = type;
                         _typeByNameAndAssembly[(name, assemblyName)] = type;
                         return type;
                     }
@@ -112,6 +113,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
             if (type != null)
             {
                 _typeByName[name] = type;
+                _typeByNameAndAssembly[(name, type.Assembly.GetName().Name)] = type;
                 return type;
             }
 
@@ -122,6 +124,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                 if (type != null)
                 {
                     _typeByName[name] = type;
+                    _typeByNameAndAssembly[(name, type.Assembly.GetName().Name)] = type;
                     return type;
                 }
             }
