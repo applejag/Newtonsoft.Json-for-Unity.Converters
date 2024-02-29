@@ -9,51 +9,124 @@ namespace Newtonsoft.Json.UnityConverters.Utility
     {
         private static readonly Dictionary<string, Type> _typeByName
             = new Dictionary<string, Type>();
+        private static readonly Dictionary<ValueTuple<string, string>, Type> _typeByNameAndAssembly
+            = new Dictionary<ValueTuple<string, string>, Type>();
+        private static readonly Dictionary<string, Assembly> _assemblyByName
+            = new Dictionary<string, Assembly>();
 
-        private static readonly Assembly[] _assemblies
-            = AppDomain.CurrentDomain.GetAssemblies()
-                // Reversing so we get last imported assembly first.
-                // When searching for types we want to look in mscorlib last
-                // and Newtonsoft.Json up as the first ones
-                .Reverse()
-                .OrderBy(Order)
+        private static readonly Assembly[] _assemblies;
+
+        static TypeCache()
+        {
+            _assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName != "Microsoft.GeneratedCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
+                .OrderBy(AssemblyOrderBy).ThenBy(x => x.FullName)
                 .ToArray();
 
-        private static int Order(Assembly assembly)
-        {
-            if (assembly.FullName.StartsWith("Newtonsoft.Json")) return -1;
-            if (assembly.FullName.StartsWith("mscorlib")) return 1;
-            return 0;
+            UnityEngine.Debug.Log("Assemblies:\n"+string.Join("\n", _assemblies.Select(x => x.FullName)));
+            _assemblyByName = new Dictionary<string, Assembly>();
+            foreach (var assembly in _assemblies)
+            {
+                // Adding them like this because the LINQ ToDictionary does not like duplicate keys
+                _assemblyByName[assembly.GetName().Name] = assembly;
+            }
         }
 
-        public static Type FindType(string name)
+        private static int AssemblyOrderBy(Assembly assembly)
+        {
+            var name = assembly.GetName().Name;
+
+            // Newtonsoft.Json converters should be among the first, as they're most commonly referenced
+            if (name.StartsWith("Newtonsoft.Json"))
+            {
+                return -10;
+            }
+
+            switch (GetRootNamespace(name))
+            {
+                // User-defined code gets sent to the top
+                case "Assembly-CSharp":
+                    return -1;
+                case "Assembly-CSharp-Editor":
+                    return -2;
+
+                // Unity standard library does not contain any converters
+                case "Unity":
+                    return 10;
+                case "UnityEngine":
+                    return 11;
+                case "UnityEditor":
+                    return 12;
+
+                // .NET standard library does not contain any converters, so just put it at the end
+                case "System":
+                    return 20;
+                case "netstandard":
+                    return 21;
+                case "mscorlib":
+                    return 22;
+
+                default:
+                    return 0;
+            }
+        }
+
+        private static string GetRootNamespace(string name)
+        {
+            int index = name.IndexOf('.');
+            if (index > 0)
+            {
+                return name.Substring(0, index);
+            }
+
+            return name;
+        }
+
+        public static Type FindType(string name, string assemblyName)
         {
             if (_typeByName.TryGetValue(name, out var type))
             {
                 return type;
             }
-            else
+
+            if (assemblyName != null)
             {
-                // Check this assembly, or if it has AssemblyQualifiedName
-                type = Type.GetType(name);
+                if (_typeByNameAndAssembly.TryGetValue((name, assemblyName), out type))
+                {
+                    return type;
+                }
+
+                if (_assemblyByName.TryGetValue(assemblyName, out var asm))
+                {
+                    type = asm.GetType(name);
+                    if (type != null)
+                    {
+                        _typeByNameAndAssembly[(name, assemblyName)] = type;
+                        return type;
+                    }
+                }
+            }
+
+            // Check this assembly, or if it has AssemblyQualifiedName
+            type = Type.GetType(name);
+            if (type != null)
+            {
+                _typeByName[name] = type;
+                return type;
+            }
+
+            // Check all the other assemblies, from last imported to first
+            foreach (var assembly in _assemblies)
+            {
+                type = assembly.GetType(name);
                 if (type != null)
                 {
                     _typeByName[name] = type;
                     return type;
                 }
-
-                // Check all the other assemblies, from last imported to first
-                foreach (var assembly in _assemblies)
-                {
-                    type = assembly.GetType(name);
-                    if (type != null)
-                    {
-                        _typeByName[name] = type;
-                        return type;
-                    }
-                }
-                return null;
             }
+
+            return null;
         }
     }
 }

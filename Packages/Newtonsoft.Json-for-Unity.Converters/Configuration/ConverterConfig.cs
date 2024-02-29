@@ -12,11 +12,13 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public string converterName;
 
+        public string converterAssembly;
+
         public List<KeyedConfig> settings;
 
         public override string ToString()
         {
-            return $"{{enabled={enabled}, converterName={converterName}, settings=[{settings?.Count ?? 0}]}}";
+            return $"{{enabled={enabled}, converterName={converterName}, assembly={converterAssembly}, settings=[{settings?.Count ?? 0}]}}";
         }
 
         public override bool Equals(object obj)
@@ -28,6 +30,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
         {
             return enabled == other.enabled &&
                    converterName == other.converterName &&
+                   converterAssembly == other.converterAssembly &&
                    EqualityComparer<List<KeyedConfig>>.Default.Equals(settings, other.settings);
         }
 
@@ -35,9 +38,10 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
         public override int GetHashCode()
 #pragma warning restore S2328 // "GetHashCode" should not reference mutable fields
         {
-            int hashCode = 1016066258;
+            int hashCode = 913629501;
             hashCode = hashCode * -1521134295 + enabled.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(converterName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(converterAssembly);
             hashCode = hashCode * -1521134295 + EqualityComparer<List<KeyedConfig>>.Default.GetHashCode(settings);
             return hashCode;
         }
