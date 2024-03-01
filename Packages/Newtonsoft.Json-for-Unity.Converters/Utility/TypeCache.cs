@@ -7,8 +7,6 @@ namespace Newtonsoft.Json.UnityConverters.Utility
 {
     internal static class TypeCache
     {
-        private static readonly Dictionary<string, Type> _typeByName
-            = new Dictionary<string, Type>();
         private static readonly Dictionary<ValueTuple<string, string>, Type> _typeByNameAndAssembly
             = new Dictionary<ValueTuple<string, string>, Type>();
         private static readonly Dictionary<string, Assembly> _assemblyByName
@@ -88,11 +86,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
 
         public static Type FindType(string name, string assemblyName)
         {
-            if (_typeByName.TryGetValue(name, out var type))
-            {
-                return type;
-            }
-
+            Type type;
             if (assemblyName != null)
             {
                 if (_typeByNameAndAssembly.TryGetValue((name, assemblyName), out type))
@@ -105,10 +99,16 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                     type = asm.GetType(name);
                     if (type != null)
                     {
-                        _typeByName[name] = type;
                         _typeByNameAndAssembly[(name, assemblyName)] = type;
                         return type;
                     }
+                }
+            }
+            else
+            {
+                if (_typeByNameAndAssembly.TryGetValue((name, null), out type))
+                {
+                    return type;
                 }
             }
 
@@ -116,8 +116,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
             type = Type.GetType(name);
             if (type != null)
             {
-                _typeByName[name] = type;
-                _typeByNameAndAssembly[(name, type.Assembly.GetName().Name)] = type;
+                _typeByNameAndAssembly[(name, null)] = type;
                 return type;
             }
 
@@ -127,8 +126,7 @@ namespace Newtonsoft.Json.UnityConverters.Utility
                 type = assembly.GetType(name);
                 if (type != null)
                 {
-                    _typeByName[name] = type;
-                    _typeByNameAndAssembly[(name, type.Assembly.GetName().Name)] = type;
+                    _typeByNameAndAssembly[(name, null)] = type;
                     return type;
                 }
             }
