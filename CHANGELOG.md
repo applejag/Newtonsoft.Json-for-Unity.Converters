@@ -1,5 +1,21 @@
 # Unity Converters for Newtonsoft.Json changelog
 
+## 1.6.3 (WIP)
+
+- Fixed converter lookups collisions when multiple assemblies converters
+  with the same name, as it was not resolving assemblies in an exact way
+  nor deterministic order:
+
+  - Added assembly name field to `ConverterConfig` for each converter.
+
+  - Changed TypeCache to sort assemblies based on `FullName`
+    and some heuristics.
+
+  - Changed TypeCache to lookup type in correct assembly,
+    based on the assembly's name.
+
+  Thanks [@Erifirin](https://github.com/Erifirin) for the pull request ([#90](https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/pull/90))
+
 ## 1.6.2 (2024-01-08)
 
 - Fixed typo in the new Unity.Mathematics QuaternionConverter's namespace:

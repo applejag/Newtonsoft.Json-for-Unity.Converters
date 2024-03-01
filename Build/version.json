@@ -1,7 +1,7 @@
 {
   "Major": 1,
   "Minor": 6,
-  "Patch": 2,
+  "Patch": 3,
   "Suffix": "",
-  "AutoDeployLiveRun": true
+  "AutoDeployLiveRun": false
 }
