@@ -18,35 +18,35 @@ namespace Newtonsoft.Json.UnityConverters.Utility
 
         static TypeCache()
         {
-            var records = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(x => new Record(x))
-                .Where(x => x.AssemblyName != "Microsoft.GeneratedCode")
-                .OrderBy(AssemblyOrderBy).ThenBy(x => x.AssemblyName)
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(x => new NamedAssembly(x))
+                .Where(x => x.name != "Microsoft.GeneratedCode")
+                .OrderBy(AssemblyOrderBy).ThenBy(x => x.name)
                 .ToList();
 
-            _assemblies = new Assembly[records.Count];
-            _assemblyByName = new Dictionary<string, Assembly>(records.Count);
+            _assemblies = new Assembly[assemblies.Count];
+            _assemblyByName = new Dictionary<string, Assembly>(assemblies.Count);
 
-            for (int i = 0; i < records.Count; i++)
+            for (int i = 0; i < assemblies.Count; i++)
             {
-                var record = records[i];
-                _assemblies[i] = record.Assembly;
+                NamedAssembly assembly = assemblies[i];
+                _assemblies[i] = assembly.assembly;
 
                 // Adding them like this because the LINQ ToDictionary does not like duplicate keys
-                _assemblyByName[record.AssemblyName] = record.Assembly;
+                _assemblyByName[assembly.name] = assembly.assembly;
             }
         }
 
-        private static int AssemblyOrderBy(Record record)
+        private static int AssemblyOrderBy(NamedAssembly record)
         {
             // Newtonsoft.Json converters should be among the first, as they're most commonly referenced
-            if (record.AssemblyName.StartsWith("Newtonsoft.Json"))
+            if (record.name.StartsWith("Newtonsoft.Json"))
             {
                 return -10;
             }
 
             // Relies on the heuristic that "assembly name == namespace"
-            switch (GetRootNamespace(record.AssemblyName))
+            switch (GetRootNamespace(record.name))
             {
                 // User-defined code gets sent to the top
                 case "Assembly-CSharp":
@@ -136,16 +136,15 @@ namespace Newtonsoft.Json.UnityConverters.Utility
             return null;
         }
 
-
-        private readonly struct Record
+        private readonly struct NamedAssembly
         {
-            public Assembly Assembly { get; }
-            public string AssemblyName { get; }
+            public Assembly assembly { get; }
+            public string name { get; }
 
-            public Record(Assembly assembly)
+            public NamedAssembly(Assembly assembly)
             {
-                Assembly = assembly;
-                AssemblyName = assembly.GetName().Name;
+                this.assembly = assembly;
+                name = assembly.GetName().Name;
             }
         }
     }
