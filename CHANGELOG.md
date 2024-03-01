@@ -1,6 +1,6 @@
 # Unity Converters for Newtonsoft.Json changelog
 
-## 1.6.3 (WIP)
+## 1.6.3 (2024-03-01)
 
 - Fixed converter lookups collisions when multiple assemblies converters
   with the same name, as it was not resolving assemblies in an exact way

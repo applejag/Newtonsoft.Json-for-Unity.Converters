@@ -3,5 +3,5 @@
   "Minor": 6,
   "Patch": 3,
   "Suffix": "",
-  "AutoDeployLiveRun": false
+  "AutoDeployLiveRun": true
 }
