@@ -150,10 +150,26 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
         private void AddAndSetupConverters(SerializedProperty arrayProperty, IList<Type> converterTypes, bool newAreEnabledByDefault)
         {
-            var elements = EnumerateArrayElements(arrayProperty);
+            var elements = EnumerateArrayElements(arrayProperty).ToArray();
             var elementTypes = elements
-                .Select(e => TypeCache.FindType(e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue))
+                .Select(e => TypeCache.FindType(
+                    name: e.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue,
+                    assemblyName: e.FindPropertyRelative(nameof(ConverterConfig.converterAssembly)).stringValue
+                ))
                 .ToArray();
+
+            // Refresh missing fields on existing types
+            for (int i = 0; i < elements.Length; i++)
+            {
+                SerializedProperty elem = elements[i];
+                Type type = elementTypes[i];
+
+                var assemblyNameProp = elem.FindPropertyRelative(nameof(ConverterConfig.converterAssembly));
+                if (string.IsNullOrEmpty(assemblyNameProp.stringValue))
+                {
+                    assemblyNameProp.stringValue = type.Assembly.GetName().Name;
+                }
+            }
 
             Type[] missingConverters = converterTypes
                 .Where(type => !elementTypes.Contains(type))
@@ -166,7 +182,7 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 {
                     continue;
                 }
-                var typeName = arrayProperty.GetArrayElementAtIndex(i).FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue;
+                string typeName = arrayProperty.GetArrayElementAtIndex(i).FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue;
                 Debug.Log($"Removed type from JsonConverter list: \"{typeName}\"", target);
                 arrayProperty.DeleteArrayElementAtIndex(i);
             }
@@ -179,9 +195,11 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 SerializedProperty elemProp = arrayProperty.GetArrayElementAtIndex(nextIndex);
                 SerializedProperty enabledProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.enabled));
                 SerializedProperty converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
+                SerializedProperty assemblyNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterAssembly));
 
                 enabledProp.boolValue = newAreEnabledByDefault;
                 converterNameProp.stringValue = converterType.FullName;
+                assemblyNameProp.stringValue = converterType.Assembly.GetName().Name;
             }
         }
 
@@ -236,7 +254,10 @@ namespace Newtonsoft.Json.UnityConverters.Editor
                 var allConfigsWithType = EnumerateArrayElements(property)
                     .Select(o => (
                         serializedProperty: o,
-                        type: TypeCache.FindType(o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue)
+                        type: TypeCache.FindType(
+                            name: o.FindPropertyRelative(nameof(ConverterConfig.converterName)).stringValue,
+                            assemblyName: o.FindPropertyRelative(nameof(ConverterConfig.converterAssembly)).stringValue
+                        )
                     ))
                     .Where(o => o.type != null)
                     .OrderBy(o => o.type.FullName);

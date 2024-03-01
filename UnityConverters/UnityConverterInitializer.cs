@@ -157,15 +157,15 @@ namespace Newtonsoft.Json.UnityConverters
             }
 
             return new ConverterGrouping {
-                outsideConverters = config.outsideConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
-                unityConverters = config.unityConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
-                jsonNetConverters = config.jsonNetConverters.Select(x => GetTypeOrLog(x.converterName)).WhereNotNullRef().ToList(),
+                outsideConverters = config.outsideConverters.Select(x => GetTypeOrLog(x.converterName, x.converterAssembly)).WhereNotNullRef().ToList(),
+                unityConverters = config.unityConverters.Select(x => GetTypeOrLog(x.converterName, x.converterAssembly)).WhereNotNullRef().ToList(),
+                jsonNetConverters = config.jsonNetConverters.Select(x => GetTypeOrLog(x.converterName, x.converterAssembly)).WhereNotNullRef().ToList(),
             };
         }
 
-        private static Type GetTypeOrLog(string name)
+        private static Type GetTypeOrLog(string name, string assemblyName)
         {
-            var type = TypeCache.FindType(name);
+            var type = TypeCache.FindType(name, assemblyName);
             if (type == null)
             {
                 Debug.LogWarning($"Failed to lookup JsonConverter type. Ignoring it. Type name: \"{name}\""+
@@ -215,7 +215,7 @@ namespace Newtonsoft.Json.UnityConverters
 
             var typesOfEnabledThroughConfig = configs
                 .Where(o => o.enabled)
-                .Select(o => Utility.TypeCache.FindType(o.converterName))
+                .Select(o => Utility.TypeCache.FindType(o.converterName, o.converterAssembly))
                 .Where(o => o != null);
 
             var hashMap = new HashSet<Type>(typesOfEnabledThroughConfig);

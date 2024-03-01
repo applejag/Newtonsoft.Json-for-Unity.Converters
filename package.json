@@ -1,7 +1,7 @@
 {
   "name": "jillejr.newtonsoft.json-for-unity.converters",
   "displayName": "Json.NET Converters of Unity types",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "unity": "2018.1",
   "description": "This package contains converters to and from common Unity types for Newtonsoft.Json. Types such as Vector2, Vector3, Matrix4x4, Quaternions, Color, even ScriptableObject, and more.\n\nGoes hand in hand with the jillejr.newtonsoft.json-for-unity package.\n\nThis package is licensed under The MIT License (MIT)\n\nCopyright © 2019 Kalle Fagerberg (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters\n\nCopyright © 2020 Wanzyee Studio\nhttp://wanzyeestudio.blogspot.com/2017/03/jsonnet-converters.html\n\nCopyright © 2007 ParentElement\nhttps://github.com/ianmacgillivray/Json-NET-for-Unity\n\nCopyright © 2017 .NET Foundation and Contributors\nhttps://github.com/dotnet/runtime\n\nSee full copyrights in LICENSE.md inside package",
   "main": "index.js",
