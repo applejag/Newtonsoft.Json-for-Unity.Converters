@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.UnityConverters.Configuration;
 using Newtonsoft.Json.UnityConverters.Helpers;
@@ -195,6 +196,7 @@ namespace Newtonsoft.Json.UnityConverters
                 .Where(type
                     => typeof(JsonConverter).IsAssignableFrom(type)
                     && !type.IsAbstract && !type.IsGenericTypeDefinition
+                    && !type.IsDefined(typeof(HideInJsonConverterSettings))
                     && type.GetConstructor(Array.Empty<Type>()) != null
                 )
                 .OrderBy(type => type.FullName);
