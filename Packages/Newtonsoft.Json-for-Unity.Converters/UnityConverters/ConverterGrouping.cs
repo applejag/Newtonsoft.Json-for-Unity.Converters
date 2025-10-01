@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 #if UNITY_EDITOR
 #endif
 
@@ -35,6 +36,24 @@ namespace Newtonsoft.Json.UnityConverters
         public List<Type> unityConverters { get; set; }
         public List<Type> jsonNetConverters { get; set; }
 
+        /// <summary>
+        /// List of converter types that should be excluded from automatic registration
+        /// to prevent circular references or stack overflows.
+        /// </summary>
+        private static readonly HashSet<string> ExcludedConverterTypes = new HashSet<string>
+        {
+            "Unity.ProjectAuditor.Editor.Core.DescriptorJsonConverter"
+        };
+
+        /// <summary>
+        /// List of namespace patterns that should be excluded from automatic registration
+        /// to prevent circular references or stack overflows.
+        /// </summary>
+        private static readonly HashSet<string> ExcludedNamespacePatterns = new HashSet<string>
+        {
+            "Unity.ProjectAuditor"
+        };
+
         public static ConverterGrouping Create(IEnumerable<Type> types)
         {
             var grouping = new ConverterGrouping {
@@ -45,6 +64,12 @@ namespace Newtonsoft.Json.UnityConverters
 
             foreach (var converter in types)
             {
+                // Skip excluded converter types to prevent circular references
+                if (IsExcludedConverter(converter))
+                {
+                    continue;
+                }
+
                 if (converter.Namespace?.StartsWith("Newtonsoft.Json.UnityConverters") == true)
                 {
                     grouping.unityConverters.Add(converter);
@@ -60,6 +85,39 @@ namespace Newtonsoft.Json.UnityConverters
             }
 
             return grouping;
+        }
+
+        /// <summary>
+        /// Checks if a converter type should be excluded from automatic registration.
+        /// </summary>
+        /// <param name="converterType">The converter type to check.</param>
+        /// <returns>True if the converter should be excluded, false otherwise.</returns>
+        private static bool IsExcludedConverter(Type converterType)
+        {
+            if (converterType?.FullName == null)
+            {
+                return false;
+            }
+
+            // Check exact type name exclusions
+            if (ExcludedConverterTypes.Contains(converterType.FullName))
+            {
+                return true;
+            }
+
+            // Check namespace pattern exclusions
+            if (converterType.Namespace != null)
+            {
+                foreach (var excludedPattern in ExcludedNamespacePatterns)
+                {
+                    if (converterType.Namespace.StartsWith(excludedPattern))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
